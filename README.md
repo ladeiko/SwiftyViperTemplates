@@ -22,6 +22,9 @@ Similar to SwiftyViperXib, but also generates code which helps to use [ViperMcFl
 ### SwiftyViperMcFlurryStoryboard
 Similar to SwiftyViperStoryboard, but also generates code which helps to use [ViperMcFlurryX](https://github.com/ladeiko/ViperMcFlurryX) module in router.
 
+### SwiftyViperMcFlurryEmbedStoryboard
+Similar to SwiftyViperMcFlurryStoryboard, but also generates code to embed another module to current view via storyboard.
+
 Template | UI | McFlurry
 --- | --- | --- 
 SwiftyViper | - | No
@@ -30,3 +33,4 @@ SwiftyViperStoryboard | Storyboard | No
 SwiftyViperMcFlurry | - | Yes
 SwiftyViperMcFlurryXib | XIB | Yes
 SwiftyViperMcFlurryStoryboard | Storyboard | Yes
+SwiftyViperMcFlurryEmbedStoryboard | Storyboard | Yes

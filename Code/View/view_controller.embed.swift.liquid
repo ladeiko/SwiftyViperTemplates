@@ -1,0 +1,38 @@
+{% include 'header' %}
+
+import UIKit
+import RamblerSegues
+
+class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, RamblerEmbedSegueViewContainer, {{ prefix }}{{module_info.name}}ViewInput {
+
+    // MARK: VIPER Vars
+    
+    var output: {{ prefix }}{{ module_info.name }}ViewOutput!
+
+    // MARK: Logic Vars
+    // TODO
+
+    // MARK: Life cycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        output.viewIsReady()
+    }
+
+    // MARK: {{ prefix }}{{module_info.name}}ViewInput
+    // TODO
+
+    // MARK: UI Actions
+    // TODO
+
+    // MARK: RamblerEmbedSegueViewContainer
+
+    func view(forEmbedIdentifier embedIdentifier: String!) -> UIView! {
+        switch embedIdentifier {
+        case "EmbedSomeModuleSegue":
+            return self.embedSomeModuleSegueContainer
+        default:
+            return nil
+        }
+    }
+}

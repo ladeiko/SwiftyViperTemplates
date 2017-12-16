@@ -5,15 +5,20 @@ import ViperMcFlurryX
 class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name }}RouterInput {
 
     // MARK: VIPER Vars
-
+    
     weak var calleeOutput: (RamblerViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
     weak var transitionHandler: RamblerViperModuleTransitionHandlerProtocol!
 
-    // MARK: Logic Vars
-    // TODO
-
     // MARK: {{ prefix }}{{ module_info.name }}RouterInput
-    
+
+    func embedSomeModule() {
+        transitionHandler.openModule!(usingSegue: "EmbedSomeModuleSegue").thenChain { (module) -> RamblerViperModuleOutput? in
+            let module = module as! SomeModuleInput
+            module.configure()
+            return nil // or self.calleeOutput
+        }
+    }
+
     /*  // Example
     func dismiss() {
         transitionHandler.closeCurrentModule!(true)

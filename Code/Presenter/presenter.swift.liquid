@@ -4,15 +4,24 @@ import Foundation
 
 class {{ prefix }}{{ module_info.name }}Presenter: NSObject, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput {
 
+    // MARK: VIPER Vars
+
     weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
     var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
     var router: {{ prefix }}{{ module_info.name }}RouterInput!
 
+    // MARK: Logic Vars
+    // TODO
+
     // MARK: {{ prefix }}{{module_info.name}}ViewOutput
 
     func viewIsReady() {
-        view.setupInitialState()
+        
     }
 
     // MARK: {{ prefix }}{{module_info.name}}ModuleInput
+    // TODO
+
+    // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput
+    // TODO
 }

@@ -39,10 +39,5 @@ class {{ prefix }}{{ module_info.name }}ModuleConfiguratorTests: XCTestCase {
 
     class {{ prefix }}{{ module_info.name }}ViewControllerMock: {{ prefix }}{{ module_info.name }}ViewController {
 
-        var setupInitialStateDidCall = false
-
-        override func setupInitialState() {
-            setupInitialStateDidCall = true
-        }
     }
 }
