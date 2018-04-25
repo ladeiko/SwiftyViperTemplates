@@ -9,7 +9,13 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, Ramble
     
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
 
-    // MARK: Logic Vars
+    // MARK: Outlets
+    // TODO
+
+    // see https://github.com/rambler-digital-solutions/RamblerSegues
+    @IBOutlet weak var embedSomeModuleSegueContainer: UIView!
+
+    // MARK: Vars
     // TODO
 
     // MARK: Life cycle
@@ -29,6 +35,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, Ramble
 
     func view(forEmbedIdentifier embedIdentifier: String!) -> UIView! {
         switch embedIdentifier {
+        // see https://github.com/rambler-digital-solutions/RamblerSegues    
         case "EmbedSomeModuleSegue":
             return self.embedSomeModuleSegueContainer
         default:

@@ -13,7 +13,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
 
     private func configure(viewController: {{ prefix }}{{ module_info.name }}ViewController) {
 
-        guard viewController.output == nil else {
+        guard viewController.output == nil else { // prevent double configuration
             return
         }
 

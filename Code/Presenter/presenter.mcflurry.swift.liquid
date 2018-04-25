@@ -13,11 +13,12 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, {{ prefix }}{{ modu
     weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
     
     // Bridge for ViperMcFlurryX
-    @objc func setModuleOutput (_ moduleOutput: {{ prefix }}{{module_info.name}}ModuleOutput?) {
+    @objc 
+    func setModuleOutput (_ moduleOutput: {{ prefix }}{{module_info.name}}ModuleOutput?) {
         output = moduleOutput
     }
 
-    // MARK: Logic Vars
+    // MARK: Vars
     // TODO
 
     // MARK: {{ prefix }}{{module_info.name}}ViewOutput
