@@ -2,6 +2,23 @@
 
 Collection of [Generamba](https://github.com/rambler-digital-solutions/Generamba) VIPER templates.
 
+## Changes
+
+### v1.2.0
+
+ * add 
+```
+ 		viewController.moduleInput = presenter
+``` to configure()
+ * add inheritance of presenter from 
+```
+   RamblerViperModuleInput 
+``` and its implementation
+ * add inheritance of all protocols from
+```
+   class
+```
+
 ## Templates
 
 ### SwiftyViper

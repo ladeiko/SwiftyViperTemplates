@@ -29,6 +29,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator: NSObject, RamblerVip
 
         presenter.interactor = interactor
         viewController.output = presenter
+        viewController.moduleInput = presenter
 
         router.transitionHandler = viewController
         router.calleeOutput = presenter

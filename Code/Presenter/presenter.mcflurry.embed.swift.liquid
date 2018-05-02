@@ -3,7 +3,7 @@
 import Foundation
 import ViperMcFlurryX
 
-class {{ prefix }}{{ module_info.name }}Presenter: NSObject, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, RamblerViperModuleOutput {
+class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, RamblerViperModuleOutput {
 
     // MARK: VIPER Vars
 
@@ -11,15 +11,15 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, {{ prefix }}{{ modu
     var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
     var router: {{ prefix }}{{ module_info.name }}RouterInput!
     weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
-    
-    // Bridge for ViperMcFlurryX
-    @objc 
-    func setModuleOutput (_ moduleOutput: {{ prefix }}{{module_info.name}}ModuleOutput?) {
-        output = moduleOutput
-    }
 
     // MARK: Vars
     // TODO
+    
+    // MARK: RamblerViperModuleInput
+
+    func setModuleOutput(_ moduleOutput: RamblerViperModuleOutput!) {
+        output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
+    }
 
     // MARK: {{ prefix }}{{module_info.name}}ViewOutput
 
