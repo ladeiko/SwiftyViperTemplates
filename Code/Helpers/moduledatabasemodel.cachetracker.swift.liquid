@@ -1,0 +1,19 @@
+{% include 'header' %}
+
+import Foundation
+
+// TODO: Replace SomeModuleDatabaseModel with project model implementing CacheTracker/CacheTrackerDatabaseModel protocol
+// Example:
+//  import CoreData
+//  class SomeModuleDatabaseModel: NSManagedObject, CacheTrackerDatabaseModel {
+//      // MARK: CacheTrackerDatabaseModel    
+//      static func entityName() -> String {
+//          return NSStringFromClass(self)
+//      }
+//      func toPlainModel<P>() -> P? {
+//          return SomeModuleEntityModel() as? P
+//      }
+//  }
+//  More info at https://github.com/ladeiko/CacheTracker
+
+typealias {{ prefix }}{{ module_info.name }}ModuleDatabaseModel = SomeModuleDatabaseModel

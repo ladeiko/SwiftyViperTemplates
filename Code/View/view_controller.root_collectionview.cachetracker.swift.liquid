@@ -1,0 +1,93 @@
+{% include 'header' %}
+
+import UIKit
+import CacheTracker
+import CacheTrackerConsumer
+
+class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewController, {{ prefix }}{{module_info.name}}ViewInput {
+
+    // MARK: VIPER Vars
+
+    var output: {{ prefix }}{{ module_info.name }}ViewOutput!
+
+    // MARK: Outlets
+    // TODO
+
+    // MARK: Vars
+    
+    private final let consumer: CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel> = CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel>()
+
+    // MARK: Life cycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupCollectioView()
+        setupConsumer()
+        output.viewIsReady()
+    }
+
+    // MARK: {{ prefix }}{{module_info.name}}ViewInput
+    
+    func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+        consumer.reset(with: state)
+        if let collectionView = collectionView {
+            collectionView.performBatchUpdates({
+                collectionView.reloadSections(IndexSet(integer: 0))
+            }, completion:  { _ in
+                if self.consumer.numberOfItems() > 0 {
+                    collectionView.layoutIfNeeded()
+                    collectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 0), animated: true)
+                }
+            })
+        }
+    }
+    
+    func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+        consumer.willChange()
+        consumer.consume(transactions: changes)
+        consumer.didChange()
+    }
+
+    // MARK: UI Actions
+    // TODO
+
+    // MARK: - UICollectionViewDataSource
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return consumer.numberOfItems()
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Default", for: indexPath) as! {{ prefix }}{{ module_info.name }}ViewCell
+        let model = consumer.object(at: indexPath.row)
+        cell.configure(with: model)
+        return cell
+    }
+    
+    // MARK: UICollectionViewDelegate
+    
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
+        cell.willDisplay()
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
+        cell.stopDisplay()
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //let model = consumer.object(at: indexPath.row)
+        // TODO
+    }
+
+    // MARK: Helpers
+
+    private final func setupConsumer() {
+        consumer.delegate = self
+    }
+
+    private final func setupCollectioView() {
+        // TODO
+    }
+}

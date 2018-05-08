@@ -1,0 +1,24 @@
+name: Demo
+options:
+  bundleIdPrefix: com.test
+targets:
+  Demo:
+    type: application
+    platform: iOS
+    deploymentTarget: "10.0"
+    sources: 
+      - Sources
+    dependencies:
+      - target: DemoTests
+    scheme:
+      testTargets:
+        - DemoTests    
+  DemoTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "10.0"
+    sources: 
+      - path: Sources
+        excludes: 
+          - "Sources/AppDelegate.swift"
+          - "Sources/*.storyboard"

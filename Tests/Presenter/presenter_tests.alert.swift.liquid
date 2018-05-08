@@ -16,31 +16,42 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
 
     class MockInteractor: {{ prefix }}{{ module_info.name }}InteractorInput {
 
-        // MARK: Vars
-        // TODO
-
         // MARK: {{ prefix }}{{ module_info.name }}InteractorInput
         // TODO
 
     }
 
     class MockRouter: {{ prefix }}{{ module_info.name }}RouterInput {
-
+        
         // MARK: Vars
         // TODO
-
+        
         // MARK: {{ prefix }}{{ module_info.name }}RouterInput
-        // TODO
+
+        func dismiss(_ completion: @escaping (() -> Void)) {
+            DispatchQueue.main.async {
+                completion()
+            }
+        }
 
     }
 
     class MockViewController: {{ prefix }}{{ module_info.name }}ViewInput {
-        
+
         // MARK: Vars
-        // TODO
+        
+        private final var title: String?
+        private final var message: String?
         
         // MARK: {{ prefix }}{{ module_info.name }}ViewInput
-        // TODO
 
+        func setAlertTitle(_ title: String?) {
+            self.title = title
+        }
+
+        func setAlertMessage(_ message: String?) {
+            self.message = message
+        }
     }
+    
 }

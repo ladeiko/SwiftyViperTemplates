@@ -16,10 +16,18 @@
                     <view key="view" contentMode="scaleToFill" id="ham-5u-Ebq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Sc-rP-FqP">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="Ssi-FC-3Ro"/>
                     </view>
                     <connections>
+                        <outlet property="embedSomeModuleSegueContainer" destination="1Sc-rP-FqP" id="5n9-aX-SPW"/>
                         <segue destination="wbk-f7-Ip8" kind="custom" identifier="EmbedSomeModuleSegue" customClass="RamblerEmbedSegue" id="yZa-9b-gis"/>
                     </connections>
                 </viewController>

@@ -1,0 +1,56 @@
+# Template information section
+name: "SwiftyViperMcFlurryStoryboardRootCollectionViewCacheTracker"
+summary: "Swift VIPER module template with UICollectionView playing as root View"
+author: "Siarhei Ladzeika"
+version: "1.3.0"
+license: "MIT"
+
+# The declarations for code files
+
+code_files:
+# Helpers
+- {name: Helpers/ModuleEntityModel.swift,  path: Code/Helpers/moduleentitymodel.cachetracker.swift.liquid}
+- {name: Helpers/ModuleDatabaseModel.swift,  path: Code/Helpers/moduledatabasemodel.cachetracker.swift.liquid}
+
+# View layer
+- {name: View/ViewInput.swift,  path: Code/View/view_input.cachetracker.swift.liquid}
+- {name: View/ViewOutput.swift, path: Code/View/view_output.swift.liquid}
+- {name: View/ViewController.swift, path: Code/View/view_controller.root_collectionview.cachetracker.swift.liquid}
+- {name: View/Storyboards/.storyboard, path: Code/View/view.root_collectionview.storyboard.liquid}
+- {name: View/Helpers/ViewCell.swift, path: Code/View/view_controller.collectionview.cachetracker.cell.swift.liquid}
+
+# Presenter layer
+- {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.swift.liquid}
+- {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.swift.liquid}
+- {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.cachetracker.swift.liquid}
+
+# Interactor layer
+- {name: Interactor/InteractorInput.swift, path: Code/Interactor/interactor_input.cachetracker.swift.liquid}
+- {name: Interactor/InteractorOutput.swift, path: Code/Interactor/interactor_output.cachetracker.swift.liquid}
+- {name: Interactor/Interactor.swift, path: Code/Interactor/interactor.cachetracker.swift.liquid}
+
+# Router layer
+- {name: Router/RouterInput.swift, path: Code/Router/router_input.mcflurry.swift.liquid}
+- {name: Router/Router.swift, path: Code/Router/router.mcflurry.swift.liquid}
+
+# Configurator
+- {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.mcflurry.storyboard.swift.liquid}
+- {name: Configurator/Initializer.swift, path: Code/Configurator/initializer.swift.liquid}
+
+# The declarations for test files
+test_files:
+
+# Configurators tests
+- {name: Configurator/ConfiguratorTests.swift, path: Tests/Configurator/configurator_tests.mcflurry.swift.liquid}
+
+# View tests
+- {name: View/ViewTests.swift, path: Tests/View/view_tests.swift.liquid}
+
+# Interactor tests
+- {name: Interactor/InteractorTests.swift, path: Tests/Interactor/interactor_tests.cachetracker.swift.liquid}
+
+# Presenter tests
+- {name: Presenter/PresenterTests.swift, path: Tests/Presenter/presenter_tests.cachetracker.swift.liquid}
+
+# Router tests
+- {name: Router/RouterTests.swift, path: Tests/Router/router_tests.swift.liquid}

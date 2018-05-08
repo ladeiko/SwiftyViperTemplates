@@ -1,6 +1,7 @@
 {% include 'header' %}
 
 import XCTest
+import CacheTracker
 
 class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
 
@@ -17,10 +18,27 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
     class MockInteractor: {{ prefix }}{{ module_info.name }}InteractorInput {
 
         // MARK: Vars
-        // TODO
+
+        private final var tracking = false
 
         // MARK: {{ prefix }}{{ module_info.name }}InteractorInput
-        // TODO
+        
+        func isDeliveringModelsListChanges() -> Bool {
+            return tracking
+        }
+        
+        func startDeliveringModelsListChanges() {
+            XCTAssertFalse(tracking)
+            tracking = true
+        }
+        
+        func stopDeliveringModelsListChanges() {
+            tracking = false
+        }
+        
+        func initialStateOfModelsList() -> [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] {
+            return []
+        }
 
     }
 
@@ -38,9 +56,16 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
         
         // MARK: Vars
         // TODO
-        
+
         // MARK: {{ prefix }}{{ module_info.name }}ViewInput
-        // TODO
+        
+        func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+            
+        }
+        
+        func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+            
+        }
 
     }
 }

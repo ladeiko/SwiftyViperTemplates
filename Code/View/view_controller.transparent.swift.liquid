@@ -1,0 +1,47 @@
+{% include 'header' %}
+
+import UIKit
+import TransparentProxyViewController
+
+class {{ prefix }}{{ module_info.name }}ViewController: TransparentProxyViewController, {{ prefix }}{{module_info.name}}ViewInput {
+
+    // MARK: VIPER Vars
+
+    var output: {{ prefix }}{{ module_info.name }}ViewOutput!
+
+    // MARK: Outlets
+    // TODO
+
+    // MARK: Vars
+    
+    private final var shown = false
+
+    // MARK: Life cycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        output.viewIsReady()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !shown {
+            shown = true
+            showController()
+        }  
+    }
+
+    // MARK: {{ prefix }}{{module_info.name}}ViewInput
+    // TODO
+
+    // MARK: UI Actions
+    // TODO
+
+    // MARK: Helpers
+
+    private final func showController() {
+        // TODO Show your real controller like UIAlertController, etc.
+        //let controller = UIViewController()
+        //present(controller, animated: animated, completion: nil)
+    }
+}

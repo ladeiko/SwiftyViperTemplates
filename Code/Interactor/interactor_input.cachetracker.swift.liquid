@@ -1,0 +1,15 @@
+{% include 'header' %}
+
+import Foundation
+import CacheTracker
+
+protocol {{ prefix }}{{ module_info.name }}InteractorInput: class {
+
+    // Models list
+    
+    func isDeliveringModelsListChanges() -> Bool
+    func startDeliveringModelsListChanges()
+    func stopDeliveringModelsListChanges()
+    func initialStateOfModelsList() -> [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]
+
+}

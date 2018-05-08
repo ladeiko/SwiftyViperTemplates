@@ -1,0 +1,10 @@
+{% include 'header' %}
+
+import CacheTracker
+
+protocol {{ prefix }}{{ module_info.name }}ViewInput: class {
+    
+    func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>])
+    func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>])
+
+}

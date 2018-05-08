@@ -1,6 +1,7 @@
 {% include 'header' %}
 
 import XCTest
+import CacheTracker
 
 class {{ prefix }}{{ module_info.name }}InteractorTests: XCTestCase {
 
@@ -20,7 +21,14 @@ class {{ prefix }}{{ module_info.name }}InteractorTests: XCTestCase {
         // TODO
         
         // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput
-        // TODO
+        
+        func modelsListDidReset(_ initialState: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+
+        }
+
+        func modelsListDidChange(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+
+        }
 
     }
 }

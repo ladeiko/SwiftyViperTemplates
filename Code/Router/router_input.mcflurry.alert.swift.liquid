@@ -1,0 +1,9 @@
+{% include 'header' %}
+
+import Foundation
+
+protocol {{ prefix }}{{ module_info.name }}RouterInput: class {
+
+    func dismiss(_ completion: @escaping (() -> Void))
+
+}

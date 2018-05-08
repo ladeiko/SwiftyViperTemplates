@@ -1,0 +1,10 @@
+{% include 'header' %}
+
+import ViperMcFlurryX
+
+@objc 
+protocol {{ prefix }}{{ module_info.name }}ModuleOutput: RamblerViperModuleOutput {
+
+    func errorModuleDidDismiss()
+
+}

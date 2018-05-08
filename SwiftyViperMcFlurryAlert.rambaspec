@@ -1,6 +1,6 @@
 # Template information section
-name: "SwiftyViperMcFlurry"
-summary: "Swift VIPER module template with UIViewController playing as a View. Based on https://github.com/rambler-digital-solutions/generamba-catalog/tree/master/swifty_viper"
+name: "SwiftyViperMcFlurryAlert"
+summary: "Swift VIPER module template with TransparentProxyViewController playing as a View and UIAlertController."
 author: "Siarhei Ladzeika"
 version: "1.3.0"
 license: "MIT"
@@ -9,14 +9,14 @@ license: "MIT"
 
 code_files:
 # View layer
-- {name: View/ViewInput.swift,  path: Code/View/view_input.swift.liquid}
-- {name: View/ViewOutput.swift, path: Code/View/view_output.swift.liquid}
-- {name: View/ViewController.swift, path: Code/View/view_controller.swift.liquid}
+- {name: View/ViewInput.swift,  path: Code/View/view_input.alert.swift.liquid}
+- {name: View/ViewOutput.swift, path: Code/View/view_output.alert.swift.liquid}
+- {name: View/ViewController.swift, path: Code/View/view_controller.alert.swift.liquid}
 
 # Presenter layer
-- {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.swift.liquid}
-- {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.swift.liquid}
-- {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.swift.liquid}
+- {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.alert.swift.liquid}
+- {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.alert.swift.liquid}
+- {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.alert.swift.liquid}
 
 # Interactor layer
 - {name: Interactor/InteractorInput.swift, path: Code/Interactor/interactor_input.swift.liquid}
@@ -24,8 +24,8 @@ code_files:
 - {name: Interactor/Interactor.swift, path: Code/Interactor/interactor.swift.liquid}
 
 # Router layer
-- {name: Router/RouterInput.swift, path: Code/Router/router_input.mcflurry.swift.liquid}
-- {name: Router/Router.swift, path: Code/Router/router.mcflurry.swift.liquid}
+- {name: Router/RouterInput.swift, path: Code/Router/router_input.mcflurry.alert.swift.liquid}
+- {name: Router/Router.swift, path: Code/Router/router.mcflurry.alert.swift.liquid}
 
 # Configurator
 - {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.mcflurry.swift.liquid}
@@ -44,7 +44,7 @@ test_files:
 - {name: Interactor/InteractorTests.swift, path: Tests/Interactor/interactor_tests.swift.liquid}
 
 # Presenter tests
-- {name: Presenter/PresenterTests.swift, path: Tests/Presenter/presenter_tests.swift.liquid}
+- {name: Presenter/PresenterTests.swift, path: Tests/Presenter/presenter_tests.alert.swift.liquid}
 
 # Router tests
 - {name: Router/RouterTests.swift, path: Tests/Router/router_tests.swift.liquid}

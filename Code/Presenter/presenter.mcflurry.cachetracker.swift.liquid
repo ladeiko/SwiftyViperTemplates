@@ -1,0 +1,51 @@
+{% include 'header' %}
+
+import Foundation
+import ViperMcFlurryX
+import CacheTracker
+
+class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, RamblerViperModuleOutput {
+
+    // MARK: VIPER Vars
+
+    weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
+    var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
+    var router: {{ prefix }}{{ module_info.name }}RouterInput!
+    weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
+    
+    // MARK: Vars
+    // TODO
+    
+    // MARK: RamblerViperModuleInput
+
+    func setModuleOutput(_ moduleOutput: RamblerViperModuleOutput!) {
+        output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
+    }
+    
+    // MARK: {{ prefix }}{{module_info.name}}ViewOutput
+
+    func viewIsReady() {
+        if !interactor.isDeliveringModelsListChanges() {
+            interactor.startDeliveringModelsListChanges()
+        }
+        else {
+            view.loadInitialModelsList(interactor.initialStateOfModelsList())
+        }
+    }
+
+    // MARK: {{ prefix }}{{module_info.name}}ModuleInput
+
+    func configure() {
+
+    }
+
+    // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput
+    
+    func modelsListDidReset(_ initialState: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+        view.loadInitialModelsList(initialState)
+    }
+
+    func modelsListDidChange(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+        view.applyModelsListChanges(changes)
+    }
+}

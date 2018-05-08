@@ -1,0 +1,47 @@
+### Headers settings
+company: 'Siarhei Ladzeika'
+
+# prefix: 
+
+### Xcode project settings
+project_name: Demo
+product_module_name: Demo
+xcodeproj_path: Demo.xcodeproj
+
+### Code generation settings section
+# The main project target name
+project_targets: [ Demo, DemoTests ]
+
+# The file path for new modules
+project_file_path: Demo/Modules
+
+# The Xcode group path to new modules
+project_group_path: Demo/Modules
+
+### Tests generation settings section
+# The tests target name
+test_target: DemoTests
+
+# The file path for new tests
+test_file_path: DemoTests/Modules
+
+# The Xcode group path to new tests
+test_group_path: DemoTests/Modules
+
+### Dependencies settings section
+podfile_path: Podfile
+
+### Templates
+templates:
+- {name: SwiftyViper, local: '..'}
+- {name: SwiftyViperMcFlurry, local: '..'}
+- {name: SwiftyViperXib, local: '..'}
+- {name: SwiftyViperMcFlurryXib, local: '..'}
+- {name: SwiftyViperStoryboard, local: '..'}
+- {name: SwiftyViperMcFlurryStoryboard, local: '..'}
+- {name: SwiftyViperTabbar, local: '..'}
+- {name: SwiftyViperMcFlurryAlert, local: '..'}
+- {name: SwiftyViperMcFlurryTrasparent, local: '..'}
+- {name: SwiftyViperMcFlurryStoryboardRootCollectionViewCacheTracker, local: '..'}
+- {name: SwiftyViperMcFlurryStoryboardCollectionViewCacheTracker, local: '..'}
+- {name: SwiftyViperMcFlurryStoryboardTableViewCacheTracker, local: '..'}

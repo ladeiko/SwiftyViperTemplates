@@ -1,0 +1,8 @@
+Demo
+DemoTests
+Pods
+Podfile.lock
+*.xcodeproj
+*.xcworkspace
+Templates
+*.PASSED
