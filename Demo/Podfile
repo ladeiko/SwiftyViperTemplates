@@ -9,6 +9,7 @@ target 'Demo' do
   pod 'CacheTrackerConsumer/UIKit'
   pod 'TransparentProxyViewController'
   pod 'RamblerSegues'
+  pod 'OnDeallocateX'
 
   target 'DemoTests' do
     inherit! :complete

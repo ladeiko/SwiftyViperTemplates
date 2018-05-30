@@ -2,6 +2,7 @@
 
 import UIKit
 import ViperMcFlurryX
+import OnDeallocateX
 
 class {{ prefix }}{{ module_info.name }}ModuleConfigurator: NSObject, RamblerViperModuleFactoryProtocol {
 
@@ -33,6 +34,10 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator: NSObject, RamblerVip
 
         router.transitionHandler = viewController
         router.calleeOutput = presenter
+
+        viewController.onWillDeallocate {
+            presenter.willDeinit()
+        }
     }
 
     func create() -> UIViewController {

@@ -3,6 +3,12 @@
 import Foundation
 import ViperMcFlurryX
 
+fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState {
+    case initial
+    case ready
+    case deinitialized
+}
+
 class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, RamblerViperModuleOutput {
 
     // MARK: VIPER Vars
@@ -11,11 +17,21 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
     var router: {{ prefix }}{{ module_info.name }}RouterInput!
     weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
-    
+    private final var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
+
     // MARK: Vars
     
-    private final var title: String?
-    private final var message: String?
+    private final var config: {{ prefix }}{{ module_info.name }}ModuleConfig!
+    private final var dismissed = false
+
+    // MARK: Life cycle
+
+    func willDeinit() {
+        if state == .ready {
+            // TODO
+        }
+        state = .deinitialized
+    }
 
     // MARK: RamblerViperModuleInput
 
@@ -26,21 +42,25 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     // MARK: {{ prefix }}{{module_info.name}}ViewOutput
 
     func viewIsReady() {
-        view.setAlertTitle(title)
-        view.setAlertMessage(message)
+        assert(state == .ready)
+        view.setAlertTitle(config.title)
+        view.setAlertMessage(config.message)
     }
 
     func userDidTapOnClose() {
+        guard state == .ready && dismissed == false else { return }
+        dismissed = true
         router.dismiss {
-            self.output?.errorModuleDidDismiss()
+            self.output?.{{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss()
         }
     }
 
     // MARK: {{ prefix }}{{module_info.name}}ModuleInput
 
-    func configure(with title: String?, message: String?) {
-        self.title = title
-        self.message = message
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig) {
+        assert(state == .initial)
+        state = .ready
+        self.config = config
     }
 
     // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput

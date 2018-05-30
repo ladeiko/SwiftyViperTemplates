@@ -1,7 +1,14 @@
 {% include 'header' %}
 
+{% if custom_parameters.extended_configure %}
+struct {{ prefix }}{{ module_info.name }}ModuleConfig {
+    // TODO
+}
+{% endif %}
 protocol {{ prefix }}{{ module_info.name }}ModuleInput: class {
-    
+    {% if custom_parameters.extended_configure %}
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig)
+    {% else %}
     func configure()
-
+    {% endif %}
 }

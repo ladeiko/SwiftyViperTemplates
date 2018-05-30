@@ -26,6 +26,11 @@ $(TEST_PASSED): % : $(TEMPLATES) ./Sources/**/*.swift ./Sources/**/*.storyboard 
 	pod install
 	generamba gen $(@:.PASSED=) $(@:.PASSED=)
 	xcodebuild -quiet -scheme Demo -workspace ./Demo.xcworkspace/ -destination 'platform=iOS Simulator,name=iPhone 8'
+	rm -rf $@ $(PROJ_TEMPS)
+	xcodegen --spec project.yml
+	pod install
+	generamba gen $(@:.PASSED=) $(@:.PASSED=) --custom_parameters extended_configure:true
+	xcodebuild -quiet -scheme Demo -workspace ./Demo.xcworkspace/ -destination 'platform=iOS Simulator,name=iPhone 8'
 	touch $@
 	rm -rf $(PROJ_TEMPS)
 

@@ -1,7 +1,13 @@
 {% include 'header' %}
 
+struct {{ prefix }}{{ module_info.name }}ModuleConfig {
+    let title: String?
+    let message: String?
+    // TODO
+}
+
 protocol {{ prefix }}{{ module_info.name }}ModuleInput: class {
     
-    func configure(with title: String?, message: String?)
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig)
 
 }

@@ -5,6 +5,6 @@ import ViperMcFlurryX
 @objc 
 protocol {{ prefix }}{{ module_info.name }}ModuleOutput: RamblerViperModuleOutput {
 
-    func errorModuleDidDismiss()
+    func {{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss()
 
 }

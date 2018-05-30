@@ -3,6 +3,12 @@
 import Foundation
 import ViperMcFlurryX
 
+fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState {
+    case initial
+    case ready
+    case deinitialized
+}
+
 class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, RamblerViperModuleOutput {
 
     // MARK: VIPER Vars
@@ -11,9 +17,19 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
     var router: {{ prefix }}{{ module_info.name }}RouterInput!
     weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
+    private final var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
 
     // MARK: Vars
     // TODO
+
+    // MARK: Life cycle
+
+    func willDeinit() {
+        if state == .ready {
+            // TODO
+        }
+        state = .deinitialized
+    }
     
     // MARK: RamblerViperModuleInput
 
@@ -24,13 +40,20 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     // MARK: {{ prefix }}{{module_info.name}}ViewOutput
 
     func viewIsReady() {
+        assert(state == .ready)
         router.embedSomeModule()
+        // TODO
     }
 
     // MARK: {{ prefix }}{{module_info.name}}ModuleInput
-
+    {% if custom_parameters.extended_configure %}
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig) {
+    {% else %}
     func configure() {
-
+        {% endif -%}
+        assert(state == .initial)
+        state = .ready
+        // TODO
     }
 
     // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput

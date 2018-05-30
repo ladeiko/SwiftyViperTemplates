@@ -1,6 +1,7 @@
 {% include 'header' %}
 
 import UIKit
+import OnDeallocateX
 
 class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
 
@@ -28,6 +29,10 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
 
         presenter.interactor = interactor
         viewController.output = presenter
+
+        viewController.onWillDeallocate {
+            presenter.willDeinit()
+        }
     }
 
     func create() -> UIViewController {
