@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.5.0
+### Added
+* Add SwiftyViperService template
+
 ## 1.4.0
 ### Added
 * Add support for module state

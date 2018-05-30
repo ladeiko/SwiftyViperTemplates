@@ -10,6 +10,7 @@ target 'Demo' do
   pod 'TransparentProxyViewController'
   pod 'RamblerSegues'
   pod 'OnDeallocateX'
+  pod 'ViperServices'
 
   target 'DemoTests' do
     inherit! :complete

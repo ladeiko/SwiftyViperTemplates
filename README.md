@@ -59,6 +59,15 @@ In this case you can add more parameters while development to ```MyModuleConfig`
 
 ## Templates
 
+### SwiftyViperService
+Template for generating viper service using [ViperServices](https://github.com/ladeiko/ViperServices) module
+
+#### Required modules
+
+ * [ViperServices](https://github.com/ladeiko/ViperServices)
+
+___
+
 ### SwiftyViper
 Simple viper module where UIViewController is not associated with any XIB/Storyboard file.
 

@@ -2,7 +2,7 @@
 name: "SwiftyViperMcFlurryTrasparent"
 summary: "Swift VIPER module template with TransparentProxyViewController playing as a View."
 author: "Siarhei Ladzeika"
-version: "1.4.0"
+version: "1.5.0"
 license: "MIT"
 
 # The declarations for code files
