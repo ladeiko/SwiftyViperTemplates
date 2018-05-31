@@ -27,7 +27,7 @@ Keys passed with --custom_parameters to generamba.
 generamba gen MyModuleName SwiftyViperMcFlurryAlert --custom_parameters key1:value1 key2:value2 ...
 ```
 
-#### extended_configure:true
+#### extended\_configure:true
 
 Usefull when configuration of module is not trivial.
 If passed as true:
@@ -52,6 +52,54 @@ protocol MyModuleInput: class {
 
 In this case you can add more parameters while development to ```MyModuleConfig``` without modifying existing code.
 
+#### redux\_service\_state\_vars=VARS
+
+**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only. 
+
+```
+redux_service_state_vars:a=AClass,b=BClass?
+```
+
+will produce state variables for service as:
+
+```
+var a: AClass
+var b: BClass?
+```
+
+#### redux\_service\_state\_persistent:true
+
+**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only. 
+
+Generates code for storing state of service to user defaults
+
+#### redux\_service\_observable:true
+
+**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only. 
+
+Generates method usifull for observing changes of service in Rx way.
+
+#### redux\_service\_generate\_state\_vars\_getters:true
+
+**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only. 
+
+Will generate getters for state vars.
+
+```
+var a: AClass { get }
+var b: BClass? { get }
+```
+
+#### redux\_service\_generate\_state\_vars\_setters:true
+
+**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only. 
+
+Will generate setters for state vars. Usefull only if ```redux_service_generate_state_vars_getters:true```is defined.
+
+```
+var a: AClass { get set }
+var b: BClass? { get set }
+```
 
 ## Changes
 

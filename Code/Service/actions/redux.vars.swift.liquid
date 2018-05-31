@@ -1,0 +1,10 @@
+{% include 'header' %}
+
+import ReSwift
+
+{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}
+    {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}    
+struct {{ prefix }}{{ module_info.name }}ServiceUpdate{{ var_components[0] | capitalize }}Action: Action {
+    let value: {{ var_components[1] }}
+} 
+{% endfor %}

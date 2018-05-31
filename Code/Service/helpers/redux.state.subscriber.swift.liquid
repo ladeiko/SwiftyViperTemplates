@@ -1,0 +1,22 @@
+{% include 'header' %}
+
+import ReSwift
+import RxSwift
+
+class {{ prefix }}{{ module_info.name }}ServiceStateStoreSubscriber : StoreSubscriber {
+
+    typealias StoreSubscriberStateType = {{ prefix }}{{ module_info.name }}ServiceState
+
+    let observer: AnyObserver<{{ prefix }}{{ module_info.name }}Service>
+    weak var service: {{ prefix }}{{ module_info.name }}Service?
+
+    init(observer: AnyObserver<{{ prefix }}{{ module_info.name }}Service>, service: {{ prefix }}{{ module_info.name }}Service? ) {
+        self.observer = observer
+        self.service = service
+    }
+
+    func newState(state: {{ prefix }}{{ module_info.name }}ServiceState) {
+        guard let service = service else { return }
+        self.observer.onNext(service)
+    }
+}

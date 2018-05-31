@@ -1,0 +1,87 @@
+{% include 'header' %}
+
+import ReSwift
+import ViperServices
+{% if custom_parameters.redux_service_observable %}import RxSwift{% endif %}
+{% if custom_parameters.redux_service_state_persistent %}import DefaultsKit{% endif %}
+
+class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{{ module_info.name }}Service{% if custom_parameters.redux_service_state_persistent %}, StoreSubscriber{% endif %} {
+
+    // MARK: Vars
+
+    {% if custom_parameters.redux_service_state_persistent %}
+    private static let defaultsKey = Key<{{ prefix }}{{ module_info.name }}ServiceState>("{{ prefix | upcase}}{{ module_info.name | upcase}}")
+    {% endif %}
+    private final var store: Store<{{ prefix }}{{ module_info.name }}ServiceState>!
+
+    // MARK: Life cycle
+
+    deinit {
+        {% if custom_parameters.redux_service_state_persistent %}if store != nil {
+            store.unsubscribe(self)
+        }{% endif %}
+    }
+
+    // MARK: ViperService
+
+    func setupDependencies(_ container: ViperServicesContainer) -> [AnyObject]? {
+        // TODO
+        return nil
+    }
+
+    func boot(launchOptions: [UIApplicationLaunchOptionsKey: Any]?, completion: @escaping ViperServiceBootCompletion) {
+        let reducer = {{ prefix }}{{ module_info.name }}ServiceStateTopReducer
+        {%- if custom_parameters.redux_service_state_persistent %}
+        let state = Defaults.shared.get(for: type(of: self).defaultsKey) ?? {{ prefix }}{{ module_info.name }}ServiceState({% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})
+        {% else %}
+        let state = {{ prefix }}{{ module_info.name }}ServiceState({% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})
+        {% endif -%}
+        store = Store<{{ prefix }}{{ module_info.name }}ServiceState>(reducer: reducer, state: state)
+        {% if custom_parameters.redux_service_state_persistent %}store.subscribe(self){% endif %}
+        // TODO Do some work, then call completion
+        completion(.succeeded)
+    }
+
+    func shutdown(completion: @escaping ViperServiceShutdownCompletion) {
+        // TODO
+        completion()
+    }
+
+    {% if custom_parameters.redux_service_state_persistent %}// MARK: StoreSubscriber
+
+    func newState(state: {{ prefix }}{{ module_info.name }}ServiceState) {
+        assert(Thread.isMainThread)
+        Defaults.shared.set(store.state, for: type(of: self).defaultsKey)
+    }{% endif %}
+
+    // MARK: {{ prefix }}{{ module_info.name }}Service
+
+    func makeDefaultAction() {
+        assert(Thread.isMainThread)
+        store.dispatch({{ prefix }}{{ module_info.name }}ServiceDefaultAction());
+    }
+
+    {% if custom_parameters.redux_service_observable %}func observable() -> Observable<{{ prefix }}{{ module_info.name }}Service> {
+        return Observable.create{ [weak self] observer in
+
+            let storeSubscriber = {{ prefix }}{{ module_info.name }}ServiceStateStoreSubscriber(observer: observer, service: self)
+
+            self?.store.subscribe(storeSubscriber)
+            return Disposables.create { [weak self] in
+                self?.store.unsubscribe(storeSubscriber)
+            }
+        }
+    }{% endif %}
+
+    {% if custom_parameters.redux_service_generate_state_vars_getters %}
+    {% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}
+    {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}
+    var {{ var_components[0] }}: {{ var_components[1] }} { 
+        {% if custom_parameters.redux_service_generate_state_vars_getters %}get { return store.state.{{ var_components[0] }} }{% endif %}
+        {% if custom_parameters.redux_service_generate_state_vars_setters %}set { store.dispatch({{ prefix }}{{ module_info.name }}ServiceUpdate{{ var_components[0] | capitalize }}Action(value: newValue)) }{% endif %}
+    }
+    {% endfor %}{% endif %}{% endif %}
+
+    // TODO Add more actions here
+
+}

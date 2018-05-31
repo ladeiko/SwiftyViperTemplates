@@ -11,6 +11,9 @@ target 'Demo' do
   pod 'RamblerSegues'
   pod 'OnDeallocateX'
   pod 'ViperServices'
+  pod 'RxSwift'
+  pod 'ReSwift'
+  pod 'DefaultsKit'
 
   target 'DemoTests' do
     inherit! :complete

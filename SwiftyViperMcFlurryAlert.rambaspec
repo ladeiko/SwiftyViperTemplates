@@ -2,7 +2,7 @@
 name: "SwiftyViperMcFlurryAlert"
 summary: "Swift VIPER module template with TransparentProxyViewController playing as a View and UIAlertController."
 author: "Siarhei Ladzeika"
-version: "1.5.0"
+version: "1.6.0"
 license: "MIT"
 
 # The declarations for code files
@@ -14,6 +14,7 @@ code_files:
 - {name: View/ViewController.swift, path: Code/View/view_controller.alert.swift.liquid}
 
 # Presenter layer
+- {name: Presenter/Helpers/ModuleConfig.swift, path: Code/Helpers/moduleinputconfig.alert.swift.liquid}
 - {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.alert.swift.liquid}
 - {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.alert.swift.liquid}
 - {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.alert.swift.liquid}
@@ -29,13 +30,15 @@ code_files:
 
 # Configurator
 - {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.mcflurry.swift.liquid}
+{% if custom_parameters.extended_configurator_create != 'true' %}
 - {name: Configurator/Initializer.swift, path: Code/Configurator/initializer.swift.liquid}
+{% endif %}
 
 # The declarations for test files
 test_files:
 
 # Configurators tests
-- {name: Configurator/ConfiguratorTests.swift, path: Tests/Configurator/configurator_tests.mcflurry.swift.liquid}
+- {name: Configurator/ConfiguratorTests.swift, path: Tests/Configurator/configurator_tests.mcflurry.alert.swift.liquid}
 
 # View tests
 - {name: View/ViewTests.swift, path: Tests/View/view_tests.swift.liquid}

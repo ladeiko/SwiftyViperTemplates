@@ -1,0 +1,17 @@
+{% include 'header' %}
+
+{% if custom_parameters.redux_service_observable %}import RxSwift{% endif %}
+
+protocol {{ prefix }}{{ module_info.name }}Service: class {
+
+    func makeDefaultAction()
+    
+    {% if custom_parameters.redux_service_observable %}func observable() -> Observable<{{ prefix }}{{ module_info.name }}Service>{% endif %}
+
+    {% if custom_parameters.redux_service_generate_state_vars_getters %}
+    {% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}
+    {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}var {{ var_components[0] }}: {{ var_components[1] }} { {% if custom_parameters.redux_service_generate_state_vars_getters %}get{% endif %} {% if custom_parameters.redux_service_generate_state_vars_setters %}set{% endif %} }
+    {% endfor %}{% endif %}{% endif %}
+
+    // TODO
+}

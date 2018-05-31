@@ -19,10 +19,12 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </view>
+        {% if custom_parameters.extended_configurator_create != 'true' %}
         <customObject id="nNm-zZ-Ra0" customClass="{{ prefix }}{{ module_info.name }}ModuleInitializer" customModule="" customModuleProvider="target">
             <connections>
                 <outlet property="{{ module_info.name | downcase }}ViewController" destination="-1" id="OGX-iS-edC"/>
             </connections>
         </customObject>
+        {% endif %}
     </objects>
 </document>

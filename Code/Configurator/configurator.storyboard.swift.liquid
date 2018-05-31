@@ -5,14 +5,17 @@ import OnDeallocateX
 
 class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
 
-    func configureModuleForViewInput<UIViewController>(viewInput: UIViewController) {
-
+    func configureModuleForViewInput<UIViewController>(viewInput: UIViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
         if let viewController = viewInput as? {{ prefix }}{{ module_info.name }}ViewController {
+            {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
+            configure(viewController: viewController, with: config)
+            {% else %}
             configure(viewController: viewController)
+            {% endif -%}
         }
     }
 
-    private func configure(viewController: {{ prefix }}{{ module_info.name }}ViewController) {
+    private func configure(viewController: {{ prefix }}{{ module_info.name }}ViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
 
         guard viewController.output == nil else { // prevent double configuration
             return
@@ -33,12 +36,20 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
         viewController.onWillDeallocate {
             presenter.willDeinit()
         }
+
+        {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
+        presenter.configure(with: config)
+        {% endif %}
     }
 
-    func create() -> UIViewController {
+    func create({% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) -> UIViewController {
         let storyboard = UIStoryboard(name: "{{ prefix }}{{ module_info.name }}", bundle: nil)
         let viewController = storyboard.instantiateInitialViewController()  as! {{ prefix }}{{ module_info.name }}ViewController
+        {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
+        configureModuleForViewInput(viewInput: viewController, with: config)
+        {% else %}
         configureModuleForViewInput(viewInput: viewController)
+        {% endif %}    
         return viewController
     }
     

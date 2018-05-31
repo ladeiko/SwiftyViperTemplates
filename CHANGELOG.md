@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.6.0
+### Added
+* Add ```SwiftyViperReduxService``` template
+* Add support for ```redux_service_state_vars``` custom parameter for ```SwiftyViperReduxService```:
+ ```
+ --custom_parameters redux_service_state_vars:a=ClassA,b=ClassB?
+ ```
+ will produce:
+ ```
+ let a: ClassA
+ let b: ClassB
+ ```
+
 ## 1.5.0
 ### Added
 * Add SwiftyViperService template

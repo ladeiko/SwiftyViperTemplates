@@ -2,7 +2,7 @@
 name: "SwiftyViperMcFlurryStoryboardTableViewCacheTracker"
 summary: "Swift VIPER module template with UITableView playing as secondary view"
 author: "Siarhei Ladzeika"
-version: "1.5.0"
+version: "1.6.0"
 license: "MIT"
 
 # The declarations for code files
@@ -20,6 +20,9 @@ code_files:
 - {name: View/Helpers/ViewCell.swift, path: Code/View/view_controller.tableview.cachetracker.cell.swift.liquid}
 
 # Presenter layer
+{% if custom_parameters.extended_configure %}
+- {name: Presenter/Helpers/ModuleConfig.swift, path: Code/Helpers/moduleinputconfig.swift.liquid}
+{% endif %}
 - {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.swift.liquid}
 - {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.swift.liquid}
 - {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.cachetracker.swift.liquid}
@@ -35,7 +38,9 @@ code_files:
 
 # Configurator
 - {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.mcflurry.storyboard.swift.liquid}
+{% if custom_parameters.extended_configurator_create != 'true' %}
 - {name: Configurator/Initializer.swift, path: Code/Configurator/initializer.swift.liquid}
+{% endif %}
 
 # The declarations for test files
 test_files:

@@ -32,11 +32,13 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aqI-SS-yFs" sceneMemberID="firstResponder"/>
+                {% if custom_parameters.extended_configurator_create != 'true' %}
                 <customObject id="5Rv-JW-reY" customClass="{{ prefix }}{{ module_info.name }}ModuleInitializer" customModuleProvider="target">
                     <connections>
                         <outlet property="{{ module_info.name | downcase }}ViewController" destination="nTq-cw-PKg" id="wJI-Bu-aoP"/>
                     </connections>
                 </customObject>
+                {% endif %}
             </objects>
             <point key="canvasLocation" x="-361" y="-81"/>
         </scene>

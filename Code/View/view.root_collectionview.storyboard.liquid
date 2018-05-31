@@ -40,11 +40,13 @@
                     </collectionView>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aqI-SS-yFs" sceneMemberID="firstResponder"/>
+                {% if custom_parameters.extended_configurator_create != 'true' %}
                 <customObject id="5Rv-JW-reY" customClass="{{ prefix }}{{ module_info.name }}ModuleInitializer" customModule="" customModuleProvider="target">
                     <connections>
                         <outlet property="{{ module_info.name | downcase }}ViewController" destination="aT8-Bj-86N" id="wJI-Bu-aoP"/>
                     </connections>
                 </customObject>
+                {% endif %}
             </objects>
             <point key="canvasLocation" x="-188" y="-86"/>
         </scene>

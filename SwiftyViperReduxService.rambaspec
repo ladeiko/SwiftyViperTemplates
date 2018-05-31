@@ -1,0 +1,37 @@
+# Template information section
+name: "SwiftyViperReduxService"
+summary: "Swift VIPER Service based on ViperServices module and using Redux concept"
+author: "Siarhei Ladzeika"
+version: "1.6.0"
+license: "MIT"
+
+# The declarations for code files
+
+code_files:
+# Declaration
+- {name: Service.swift,  path: Code/Service/redux.swift.liquid}
+
+# Implementation
+- {name: ServiceImpl.swift,  path: Code/Service/redux_impl.swift.liquid}
+
+# Helpers
+- {name: Helpers/ServiceStateStoreSubscriber.swift,  path: Code/Service/helpers/redux.state.subscriber.swift.liquid}
+- {name: Helpers/ServiceState.swift,  path: Code/Service/helpers/redux.state.swift.liquid}
+
+# Reducers
+- {name: Reducers/ServiceStateTopReducer.swift,  path: Code/Service/reducers/redux.swift.liquid}
+{% if custom_parameters.redux_service_generate_state_vars_getters %}{% if custom_parameters.redux_service_state_vars %}
+- {name: Reducers/ServiceStateVarsReducer.swift,  path: Code/Service/reducers/redux.vars.swift.liquid}
+{% endif %}{% endif %}
+
+# Actions
+- {name: Actions/ServiceDefaultAction.swift,  path: Code/Service/actions/redux.swift.liquid}
+{% if custom_parameters.redux_service_generate_state_vars_getters or custom_parameters.redux_service_generate_state_vars_setters %}{% if custom_parameters.redux_service_state_vars %}
+- {name: Actions/ServiceVarsActions.swift,  path: Code/Service/actions/redux.vars.swift.liquid}
+{% endif %}{% endif %}
+
+# The declarations for test files
+test_files:
+
+# tests
+- {name: Tests.swift, path: Tests/Service/redux_tests.swift.liquid}

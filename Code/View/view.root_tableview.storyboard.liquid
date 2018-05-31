@@ -39,11 +39,13 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1rY-Eb-UFC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                {% if custom_parameters.extended_configurator_create != 'true' %}
                 <customObject id="5Rv-JW-reY" customClass="{{ prefix }}{{ module_info.name }}ModuleInitializer" customModule="" customModuleProvider="target">
                     <connections>
                         <outlet property="{{ module_info.name | downcase }}ViewController" destination="I6M-ZV-GJo" id="wJI-Bu-aoP"/>
                     </connections>
                 </customObject>
+                {% endif %}
             </objects>
             <point key="canvasLocation" x="623.20000000000005" y="-126.38680659670166"/>
         </scene>
