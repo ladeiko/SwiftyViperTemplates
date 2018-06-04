@@ -37,8 +37,8 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
             presenter.willDeinit()
         }
 
-        {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
-        presenter.configure(with: config)
+        {% if custom_parameters.extended_configurator_create %}
+        presenter.configure({% if custom_parameters.extended_configure %}with: config{% endif %})
         {% endif %}
     }
 

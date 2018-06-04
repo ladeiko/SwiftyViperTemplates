@@ -2,7 +2,7 @@
 name: "SwiftyViperMcFlurry"
 summary: "Swift VIPER module template with UIViewController playing as a View. Based on https://github.com/rambler-digital-solutions/generamba-catalog/tree/master/swifty_viper"
 author: "Siarhei Ladzeika"
-version: "1.6.0"
+version: "1.6.2"
 license: "MIT"
 
 # The declarations for code files

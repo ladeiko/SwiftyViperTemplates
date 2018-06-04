@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.6.2
+### Fixed 
+* Call of 'configure' in configurator when ```extended_configurator_create:true```
+
+## 1.6.1
+### Fixed 
+* SwiftyViperTabbar with ```custom_parameters.extended_configure```
+
 ## 1.6.0
 ### Added
 * Add ```SwiftyViperReduxService``` template
