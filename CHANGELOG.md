@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.6.3, ## 1.6.4
+Bug fixes
+
 ## 1.6.2
 ### Fixed 
 * Call of 'configure' in configurator when ```extended_configurator_create:true```
