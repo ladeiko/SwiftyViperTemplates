@@ -2,7 +2,7 @@
 name: "SwiftyViperMcFlurryStoryboardTableViewCacheTracker"
 summary: "Swift VIPER module template with UITableView playing as secondary view"
 author: "Siarhei Ladzeika"
-version: "1.6.2"
+version: "1.6.3"
 license: "MIT"
 
 # The declarations for code files

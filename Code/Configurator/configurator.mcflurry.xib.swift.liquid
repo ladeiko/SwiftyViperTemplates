@@ -12,11 +12,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator: NSObject, RamblerVip
 
     func configureModuleForViewInput<UIViewController>(viewInput: UIViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
         if let viewController = viewInput as? {{ prefix }}{{ module_info.name }}ViewController {
-            {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
-            configure(viewController: viewController, with: config)
-            {% else %}
-            configure(viewController: viewController)
-            {% endif -%}
+            configure(viewController: viewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with: config{% endif -%})
         }
     }
 
