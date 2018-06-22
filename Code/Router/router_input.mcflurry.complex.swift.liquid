@@ -1,0 +1,17 @@
+{% include 'header' %}
+
+import Foundation
+
+protocol {{ prefix }}{{ module_info.name }}RouterInput: class {
+
+    func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) -> {{ prefix }}{{ module_info.name }}EmbeddableModule
+    
+    /*  // Example
+    func dismiss()
+    */
+
+    /* // Example
+    func showSomeModule()
+    */
+    
+}

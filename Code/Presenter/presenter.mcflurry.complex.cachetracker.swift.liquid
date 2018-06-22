@@ -1,0 +1,107 @@
+{% include 'header' %}
+
+import Foundation
+import ViperMcFlurryX
+import CacheTracker
+
+fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState {
+    case initial
+    case ready
+    case deinitialized
+}
+
+class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, RamblerViperModuleOutput {
+
+    // MARK: VIPER Vars
+
+    weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
+    var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
+    var router: {{ prefix }}{{ module_info.name }}RouterInput!
+    weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
+    private final var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
+
+    // MARK: Vars
+    
+    private var embeddableModulesCache = [ String : {{ prefix }}{{ module_info.name }}EmbeddableModule ]()
+
+    // MARK: Life cycle
+
+    func willDeinit() {
+        if state == .ready {
+            if interactor.isDeliveringModelsListChanges() {
+                interactor.stopDeliveringModelsListChanges()
+            }
+            embeddableModulesCache.removeAll()
+            // TODO
+        }
+        state = .deinitialized
+    }
+    
+    // MARK: RamblerViperModuleInput
+
+    func setModuleOutput(_ moduleOutput: RamblerViperModuleOutput!) {
+        output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
+    }
+    
+    // MARK: {{ prefix }}{{module_info.name}}ViewOutput
+
+    func viewIsReady() {
+        assert(state == .ready)
+        if !interactor.isDeliveringModelsListChanges() {
+            interactor.startDeliveringModelsListChanges()
+        }
+        else {
+            embeddableModulesCache.removeAll()
+            view.loadInitialModelsList(interactor.initialStateOfModelsList())
+        }
+        // TODO
+    }
+
+    // MARK: {{ prefix }}{{module_info.name}}ModuleInput
+    {% if custom_parameters.extended_configure %}
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig) {
+    {% else %}
+    func configure() {
+        {% endif -%}
+        assert(state == .initial)
+        state = .ready
+        // TODO
+    }
+
+    // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput
+    
+    func modelsListDidReset(_ initialState: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+        guard state == .ready else { return }
+        view.loadInitialModelsList(initialState)
+    }
+
+    func modelsListDidChange(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+        guard state == .ready else { return }
+        view.applyModelsListChanges(changes)
+    }
+
+    // MARK: Helpers
+    
+    func completeModels(_ list: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+        for item in list {
+            switch item.type {
+            case .insert, .update, .move:
+                var embeddableModule: {{ prefix }}{{ module_info.name }}EmbeddableModule!
+                
+                embeddableModule = embeddableModulesCache[item.model]
+                if embeddableModule == nil {
+                    embeddableModule = router.createEmbeddableModule(with: item.model!)
+                    embeddableModulesCache[item.model] = embeddableModule
+                }
+                
+                item.embedInView = embeddableModule.embedInView
+                item.removeFromView = embeddableModule.removeFromView
+
+            case .delete:
+                embeddableModulesCache.removeValue(forKey: item.model)
+            }
+        }
+        return result
+    }
+
+}

@@ -1,0 +1,32 @@
+{% include 'header' %}
+
+import Foundation
+
+// TODO: Replace SomeModuleEntityModel with project model implementing CacheTracker/CacheTrackerPlainModel protocol
+// Example:
+//  import CacheTracker
+//  class SomeModuleEntityModel: CacheTrackerPlainModel {
+//      // MARK: CacheTrackerPlainModel
+//      required init() {}
+//  }
+//  More info at https://github.com/ladeiko/CacheTracker
+
+struct {{ prefix }}{{ module_info.name }}ModuleEntityModel: SomeModuleEntityModel, Hashable {
+
+    var embedInView: ((_ view: UIView) -> Void)!
+    var removeFromView: (() -> Void)!
+
+}
+
+extension {{ prefix }}{{ module_info.name }}ModuleEntityModel: Hashable {
+
+    static func == (lhs: {{ prefix }}{{ module_info.name }}ModuleEntityModel, rhs: {{ prefix }}{{ module_info.name }}ModuleEntityModel) -> Bool {
+        return lhs.XXX == rhs.XXX  // TODO
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(XXX) // TODO
+    }
+}
+
+

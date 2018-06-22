@@ -1,0 +1,12 @@
+{% include 'header' %}
+
+struct {{ prefix }}{{ module_info.name }}EmbeddedModule: {{ prefix }}{{ module_info.name }}EmbeddableModule {
+
+    let module: SomeEmbeddedModule
+    
+    var id: String { get { module } }
+    var embedInView: ((_ view: UIView) -> Void)!
+    var removeFromView: (() -> Void)!
+
+}
+

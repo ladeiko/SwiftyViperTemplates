@@ -1,0 +1,92 @@
+{% include 'header' %}
+
+import UIKit
+import CacheTracker
+import CacheTrackerConsumer
+
+class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, {{ prefix }}{{module_info.name}}ViewInput {
+
+    // MARK: VIPER Vars
+
+    var output: {{ prefix }}{{ module_info.name }}ViewOutput!
+
+    // MARK: Outlets
+    
+    @IBOutlet weak var tableView: UITableView!
+
+    // MARK: Vars
+    
+    private final let consumer: CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel> = CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel>()
+
+    // MARK: Life cycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupTableView()
+        setupConsumer()
+        output.viewIsReady()
+    }
+
+    // MARK: {{ prefix }}{{module_info.name}}ViewInput
+    
+    func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+        consumer.reset(with: state)
+        tableView?.reloadData()
+    }
+    
+    func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+        consumer.willChange()
+        consumer.consume(transactions: changes)
+        consumer.didChange()
+    }
+
+    // MARK: UI Actions
+    // TODO
+
+    // MARK: - UITableViewDataSource
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return consumer.numberOfItems()
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Default") as! {{ prefix }}{{ module_info.name }}ViewCell
+        let model = consumer.object(at: indexPath.row)
+        cell.configure(with: model)
+        return cell
+    }
+    
+    // MARK: UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
+        let model = consumer.object(at: indexPath.row)
+        cell.willDisplay(model)
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
+        let model = consumer.object(at: indexPath.row)
+        cell.stopDisplay(model)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //let model = consumer.object(at: indexPath.row)
+        // TODO
+    }
+
+    // MARK: Helpers
+
+    private final func setupConsumer() {
+        consumer.delegate = tableView
+    }
+
+    private final func setupTableView() {
+        // TODO
+    }
+    
+}

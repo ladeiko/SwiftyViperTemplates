@@ -6,6 +6,12 @@ import ReSwift
 struct {{ prefix }}{{ module_info.name }}ServiceState: StateType{% if custom_parameters.redux_service_state_persistent %}, Codable{% endif %} {
     {% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}
     {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}var {{ var_components[0] }}: {{ var_components[1] }}
-    {% endfor %}{% endif %} 
+    {% endfor %}{% endif %}
+
+    {% if custom_parameters.redux_service_state_persistent %}enum CodingKeys: String, CodingKey {
+        {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}case {{ var_components[0] }}
+        {% endfor %}
+    }{% endif %}
+
     // TODO Add service state properties here ...
 }
