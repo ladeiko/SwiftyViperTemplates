@@ -18,7 +18,7 @@ test: $(TEST_PASSED)
 $(TEMPLATES): % : $(SPECS) Makefile $(TEMPLATE_SRC)
 	@mkdir -p ./Templates && rsync -aq ./.. $@ --exclude Demo --exclude .git  --exclude .DS_Store && touch $@
 
-$(TEST_PASSED): % : $(TEMPLATES) ./Sources/**/*.swift ./Sources/**/*.storyboard $(CFG_FILES)
+$(TEST_PASSED): % : $(TEMPLATES) ./Sources/**/*.swift ./Sources/**/*.storyboard ./Models/*.xcdatamodeld $(CFG_FILES)
 	@./test_template.sh -t="$(@:.PASSED=)" -d="$(PROJ_TEMPS)" -o="$@"
 
 
@@ -27,7 +27,7 @@ define SingleTest
 $(1:.PASSED=): ./$(1)
 	@echo "TESTS PASSED!"
 
-endef	
+endef
 
 $(foreach t, $(TEST_PASSED), \
 	$(eval $(call SingleTest,$(t))) \

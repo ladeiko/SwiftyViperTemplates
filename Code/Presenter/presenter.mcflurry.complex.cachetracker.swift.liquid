@@ -21,7 +21,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     private final var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
 
     // MARK: Vars
-    
+
     private var embeddableModulesCache = [ String : {{ prefix }}{{ module_info.name }}EmbeddableModule ]()
 
     // MARK: Life cycle
@@ -36,13 +36,13 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
         }
         state = .deinitialized
     }
-    
+
     // MARK: RamblerViperModuleInput
 
     func setModuleOutput(_ moduleOutput: RamblerViperModuleOutput!) {
         output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
     }
-    
+
     // MARK: {{ prefix }}{{module_info.name}}ViewOutput
 
     func viewIsReady() {
@@ -52,7 +52,8 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
         }
         else {
             embeddableModulesCache.removeAll()
-            view.loadInitialModelsList(interactor.initialStateOfModelsList())
+            let initialState = interactor.initialStateOfModelsList()
+            view.loadInitialModelsList(adaptModels(initialState))
         }
         // TODO
     }
@@ -69,36 +70,40 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     }
 
     // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput
-    
+
     func modelsListDidReset(_ initialState: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
         guard state == .ready else { return }
-        view.loadInitialModelsList(initialState)
+        embeddableModulesCache.removeAll()
+        view.loadInitialModelsList(adaptModels(initialState))
     }
 
     func modelsListDidChange(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
         guard state == .ready else { return }
-        view.applyModelsListChanges(changes)
+        view.applyModelsListChanges(adaptModels(changes))
     }
 
     // MARK: Helpers
-    
-    func completeModels(_ list: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+
+    private func adaptModels(_ list: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) -> [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>] {
+        var result = [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]()
         for item in list {
             switch item.type {
             case .insert, .update, .move:
                 var embeddableModule: {{ prefix }}{{ module_info.name }}EmbeddableModule!
-                
-                embeddableModule = embeddableModulesCache[item.model]
+                let key = item.model!.uniqueKeyValue()
+                embeddableModule = embeddableModulesCache[key]
                 if embeddableModule == nil {
                     embeddableModule = router.createEmbeddableModule(with: item.model!)
-                    embeddableModulesCache[item.model] = embeddableModule
+                    embeddableModulesCache[key] = embeddableModule
                 }
-                
-                item.embedInView = embeddableModule.embedInView
-                item.removeFromView = embeddableModule.removeFromView
+                let model = {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel(model: item.model!, embed: embeddableModule.embed )
+                result.append(CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>(model: model, index: item.index, newIndex: item.newIndex, type: item.type))
 
             case .delete:
-                embeddableModulesCache.removeValue(forKey: item.model)
+                let key = item.model!.uniqueKeyValue()
+                let model = {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel(model: item.model!)
+                embeddableModulesCache.removeValue(forKey: key)
+                result.append(CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>(model: nil, index: item.index, newIndex: item.newIndex, type: item.type))
             }
         }
         return result

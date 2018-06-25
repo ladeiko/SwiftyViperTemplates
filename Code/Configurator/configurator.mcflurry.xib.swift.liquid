@@ -60,10 +60,10 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator: NSObject, RamblerVip
         {% endif %}    
         return viewController
     }
-    
+
     {%- if custom_parameters.extended_configurator_create != 'true' %}
     // MARK: - RamblerViperModuleFactoryProtocol
-    
+
     func instantiateModuleTransitionHandler() -> RamblerViperModuleTransitionHandlerProtocol? {
         return create()
     }

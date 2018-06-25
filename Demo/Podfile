@@ -14,6 +14,7 @@ target 'Demo' do
   pod 'RxSwift'
   pod 'ReSwift'
   pod 'DefaultsKit'
+  pod 'MagicalRecord'
 
   target 'DemoTests' do
     inherit! :complete

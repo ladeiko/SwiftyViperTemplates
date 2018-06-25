@@ -34,13 +34,13 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
         }
         state = .deinitialized
     }
-    
+
     // MARK: RamblerViperModuleInput
 
     func setModuleOutput(_ moduleOutput: RamblerViperModuleOutput!) {
         output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
     }
-    
+
     // MARK: {{ prefix }}{{module_info.name}}ViewOutput
 
     func viewIsReady() {
@@ -66,7 +66,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     }
 
     // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput
-    
+
     func modelsListDidReset(_ initialState: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
         guard state == .ready else { return }
         view.loadInitialModelsList(initialState)

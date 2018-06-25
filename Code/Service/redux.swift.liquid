@@ -5,7 +5,7 @@
 protocol {{ prefix }}{{ module_info.name }}Service: class {
 
     func makeDefaultAction()
-    
+
     {% if custom_parameters.redux_service_observable %}func observable() -> Observable<{{ prefix }}{{ module_info.name }}Service>{% endif %}
 
     {% if custom_parameters.redux_service_generate_state_vars_getters %}

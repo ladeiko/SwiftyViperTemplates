@@ -22,20 +22,20 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
         private final var tracking = false
 
         // MARK: {{ prefix }}{{ module_info.name }}InteractorInput
-        
+
         func isDeliveringModelsListChanges() -> Bool {
             return tracking
         }
-        
+
         func startDeliveringModelsListChanges() {
             XCTAssertFalse(tracking)
             tracking = true
         }
-        
+
         func stopDeliveringModelsListChanges() {
             tracking = false
         }
-        
+
         func initialStateOfModelsList() -> [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] {
             return []
         }
@@ -53,18 +53,18 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
     }
 
     class MockViewController: {{ prefix }}{{ module_info.name }}ViewInput {
-        
+
         // MARK: Vars
         // TODO
 
         // MARK: {{ prefix }}{{ module_info.name }}ViewInput
-        
+
         func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
-            
+
         }
-        
+
         func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
-            
+
         }
 
     }

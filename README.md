@@ -44,7 +44,7 @@ struct MyModuleConfig {
 }
 
 protocol MyModuleInput: class {
-    
+
     func configure(with config: MyModuleConfig)
 
 }
@@ -226,9 +226,9 @@ Creates module with UICollectionView as **main** view of controller (UICollectio
  * [CacheTracker](https://github.com/ladeiko/CacheTracker) 
  * [CacheTrackerConsumer](https://github.com/ladeiko/CacheTrackerConsumer)
  * [OnDeallocateX](https://github.com/ladeiko/OnDeallocateX)
- 
+
 ___
- 
+
 ### SwiftyViperMcFlurryStoryboardRootTableViewCacheTracker
 Creates module with UITableView as **secondary** view placed onto main controller view. Also it creates start code to show items stored in database using [CacheTracker](https://github.com/ladeiko/CacheTracker) and [CacheTrackerConsumer](https://github.com/ladeiko/CacheTrackerConsumer) in plain (no sections) mode.
 
@@ -238,9 +238,9 @@ Creates module with UITableView as **secondary** view placed onto main controlle
  * [CacheTracker](https://github.com/ladeiko/CacheTracker) 
  * [CacheTrackerConsumer](https://github.com/ladeiko/CacheTrackerConsumer)
  * [OnDeallocateX](https://github.com/ladeiko/OnDeallocateX)
- 
+
 ___
- 
+
 ### SwiftyViperMcFlurryStoryboardTableViewCacheTracker
 Creates module with UITableView as **main** view of controller (UITableViewController). Also it creates start code to show items stored in database using [CacheTracker](https://github.com/ladeiko/CacheTracker) and [CacheTrackerConsumer](https://github.com/ladeiko/CacheTrackerConsumer) in plain (no sections) mode.
 

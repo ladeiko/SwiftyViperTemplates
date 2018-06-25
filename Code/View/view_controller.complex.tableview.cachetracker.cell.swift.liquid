@@ -8,7 +8,8 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UITableViewCell {
     // TODO
 
     // MARK: Vars
-    // TODO
+
+    private var removeEmbeddableBlock: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock?
 
     // MARK: Public
 
@@ -16,15 +17,33 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UITableViewCell {
         // TODO
     }
 
-    func willDisplay(_ model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) {
-        module.embdedInView(contentView)
+    func willDisplay(_ embeddable: {{ prefix }}{{ module_info.name }}Embeddable) {
+        removeEmbeddable() // remove previous if for some reason it was not removed
+        removeEmbeddableBlock = embeddable.embed(contentView) // TODO use view you prefer
     }
 
-    func stopDisplay(_ model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) {
-        module.removeFromView()
+    func stopDisplay() {
+        removeEmbeddable()
+    }
+
+    // MARK: Life cycle
+
+    deinit {
+        removeEmbeddable()
+    }
+
+    override func prepareForReuse() {
+        removeEmbeddable()
+        super.prepareForReuse()
     }
 
     // MARK: Helpers
+
+    private func removeEmbeddable() {
+        removeEmbeddableBlock?()
+        removeEmbeddableBlock = nil
+    }
+
     // TODO
-    
+
 }

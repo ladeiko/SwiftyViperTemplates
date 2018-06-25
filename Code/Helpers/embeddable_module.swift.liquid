@@ -1,0 +1,18 @@
+{% include 'header' %}
+
+import UIKit
+
+typealias {{ prefix }}{{ module_info.name }}EmbeddableModuleInput = SomeEmbeddableModuleInput // TODO
+typealias {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator = SomeEmbeddableModuleConfigurator // TODO
+{%- if custom_parameters.embeddable_extended_configure %}typealias {{ prefix }}{{ module_info.name }}EmbeddableModuleInput = SomeEmbeddableModuleInputConfig // TODO{% endif %}
+
+struct {{ prefix }}{{ module_info.name }}EmbeddableModule: {{ prefix }}{{ module_info.name }}Embeddable {
+
+    let module: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput
+
+    // MARK: {{ prefix }}{{ module_info.name }}Embeddable
+
+    let embed: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock!
+
+}
+

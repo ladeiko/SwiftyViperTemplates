@@ -20,7 +20,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
         guard viewController.output == nil else { // prevent double configuration
             return
         }
-        
+
         let router = {{ prefix }}{{ module_info.name }}Router()
 
         let presenter = {{ prefix }}{{ module_info.name }}Presenter()
@@ -51,5 +51,5 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
         {% endif %}    
         return viewController
     }
-    
+
 }

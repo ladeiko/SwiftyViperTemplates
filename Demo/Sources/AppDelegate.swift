@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MagicalRecord
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,8 +15,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        MagicalRecord.setupCoreDataStack(withStoreNamed: "Model")
+        NSManagedObjectContext.mr_default().mr_save(blockAndWait: { (context) in
+            SomeModuleDatabaseModel.mr_deleteAll(matching: NSPredicate(value: true), in: context)
+            for val in ["1", "2", "3"] {
+                let e = SomeModuleDatabaseModel.mr_createEntity(in: context)!
+                e.xxx = val
+            }
+        })
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UIViewController()
+        
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (_) in
+            NSManagedObjectContext.mr_default().mr_save(blockAndWait: { (context) in
+                SomeModuleDatabaseModel.mr_deleteAll(matching: NSPredicate(value: true), in: context)
+                for val in ["1", "2", "3"] {
+                    let e = SomeModuleDatabaseModel.mr_createEntity(in: context)!
+                    e.xxx = val
+                }
+            })
+        }
+        
+        let configurator = SwiftyViperMcFlurryStoryboardComplexTableViewCacheTrackerModuleConfigurator()
+        let viewController = (configurator.create() as! SwiftyViperMcFlurryStoryboardComplexTableViewCacheTrackerViewController)
+        (viewController.output as! SwiftyViperMcFlurryStoryboardComplexTableViewCacheTrackerModuleInput).configure()
+        
+        window?.rootViewController = viewController//UIViewController()
         window?.makeKeyAndVisible()
         return true
     }

@@ -11,10 +11,19 @@ import CacheTracker
 import CoreData
 
 class SomeModuleEntityModel: CacheTrackerPlainModel {
+
+    let xxx: String
     
     // MARK: CacheTrackerPlainModel
+
+    required init() { xxx = "" }
     
-    required init() {}
+    // MARK: Life cycle
+    
+    init(xxx: String) {
+        self.xxx = xxx
+    }
+    
 }
 
 

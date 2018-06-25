@@ -38,7 +38,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfiguratorTests: XCTestCase {
         XCTAssertNotNil(presenter.view, "view in {{ prefix }}{{ module_info.name }}Presenter is nil after configuration")
         XCTAssertNotNil(presenter.router, "router in {{ prefix }}{{ module_info.name }}Presenter is nil after configuration")
         XCTAssertTrue(presenter.router is {{ prefix }}{{ module_info.name }}Router, "router is not {{ prefix }}{{ module_info.name }}Router")
-		
+
         let interactor: {{ prefix }}{{ module_info.name }}Interactor = presenter.interactor as! {{ prefix }}{{ module_info.name }}Interactor
         XCTAssertNotNil(interactor.output, "output in {{ prefix }}{{ module_info.name }}Interactor is nil after configuration")
     }

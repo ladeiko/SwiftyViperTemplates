@@ -1,6 +1,7 @@
 {% include 'header' %}
 
-import Foundation
+import UIKit
+import CacheTracker
 
 // TODO: Replace SomeModuleEntityModel with project model implementing CacheTracker/CacheTrackerPlainModel protocol
 // Example:
@@ -11,22 +12,49 @@ import Foundation
 //  }
 //  More info at https://github.com/ladeiko/CacheTracker
 
-struct {{ prefix }}{{ module_info.name }}ModuleEntityModel: SomeModuleEntityModel, Hashable {
+typealias {{ prefix }}{{ module_info.name }}ModuleEntityModel = SomeModuleEntityModel
 
-    var embedInView: ((_ view: UIView) -> Void)!
-    var removeFromView: (() -> Void)!
+protocol {{ prefix }}{{ module_info.name }}ModulePlainModelUnique {
+
+    // Should return value unique among all items of the same type, e.g.: id, name, etc...
+    func uniqueKeyValue() -> String
 
 }
 
-extension {{ prefix }}{{ module_info.name }}ModuleEntityModel: Hashable {
+class {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel: CacheTrackerPlainModel, {{ prefix }}{{ module_info.name }}Embeddable {
 
-    static func == (lhs: {{ prefix }}{{ module_info.name }}ModuleEntityModel, rhs: {{ prefix }}{{ module_info.name }}ModuleEntityModel) -> Bool {
-        return lhs.XXX == rhs.XXX  // TODO
+    let model: {{ prefix }}{{ module_info.name }}ModuleEntityModel!
+
+    // MARK: CacheTrackerPlainModel
+
+    required init() {
+        model = nil
+        embed = nil
     }
 
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(XXX) // TODO
+    // MARK: {{ prefix }}{{ module_info.name }}Embeddable
+
+    let embed: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock!
+
+    // MARK: Life cycle
+
+    init(model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) {
+        self.model = model
+        self.embed = nil
     }
+
+    init(model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, embed: @escaping {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock) {
+        self.model = model
+        self.embed = embed
+    }
+
 }
 
+extension {{ prefix }}{{ module_info.name }}ModuleEntityModel: {{ prefix }}{{ module_info.name }}ModulePlainModelUnique {
 
+    // Should return value unique among all items of the same type, e.g.: id, name, etc...
+    func uniqueKeyValue() -> String {
+        return xxx // TODO Change xxx to proper property
+    }
+
+}

@@ -16,46 +16,45 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
 
     func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) -> {{ prefix }}{{ module_info.name }}EmbeddableModule {
 
-        var module: CategoryPreviewModuleInput!
+        var module: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput!
         var sourceViewController: UIViewController!
         var destinationViewController: UIViewController!
-        
-        transitionHandler.openModule!(usingFactory: CategoryPreviewModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
-            
+
+        transitionHandler.openModule!(usingFactory: {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
             sourceViewController = sourceModuleTransitionHandler as! UIViewController
             destinationViewController = destinationModuleTransitionHandler as! UIViewController
-            
-            }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
-                module = moduleInput as! CategoryPreviewModuleInput
-                (moduleInput as! CategoryPreviewModuleInput).configure(with: category, using: services)
-                return self.calleeOutput
+        }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
+            module = moduleInput as! {{ prefix }}{{ module_info.name }}EmbeddableModuleInput
+            {% if custom_parameters.embeddable_extended_configure %}module.configure(with: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput(model: model)){% else %}module.configure(){% endif %}
+            return self.calleeOutput
         }
-        
-        let embedder: CategoryPreviewModuleEmbedder = { view in
-            
+
+        let embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock = { containerView in
             assert(!destinationViewController.isViewLoaded || (destinationViewController.view.superview == nil))
-            
             destinationViewController.willMove(toParentViewController: sourceViewController)
             sourceViewController.addChildViewController(destinationViewController)
-            destinationViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            destinationViewController.view.frame = view.bounds
-            view.addSubview(destinationViewController.view)
+            containerView.addSubview(destinationViewController.view)
             destinationViewController.didMove(toParentViewController: sourceViewController)
+            let embeddedView = destinationViewController.view!
+            embeddedView.translatesAutoresizingMaskIntoConstraints = false
+            containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[embeddedView]-0-|",
+                                                                        options: NSLayoutFormatOptions(rawValue: 0),
+                                                                        metrics: nil, views: ["embeddedView" : embeddedView]))
+            containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[embeddedView]-0-|",
+                                                                        options: NSLayoutFormatOptions(rawValue: 0),
+                                                                        metrics: nil, views: ["embeddedView" : embeddedView]))
+            let remover: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock = {
+                assert(destinationViewController.isViewLoaded && (destinationViewController.view.superview != nil))
+                destinationViewController.willMove(toParentViewController: nil)
+                destinationViewController.view.removeFromSuperview()
+                destinationViewController.removeFromParentViewController()
+            }
+            return remover
         }
-        
-        let detacher: CategoryPreviewModuleDetacher = {
-            
-            assert(destinationViewController.isViewLoaded && (destinationViewController.view.superview != nil))
-            
-            destinationViewController.willMove(toParentViewController: nil)
-            destinationViewController.view.removeFromSuperview()
-            destinationViewController.removeFromParentViewController()
-        }
-        
-        return CategoryPreviewModuleEmbeddableDescription(module: module, embedder: embedder, detacher: detacher)
-        
+
+        return {{ prefix }}{{ module_info.name }}EmbeddableModule(module: module, embed: embedder)
     }
-    
+
     /*  // Example
     func dismiss() {
         transitionHandler.closeCurrentModule!(true)
@@ -65,12 +64,12 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
     /* // Example
     func showSomeModule() {
         transitionHandler.openModule!(usingFactory: SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
-            
+
             let sourceViewController = sourceModuleTransitionHandler as! UIViewController
             let destinationViewController = destinationModuleTransitionHandler as! UIViewController
-            
+
             sourceViewController.present(destinationViewController, animated: true, completion: nil)
-            
+
             }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
                 (moduleInput as! SomeModuleInput).configure()
                 return nil // or self.calleeOutput

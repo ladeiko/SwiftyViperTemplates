@@ -11,12 +11,12 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITabl
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
 
     // MARK: Outlets
-    
+
     @IBOutlet weak var tableView: UITableView!
 
     // MARK: Vars
-    
-    private final let consumer: CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel> = CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel>()
+
+    private final let consumer: CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel> = CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>()
 
     // MARK: Life cycle
 
@@ -28,13 +28,13 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITabl
     }
 
     // MARK: {{ prefix }}{{module_info.name}}ViewInput
-    
-    func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+
+    func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]) {
         consumer.reset(with: state)
         tableView?.reloadData()
     }
-    
-    func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+
+    func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]) {
         consumer.willChange()
         consumer.consume(transactions: changes)
         consumer.didChange()
@@ -48,34 +48,33 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITabl
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return consumer.numberOfItems()
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Default") as! {{ prefix }}{{ module_info.name }}ViewCell
-        let model = consumer.object(at: indexPath.row)
-        cell.configure(with: model)
+        let item = consumer.object(at: indexPath.row)
+        cell.configure(with: item.model)
         return cell
     }
-    
+
     // MARK: UITableViewDelegate
-    
+
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        let model = consumer.object(at: indexPath.row)
-        cell.willDisplay(model)
+        let item = consumer.object(at: indexPath.row)
+        cell.willDisplay(item)
     }
-    
+
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        let model = consumer.object(at: indexPath.row)
-        cell.stopDisplay(model)
+        cell.stopDisplay()
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let model = consumer.object(at: indexPath.row)
+        //let item = consumer.object(at: indexPath.row)
         // TODO
     }
 
@@ -88,5 +87,5 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITabl
     private final func setupTableView() {
         // TODO
     }
-    
+
 }

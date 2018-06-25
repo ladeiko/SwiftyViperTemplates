@@ -19,7 +19,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator: NSObject, RamblerVip
             {% endif -%}
         }
     }
-    
+
     private func configure(viewController: {{ prefix }}{{ module_info.name }}ViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
 
         guard viewController.output == nil else { // prevent double configuration
@@ -60,10 +60,10 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator: NSObject, RamblerVip
         {% endif %}    
         return viewController
     }
-    
+
     {%- if custom_parameters.extended_configurator_create != 'true' %}
     // MARK: - RamblerViperModuleFactoryProtocol
-    
+
     func instantiateModuleTransitionHandler() -> RamblerViperModuleTransitionHandlerProtocol? {
         return create()
     }

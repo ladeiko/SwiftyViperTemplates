@@ -43,7 +43,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
             UINavigationController(rootViewController: SomeModuleConfigurator2().create()),
         */
         ]
-        
+
         viewController.viewControllers?.forEach({ (childViewController) in
             if let navigationController = childViewController as? UINavigationController {
                 // Propagate tabBarItem of child to the navigation controller
@@ -63,5 +63,5 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
         {% endif %}    
         return viewController
     }
-    
+
 }

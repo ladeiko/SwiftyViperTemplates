@@ -10,9 +10,9 @@ while [ "$1" != "" ]; do
         -d)
             PROJ_TEMPS=$VALUE
             ;;
-		-o)	
+		-o)
 			RESULT=$VALUE
-			;;	
+			;;
         *)
             echo "ERROR: unknown parameter \"$PARAM\""
             usage
@@ -64,6 +64,7 @@ else
 	runTest "extended_configure:true"
 	runTest "extended_configure:true extended_configure_vars:a=AClass,b=BClass?"
 	runTest "extended_configure:true extended_configurator_create:true"
+	runTest "embeddable_extended_configure:true"
 fi
 
 touch "${RESULT}" || exit 1
