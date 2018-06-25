@@ -25,9 +25,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (_) in
+        var repeatCounter = 0
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
+            
+            repeatCounter += 1
+            
+            let stop = repeatCounter > 3
+            
+            if stop {
+                timer.invalidate()
+            }
+            
             NSManagedObjectContext.mr_default().mr_save(blockAndWait: { (context) in
                 SomeModuleDatabaseModel.mr_deleteAll(matching: NSPredicate(value: true), in: context)
+                
+                if stop {
+                    return
+                }
+                
                 for val in ["1", "2", "3"] {
                     let e = SomeModuleDatabaseModel.mr_createEntity(in: context)!
                     e.xxx = val
@@ -35,9 +50,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }
         
-        let configurator = SwiftyViperMcFlurryStoryboardComplexTableViewCacheTrackerModuleConfigurator()
-        let viewController = (configurator.create() as! SwiftyViperMcFlurryStoryboardComplexTableViewCacheTrackerViewController)
-        (viewController.output as! SwiftyViperMcFlurryStoryboardComplexTableViewCacheTrackerModuleInput).configure()
+        let configurator = TestedConfigurator()
+        let viewController = (configurator.create() as! TestedViewController)
+        (viewController.output as! TestedModuleInput).configure()
         
         window?.rootViewController = viewController//UIViewController()
         window?.makeKeyAndVisible()

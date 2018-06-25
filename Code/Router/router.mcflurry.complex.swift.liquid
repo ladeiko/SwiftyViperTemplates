@@ -14,45 +14,84 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
 
     // MARK: {{ prefix }}{{ module_info.name }}RouterInput
 
-    func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) -> {{ prefix }}{{ module_info.name }}EmbeddableModule {
+    func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, lazyAllocation: Bool) -> {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock {
 
         var module: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput!
         var sourceViewController: UIViewController!
         var destinationViewController: UIViewController!
 
-        transitionHandler.openModule!(usingFactory: {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
-            sourceViewController = sourceModuleTransitionHandler as! UIViewController
-            destinationViewController = destinationModuleTransitionHandler as! UIViewController
-        }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
-            module = moduleInput as! {{ prefix }}{{ module_info.name }}EmbeddableModuleInput
-            {% if custom_parameters.embeddable_extended_configure %}module.configure(with: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput(model: model)){% else %}module.configure(){% endif %}
-            return self.calleeOutput
+        let allocate: () -> Void = {
+            self.transitionHandler.openModule!(usingFactory: {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
+                sourceViewController = sourceModuleTransitionHandler as! UIViewController
+                destinationViewController = destinationModuleTransitionHandler as! UIViewController
+            }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
+                module = moduleInput as! {{ prefix }}{{ module_info.name }}EmbeddableModuleInput
+                module.configure()
+                return self.calleeOutput
+            }
         }
-
+        
         let embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock = { containerView in
-            assert(!destinationViewController.isViewLoaded || (destinationViewController.view.superview == nil))
-            destinationViewController.willMove(toParentViewController: sourceViewController)
-            sourceViewController.addChildViewController(destinationViewController)
-            containerView.addSubview(destinationViewController.view)
-            destinationViewController.didMove(toParentViewController: sourceViewController)
-            let embeddedView = destinationViewController.view!
-            embeddedView.translatesAutoresizingMaskIntoConstraints = false
-            containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[embeddedView]-0-|",
-                                                                        options: NSLayoutFormatOptions(rawValue: 0),
-                                                                        metrics: nil, views: ["embeddedView" : embeddedView]))
-            containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[embeddedView]-0-|",
-                                                                        options: NSLayoutFormatOptions(rawValue: 0),
-                                                                        metrics: nil, views: ["embeddedView" : embeddedView]))
+            
+            if lazyAllocation && destinationViewController == nil {
+                allocate()
+            }
+            
             let remover: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock = {
-                assert(destinationViewController.isViewLoaded && (destinationViewController.view.superview != nil))
+                // we remove only if we are attached to the same view we use while calling embedder,
+                // in another case somebody already reattach view to another superview, so we cannot
+                // detach it
+                guard destinationViewController.isViewLoaded && destinationViewController.view.superview == containerView else {
+                    return
+                }
                 destinationViewController.willMove(toParentViewController: nil)
                 destinationViewController.view.removeFromSuperview()
                 destinationViewController.removeFromParentViewController()
             }
+            
+            let setupConstraints: () -> Void = {
+                let embeddedView = destinationViewController.view!
+                embeddedView.translatesAutoresizingMaskIntoConstraints = false
+                containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[embeddedView]-0-|",
+                                                                            options: NSLayoutFormatOptions(rawValue: 0),
+                                                                            metrics: nil, views: ["embeddedView" : embeddedView]))
+                containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[embeddedView]-0-|",
+                                                                            options: NSLayoutFormatOptions(rawValue: 0),
+                                                                            metrics: nil, views: ["embeddedView" : embeddedView]))
+            }
+            
+            if destinationViewController.isViewLoaded && destinationViewController.view.superview != nil {
+                
+                if destinationViewController.parent == sourceViewController { // parent controller is the same
+                    
+                    if destinationViewController.view.superview == containerView { // and view is the same
+                        return remover
+                    }
+                    
+                    containerView.addSubview(destinationViewController.view)
+                    setupConstraints()
+                    return remover
+                }
+                else {
+                    destinationViewController.willMove(toParentViewController: nil)
+                    destinationViewController.view.removeFromSuperview()
+                    destinationViewController.removeFromParentViewController()
+                }
+            }
+            
+            destinationViewController.willMove(toParentViewController: sourceViewController)
+            sourceViewController.addChildViewController(destinationViewController)
+            containerView.addSubview(destinationViewController.view)
+            destinationViewController.didMove(toParentViewController: sourceViewController)
+            setupConstraints()
             return remover
         }
+        
+        if !lazyAllocation {
+            allocate()
+        }
 
-        return {{ prefix }}{{ module_info.name }}EmbeddableModule(module: module, embed: embedder)
+        return embedder
     }
 
     /*  // Example

@@ -7,8 +7,7 @@ targets:
     platform: iOS
     deploymentTarget: "10.0"
     sources:
-      - Sources
-      - Models
+      - Demo
     dependencies:
       - target: DemoTests
     scheme:
@@ -21,7 +20,7 @@ targets:
     platform: iOS
     deploymentTarget: "10.0"
     sources:
-      - path: Sources
+      - path: Demo
         excludes:
           - "Sources/AppDelegate.swift"
           - "Sources/*.storyboard"

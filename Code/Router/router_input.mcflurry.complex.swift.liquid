@@ -4,7 +4,7 @@ import Foundation
 
 protocol {{ prefix }}{{ module_info.name }}RouterInput: class {
 
-    func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) -> {{ prefix }}{{ module_info.name }}EmbeddableModule
+    func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, lazyAllocation: Bool) -> {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock
 
     /*  // Example
     func dismiss()

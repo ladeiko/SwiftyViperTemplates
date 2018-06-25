@@ -30,16 +30,31 @@ protocol SomeEmbeddableModuleViewOutput {
     func viewIsReady()
 }
 
+var embeddableViewsCount = 0
 class SomeEmbeddableModuleView: UIViewController, SomeEmbeddableModuleViewInput {
     var output: SomeEmbeddableModuleViewOutput!
     weak var label: UILabel?
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        embeddableViewsCount += 1
+        print("embeddableViewsCount=", embeddableViewsCount)
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    deinit {
+        embeddableViewsCount -= 1
+        print("embeddableViewsCount=",embeddableViewsCount)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .gray
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.black.cgColor
         let l = UILabel(frame: view.bounds);
         l.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        l.textAlignment = .center
+        l.textColor = .white
         view.addSubview(l)
         label = l
         output.viewIsReady()
@@ -49,9 +64,18 @@ class SomeEmbeddableModuleView: UIViewController, SomeEmbeddableModuleViewInput 
     }
 }
 
+var embeddableModulesCount = 0
 class SomeEmbeddableModule: SomeEmbeddableModuleInput, SomeEmbeddableModuleViewOutput {
     weak var view: SomeEmbeddableModuleViewInput!
     var title: String?
+    init() {
+        embeddableModulesCount += 1
+        print("embeddableModulesCount=", embeddableModulesCount)
+    }
+    deinit {
+        embeddableModulesCount -= 1
+        print("embeddableModulesCount=",embeddableModulesCount)
+    }
     func configure() {}
     func configure(with config: SomeEmbeddableModuleInputConfig) {
         title = config.title

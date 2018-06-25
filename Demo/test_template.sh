@@ -37,9 +37,16 @@ function runTest() {
 	local extra=""
 	if [ ! -z "$params" ]; then extra="--custom_parameters ${params}"; fi
 	cleanAll
+	mkdir -p Demo
+	cp -R ./Sources/ ./Demo/
+	cp -R ./Models/ ./Demo/
+	echo "typealias TestedConfigurator = ${TEMPLATE_NAME}ModuleConfigurator" >> Demo/AppDelegate.swift
+    echo "typealias TestedViewController = ${TEMPLATE_NAME}ViewController" >> Demo/AppDelegate.swift
+	echo "typealias TestedModuleInput = ${TEMPLATE_NAME}ModuleInput" >> Demo/AppDelegate.swift
 	xcodegen --spec project.yml>/dev/null || exit 1
 	pod install>/dev/null || exit 1
 	generamba gen ${TEMPLATE_NAME} ${TEMPLATE_NAME} ${extra} || exit 1
+	find Demo -name "*.swift" -type f -print0 | xargs -0 sed -i '' -e 's/let context: NSManagedObjectContext! = <nil>/let context: NSManagedObjectContext! = NSManagedObjectContext.mr_default()/g'
 	xcodebuild ${XCODEBUILD_ACT} -scheme Demo -workspace ./Demo.xcworkspace/ -destination 'platform=iOS Simulator,name=iPhone 8' || exit 1
 }
 

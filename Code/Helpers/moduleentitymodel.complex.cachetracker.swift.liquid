@@ -1,7 +1,7 @@
 {% include 'header' %}
 
 import UIKit
-import CacheTracker
+import CacheTrackerConsumer
 
 // TODO: Replace SomeModuleEntityModel with project model implementing CacheTracker/CacheTrackerPlainModel protocol
 // Example:
@@ -14,14 +14,7 @@ import CacheTracker
 
 typealias {{ prefix }}{{ module_info.name }}ModuleEntityModel = SomeModuleEntityModel
 
-protocol {{ prefix }}{{ module_info.name }}ModulePlainModelUnique {
-
-    // Should return value unique among all items of the same type, e.g.: id, name, etc...
-    func uniqueKeyValue() -> String
-
-}
-
-class {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel: CacheTrackerPlainModel, {{ prefix }}{{ module_info.name }}Embeddable {
+class {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel: CacheTrackerPlainRecurrentConsumerItem, {{ prefix }}{{ module_info.name }}Embeddable {
 
     let model: {{ prefix }}{{ module_info.name }}ModuleEntityModel!
 
@@ -30,6 +23,13 @@ class {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel: CacheTrackerPlain
     required init() {
         model = nil
         embed = nil
+    }
+
+    // MARK: CacheTrackerPlainRecurrentConsumerItem
+
+    func recurrentPlainConsumerItem(using oldValue: CacheTrackerPlainRecurrentConsumerItem) -> CacheTrackerPlainRecurrentConsumerItem {
+        let oldValue = oldValue as! {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel
+        return {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel(model: model, embed: oldValue.embed)
     }
 
     // MARK: {{ prefix }}{{ module_info.name }}Embeddable
@@ -46,15 +46,6 @@ class {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel: CacheTrackerPlain
     init(model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, embed: @escaping {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock) {
         self.model = model
         self.embed = embed
-    }
-
-}
-
-extension {{ prefix }}{{ module_info.name }}ModuleEntityModel: {{ prefix }}{{ module_info.name }}ModulePlainModelUnique {
-
-    // Should return value unique among all items of the same type, e.g.: id, name, etc...
-    func uniqueKeyValue() -> String {
-        return xxx // TODO Change xxx to proper property
     }
 
 }
