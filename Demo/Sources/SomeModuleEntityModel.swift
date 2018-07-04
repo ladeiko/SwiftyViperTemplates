@@ -13,17 +13,17 @@ import CoreData
 class SomeModuleEntityModel: CacheTrackerPlainModel {
 
     let xxx: String
-    
+
     // MARK: CacheTrackerPlainModel
 
     required init() { xxx = "" }
-    
+
     // MARK: Life cycle
-    
+
     init(xxx: String) {
         self.xxx = xxx
     }
-    
+
 }
 
 

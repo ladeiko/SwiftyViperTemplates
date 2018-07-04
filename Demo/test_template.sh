@@ -14,7 +14,7 @@ while [ "$1" != "" ]; do
 			RESULT=$VALUE
 			;;
         *)
-            echo "ERROR: unknown parameter \"$PARAM\""
+            echo "ERROR: unknown parameter '$PARAM'"
             usage
             exit 1
             ;;
@@ -25,11 +25,11 @@ done
 XCODEBUILD_ACT="test -quiet"
 
 function cleanAll() {
-	rm -rf ${RESULT} ${PROJ_TEMPS}>/dev/null || exit 1
+	rm -rf ${RESULT} ${PROJ_TEMPS} || exit 1
 }
 
 function clean() {
-	rm -rf ${PROJ_TEMPS}>/dev/null || exit 1
+	rm -rf ${PROJ_TEMPS} || exit 1
 }
 
 function runTest() {
@@ -43,11 +43,34 @@ function runTest() {
 	echo "typealias TestedConfigurator = ${TEMPLATE_NAME}ModuleConfigurator" >> Demo/AppDelegate.swift
     echo "typealias TestedViewController = ${TEMPLATE_NAME}ViewController" >> Demo/AppDelegate.swift
 	echo "typealias TestedModuleInput = ${TEMPLATE_NAME}ModuleInput" >> Demo/AppDelegate.swift
-	xcodegen --spec project.yml>/dev/null || exit 1
-	pod install>/dev/null || exit 1
+	echo "#if extended_configure" >> Demo/AppDelegate.swift
+	echo "typealias TestedModuleInputConfig = ${TEMPLATE_NAME}ModuleInputConfig" >> Demo/AppDelegate.swift
+	echo "#endif" >> Demo/AppDelegate.swift
+
+	rm -rf /tmp/${TEMPLATE_NAME}.xcconfig
+
+	local MACROS="-D'${TEMPLATE_NAME}'"
+	for VAR in $(echo "$params" | grep -oE "[a-z_]+:" | sed 's/://g'); do
+		if [ -z "$MACROS" ]; then
+			MACROS="-D'$VAR'"
+		else
+			MACROS="$MACROS -D'$VAR'"
+		fi
+		#echo "#define $VAR 1" >> Demo/AppDelegate.swift
+	done
+
+	local XCCONFIG=""
+	if [ ! -z "$MACROS" ]; then
+		echo "$MACROS"
+		echo "OTHER_SWIFT_FLAGS=\$(inherited) $MACROS"> /tmp/${TEMPLATE_NAME}.xcconfig
+		XCCONFIG="-xcconfig /tmp/${TEMPLATE_NAME}.xcconfig"
+	fi
+
+	xcodegen --spec project.yml || exit 1
+	pod install || exit 1
 	generamba gen ${TEMPLATE_NAME} ${TEMPLATE_NAME} ${extra} || exit 1
 	find Demo -name "*.swift" -type f -print0 | xargs -0 sed -i '' -e 's/let context: NSManagedObjectContext! = <nil>/let context: NSManagedObjectContext! = NSManagedObjectContext.mr_default()/g'
-	xcodebuild ${XCODEBUILD_ACT} -scheme Demo -workspace ./Demo.xcworkspace/ -destination 'platform=iOS Simulator,name=iPhone 8' || exit 1
+	xcodebuild ${XCODEBUILD_ACT} -scheme Demo -workspace ./Demo.xcworkspace/ -destination 'platform=iOS Simulator,name=iPhone 8' $XCCONFIG || exit 1
 }
 
 LOWER_TEMPLATE_NAME=$(echo $TEMPLATE_NAME | tr [:upper:] [:lower:])
@@ -72,6 +95,7 @@ else
 	runTest "extended_configure:true extended_configure_vars:a=AClass,b=BClass?"
 	runTest "extended_configure:true extended_configurator_create:true"
 	runTest "embeddable_extended_configure:true"
+	runTest "embeddable_extended_configure:true extended_configure:true"
 fi
 
 touch "${RESULT}" || exit 1

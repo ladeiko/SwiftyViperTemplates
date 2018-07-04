@@ -4,7 +4,7 @@ Collection of [Generamba](https://github.com/rambler-digital-solutions/Generamba
 
 ## Usage
 
-* Create [Rambafile](Demo/Rambafile) at the root of your project folder. 
+* Create [Rambafile](Demo/Rambafile) at the root of your project folder.
  * setup all variables
  * in 'Templates' section define all templates or only some them.
  * open terminal in project folder
@@ -39,7 +39,7 @@ generamba gen MyModuleName SwiftyViperMcFlurryAlert --custom_parameters extended
 then ```configure()``` method of module input will be generated as:
 
 ```swift
-struct MyModuleConfig {	
+struct MyModuleConfig {
     // TODO
 }
 
@@ -54,7 +54,7 @@ In this case you can add more parameters while development to ```MyModuleConfig`
 
 #### redux\_service\_state\_vars=VARS
 
-**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only. 
+**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only.
 
 ```
 redux_service_state_vars:a=AClass,b=BClass?
@@ -69,19 +69,19 @@ var b: BClass?
 
 #### redux\_service\_state\_persistent:true
 
-**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only. 
+**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only.
 
 Generates code for storing state of service to user defaults
 
 #### redux\_service\_observable:true
 
-**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only. 
+**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only.
 
 Generates method usifull for observing changes of service in Rx way.
 
 #### redux\_service\_generate\_state\_vars\_getters:true
 
-**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only. 
+**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only.
 
 Will generate getters for state vars.
 
@@ -92,7 +92,7 @@ var b: BClass? { get }
 
 #### redux\_service\_generate\_state\_vars\_setters:true
 
-**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only. 
+**NOTE:** Parameter make sense for ```SwiftyViperReduxService``` only.
 
 Will generate setters for state vars. Usefull only if ```redux_service_generate_state_vars_getters:true```is defined.
 
@@ -144,7 +144,7 @@ Simple viper module where UIViewController is associated with Storyboard file (w
 ___
 
 ### SwiftyViperMcFlurry
-Similar to SwiftyViper, but also generates code which helps to use [ViperMcFlurryX](https://github.com/ladeiko/ViperMcFlurryX) module in router. 
+Similar to SwiftyViper, but also generates code which helps to use [ViperMcFlurryX](https://github.com/ladeiko/ViperMcFlurryX) module in router.
 
 #### Required modules
 
@@ -164,7 +164,7 @@ Creates module implementing UIAlertController in alert mode using VIPER paradigm
 
 ___
 
-### SwiftyViperMcFlurryTrasparent 
+### SwiftyViperMcFlurryTrasparent
 Creates module with main transparent view presented immediatly event if animation was specified. You can use it to present some other native Apple controller over transparent view. Similar trick is used in SwiftyViperMcFlurryAlert template.
 #### Required modules
 
@@ -211,7 +211,7 @@ Creates module with UICollectionView as **secondary** view placed onto main cont
 #### Required modules
 
  * [ViperMcFlurryX](https://github.com/ladeiko/ViperMcFlurryX)
- * [CacheTracker](https://github.com/ladeiko/CacheTracker) 
+ * [CacheTracker](https://github.com/ladeiko/CacheTracker)
  * [CacheTrackerConsumer](https://github.com/ladeiko/CacheTrackerConsumer)
  * [OnDeallocateX](https://github.com/ladeiko/OnDeallocateX)
 
@@ -223,7 +223,7 @@ Creates module with UICollectionView as **main** view of controller (UICollectio
 #### Required modules
 
  * [ViperMcFlurryX](https://github.com/ladeiko/ViperMcFlurryX)
- * [CacheTracker](https://github.com/ladeiko/CacheTracker) 
+ * [CacheTracker](https://github.com/ladeiko/CacheTracker)
  * [CacheTrackerConsumer](https://github.com/ladeiko/CacheTrackerConsumer)
  * [OnDeallocateX](https://github.com/ladeiko/OnDeallocateX)
 
@@ -235,7 +235,7 @@ Creates module with UITableView as **secondary** view placed onto main controlle
 #### Required modules
 
  * [ViperMcFlurryX](https://github.com/ladeiko/ViperMcFlurryX)
- * [CacheTracker](https://github.com/ladeiko/CacheTracker) 
+ * [CacheTracker](https://github.com/ladeiko/CacheTracker)
  * [CacheTrackerConsumer](https://github.com/ladeiko/CacheTrackerConsumer)
  * [OnDeallocateX](https://github.com/ladeiko/OnDeallocateX)
 
@@ -247,7 +247,7 @@ Creates module with UITableView as **main** view of controller (UITableViewContr
 #### Required modules
 
  * [ViperMcFlurryX](https://github.com/ladeiko/ViperMcFlurryX)
- * [CacheTracker](https://github.com/ladeiko/CacheTracker) 
+ * [CacheTracker](https://github.com/ladeiko/CacheTracker)
  * [CacheTrackerConsumer](https://github.com/ladeiko/CacheTrackerConsumer)
  * [OnDeallocateX](https://github.com/ladeiko/OnDeallocateX)
 

@@ -24,37 +24,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         window = UIWindow(frame: UIScreen.main.bounds)
-        
+
         var repeatCounter = 0
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
-            
+
             repeatCounter += 1
-            
+
             let stop = repeatCounter > 3
-            
+
             if stop {
                 timer.invalidate()
             }
-            
+
             NSManagedObjectContext.mr_default().mr_save(blockAndWait: { (context) in
                 SomeModuleDatabaseModel.mr_deleteAll(matching: NSPredicate(value: true), in: context)
-                
+
                 if stop {
                     return
                 }
-                
+
                 for val in ["1", "2", "3"] {
                     let e = SomeModuleDatabaseModel.mr_createEntity(in: context)!
                     e.xxx = val
                 }
             })
         }
-        
+
         let configurator = TestedConfigurator()
+    
+    #if extended_configure
+        #if extended_configurator_create
+            #if SwiftyViperMcFlurryAlert
+                let viewController = (configurator.create(with: TestedModuleInputConfig(title: nil, message: nil)) as! TestedViewController)
+            #elseif extended_configure_vars
+                let viewController = (configurator.create(with: TestedModuleInputConfig(a: AClass(), b: nil)) as! TestedViewController)
+            #else
+                let viewController = (configurator.create(with: TestedModuleInputConfig()) as! TestedViewController)
+            #endif
+        #else
+            let viewController = (configurator.create() as! TestedViewController)
+            #if SwiftyViperMcFlurryAlert
+                (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig(title: nil, message: nil))
+            #else
+                #if extended_configure_vars
+                    (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig(a: AClass(), b: nil))
+                #else
+                    (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig())
+                #endif
+            #endif
+        #endif
+    #else
         let viewController = (configurator.create() as! TestedViewController)
-        (viewController.output as! TestedModuleInput).configure()
-        
-        window?.rootViewController = viewController//UIViewController()
+        #if SwiftyViperMcFlurryAlert
+            (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig(title: nil, message: nil))
+        #else
+            (viewController.output as! TestedModuleInput).configure()
+        #endif
+    #endif
+
+        window?.rootViewController = viewController
         window?.makeKeyAndVisible()
         return true
     }
@@ -84,3 +112,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+#if !extended_configure
+#if SwiftyViperMcFlurryAlert
+typealias TestedModuleInputConfig = SwiftyViperMcFlurryAlertModuleInputConfig
+#endif
+#endif

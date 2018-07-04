@@ -5,13 +5,13 @@ import OnDeallocateX
 
 class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
 
-    func configureModuleForViewInput<UIViewController>(viewInput: UIViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
+    func configureModuleForViewInput<UIViewController>(viewInput: UIViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) {
         if let viewController = viewInput as? {{ prefix }}{{ module_info.name }}ViewController {
             configure(viewController: viewController)
         }
     }
 
-    private func configure(viewController: {{ prefix }}{{ module_info.name }}ViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
+    private func configure(viewController: {{ prefix }}{{ module_info.name }}ViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) {
 
         guard viewController.output == nil else { // prevent double configuration
             return
@@ -54,13 +54,13 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
         viewController.output.viewIsReady()
     }
 
-    func create({% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) -> UIViewController {
+    func create({% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) -> UIViewController {
         let viewController = {{ prefix }}{{ module_info.name }}ViewController()
         {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
         configureModuleForViewInput(viewInput: viewController, with: config)
         {% else %}
         configureModuleForViewInput(viewInput: viewController)
-        {% endif %}    
+        {% endif %}
         return viewController
     }
 

@@ -17,8 +17,11 @@ struct SomeEmbeddableModuleInputConfig {
 }
 
 protocol SomeEmbeddableModuleInput {
-    func configure()
+#if embeddable_extended_configure
     func configure(with config: SomeEmbeddableModuleInputConfig)
+#else
+    func configure()
+#endif
 }
 
 @objc
@@ -66,20 +69,28 @@ class SomeEmbeddableModuleView: UIViewController, SomeEmbeddableModuleViewInput 
 
 var embeddableModulesCount = 0
 class SomeEmbeddableModule: SomeEmbeddableModuleInput, SomeEmbeddableModuleViewOutput {
+
     weak var view: SomeEmbeddableModuleViewInput!
     var title: String?
+
     init() {
         embeddableModulesCount += 1
         print("embeddableModulesCount=", embeddableModulesCount)
     }
+
     deinit {
         embeddableModulesCount -= 1
         print("embeddableModulesCount=",embeddableModulesCount)
     }
-    func configure() {}
+
+#if embeddable_extended_configure
     func configure(with config: SomeEmbeddableModuleInputConfig) {
         title = config.title
     }
+#else
+    func configure() {}
+#endif
+
     func viewIsReady() {
         view.setSomeTitle(title)
     }

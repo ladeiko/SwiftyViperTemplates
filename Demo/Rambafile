@@ -1,7 +1,7 @@
 ### Headers settings
 company: 'Siarhei Ladzeika'
 
-# prefix: 
+# prefix:
 
 ### Xcode project settings
 project_name: Demo

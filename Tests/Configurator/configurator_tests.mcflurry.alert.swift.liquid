@@ -20,7 +20,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfiguratorTests: XCTestCase {
         let viewController = {{ prefix }}{{ module_info.name }}ViewControllerMock()
         let configurator = {{ prefix }}{{ module_info.name }}ModuleConfigurator()
         {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
-        let config = {{ prefix }}{{ module_info.name }}ModuleConfig(title: "Title", message: "Message")
+        let config = {{ prefix }}{{ module_info.name }}ModuleInputConfig(title: "Title", message: "Message")
         {% endif %}
 
         //when

@@ -14,7 +14,7 @@ import CoreData
 class SomeModuleDatabaseModel: NSManagedObject, CacheTrackerDatabaseModel {
 
     @NSManaged var xxx: String
-    
+
     // MARK: CacheTrackerDatabaseModel
 
     static func entityName() -> String {

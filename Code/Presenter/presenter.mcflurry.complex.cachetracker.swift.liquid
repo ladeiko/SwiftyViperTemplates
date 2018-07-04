@@ -56,8 +56,8 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     }
 
     // MARK: {{ prefix }}{{module_info.name}}ModuleInput
-    
-    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig) {% else %}func configure() {% endif %}{
+
+    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {% else %}func configure() {% endif %}{
         assert(state == .initial)
         state = .ready
         // TODO
@@ -81,9 +81,9 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
         var result = [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]()
         for item in list {
             switch item.type {
-            // we use CacheTrackerPlainRecurrentConsumer, so we 
+            // we use CacheTrackerPlainRecurrentConsumer, so we
             // have to associate embeddable module only for insertions
-            case .insert: 
+            case .insert:
                 let embedder = router.createEmbeddableModule(with: item.model!, lazyAllocation: false)
                 let newModel = {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel(model: item.model!, embed: embedder)
                 result.append(CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>(model: newModel, index: item.index, newIndex: item.newIndex, type: item.type))

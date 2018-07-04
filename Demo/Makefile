@@ -21,7 +21,6 @@ $(TEMPLATES): % : $(SPECS) Makefile $(TEMPLATE_SRC)
 $(TEST_PASSED): % : $(TEMPLATES) ./Sources/**/*.swift ./Sources/**/*.storyboard ./Models/*.xcdatamodeld $(CFG_FILES)
 	@./test_template.sh -t="$(@:.PASSED=)" -d="$(PROJ_TEMPS)" -o="$@"
 
-
 define SingleTest
 
 $(1:.PASSED=): ./$(1)

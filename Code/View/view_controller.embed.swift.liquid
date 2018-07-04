@@ -35,7 +35,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, Ramble
 
     func view(forEmbedIdentifier embedIdentifier: String!) -> UIView! {
         switch embedIdentifier {
-        // see https://github.com/rambler-digital-solutions/RamblerSegues    
+        // see https://github.com/rambler-digital-solutions/RamblerSegues
         case "EmbedSomeModuleSegue":
             return self.embedSomeModuleSegueContainer
         default:
