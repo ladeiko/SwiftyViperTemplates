@@ -40,11 +40,13 @@ function runTest() {
 	mkdir -p Demo
 	cp -R ./Sources/ ./Demo/
 	cp -R ./Models/ ./Demo/
+	echo "#if !SwiftyViperService && !SwiftyViperReduxService && !service && !redux_service" >> Demo/AppDelegate.swift
 	echo "typealias TestedConfigurator = ${TEMPLATE_NAME}ModuleConfigurator" >> Demo/AppDelegate.swift
     echo "typealias TestedViewController = ${TEMPLATE_NAME}ViewController" >> Demo/AppDelegate.swift
 	echo "typealias TestedModuleInput = ${TEMPLATE_NAME}ModuleInput" >> Demo/AppDelegate.swift
 	echo "#if extended_configure" >> Demo/AppDelegate.swift
 	echo "typealias TestedModuleInputConfig = ${TEMPLATE_NAME}ModuleInputConfig" >> Demo/AppDelegate.swift
+	echo "#endif" >> Demo/AppDelegate.swift
 	echo "#endif" >> Demo/AppDelegate.swift
 
 	rm -rf /tmp/${TEMPLATE_NAME}.xcconfig
@@ -56,7 +58,6 @@ function runTest() {
 		else
 			MACROS="$MACROS -D'$VAR'"
 		fi
-		#echo "#define $VAR 1" >> Demo/AppDelegate.swift
 	done
 
 	local XCCONFIG=""
@@ -70,7 +71,8 @@ function runTest() {
 	pod install || exit 1
 	generamba gen ${TEMPLATE_NAME} ${TEMPLATE_NAME} ${extra} || exit 1
 	find Demo -name "*.swift" -type f -print0 | xargs -0 sed -i '' -e 's/let context: NSManagedObjectContext! = <nil>/let context: NSManagedObjectContext! = NSManagedObjectContext.mr_default()/g'
-	xcodebuild ${XCODEBUILD_ACT} -scheme Demo -workspace ./Demo.xcworkspace/ -destination 'platform=iOS Simulator,name=iPhone 8' $XCCONFIG || exit 1
+	xcodebuild ${XCODEBUILD_ACT} -scheme Demo -workspace ./Demo.xcworkspace/ -destination 'platform=iOS Simulator,name=iPhone 8' $XCCONFIG || { rm -rf /tmp/${TEMPLATE_NAME}.xcconfig; exit 1; }
+	rm -rf /tmp/${TEMPLATE_NAME}.xcconfig
 }
 
 LOWER_TEMPLATE_NAME=$(echo $TEMPLATE_NAME | tr [:upper:] [:lower:])
@@ -94,8 +96,8 @@ else
 	runTest "extended_configure:true"
 	runTest "extended_configure:true extended_configure_vars:a=AClass,b=BClass?"
 	runTest "extended_configure:true extended_configurator_create:true"
-	runTest "embeddable_extended_configure:true"
-	runTest "embeddable_extended_configure:true extended_configure:true"
+	runTest "embeddable_extended_configure:true embeddable_extended_configure_vars:title=String?"
+	runTest "embeddable_extended_configure:true  embeddable_extended_configure_vars:title=String? extended_configure:true"
 fi
 
 touch "${RESULT}" || exit 1

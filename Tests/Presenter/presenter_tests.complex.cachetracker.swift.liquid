@@ -58,7 +58,7 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
             let factory = {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator()
             let configurationBlock: EmbeddedModuleConfigurationBlock = { (moduleInput) -> RamblerViperModuleOutput? in
                 let moduleInput = moduleInput as! {{ prefix }}{{ module_info.name }}EmbeddableModuleInput
-                {% if custom_parameters.embeddable_extended_configure %}moduleInput.configure(with: {{ prefix }}{{ module_info.name }}EmbeddableModuleInputConfig()){% else %}moduleInput.configure(){% endif %}
+                {% if custom_parameters.embeddable_extended_configure %}moduleInput.configure(with: {{ prefix }}{{ module_info.name }}EmbeddableModuleInputConfig({% if custom_parameters.embeddable_extended_configure_vars %}{% assign module_config_vars = custom_parameters.embeddable_extended_configure_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})){% else %}moduleInput.configure(){% endif %}
                 return nil // or self.calleeOutput
             }
 

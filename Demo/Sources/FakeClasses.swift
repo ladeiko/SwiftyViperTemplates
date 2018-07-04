@@ -13,7 +13,7 @@ class AClass {}
 class BClass {}
 
 struct SomeEmbeddableModuleInputConfig {
-    let title: String
+    let title: String?
 }
 
 protocol SomeEmbeddableModuleInput {
