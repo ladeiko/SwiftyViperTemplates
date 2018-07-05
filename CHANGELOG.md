@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.7.0
+### Added
+* Shortcuts for some of templates: tabbar -> SwiftyViperMcFlurryTabbar, service -> SwiftyViperService, etc.
+* SwiftyViperMcFlurryTabbar
+
+### Changed
+* viewIsReady for tabbar templates moved to ```viewWillAppear```.
+
+### Fixed
+* compilation tests for all templates (in Demo)
+
 ## 1.6.0
 ### Added
 * Add ```SwiftyViperReduxService``` template

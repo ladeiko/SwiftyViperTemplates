@@ -2,7 +2,7 @@
 name: "SwiftyViperReduxService"
 summary: "Swift VIPER Service based on ViperServices module and using Redux concept"
 author: "Siarhei Ladzeika"
-version: "1.6.0"
+version: "1.7.0"
 license: "MIT"
 
 # The declarations for code files
@@ -15,7 +15,9 @@ code_files:
 - {name: ServiceImpl.swift,  path: Code/Service/redux_impl.swift.liquid}
 
 # Helpers
+{% if custom_parameters.redux_service_observable %}
 - {name: Helpers/ServiceStateStoreSubscriber.swift,  path: Code/Service/helpers/redux.state.subscriber.swift.liquid}
+{% endif %}
 - {name: Helpers/ServiceState.swift,  path: Code/Service/helpers/redux.state.swift.liquid}
 
 # Reducers

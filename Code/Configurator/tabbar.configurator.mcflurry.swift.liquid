@@ -33,6 +33,9 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
         presenter.interactor = interactor
         viewController.output = presenter
 
+        router.transitionHandler = viewController
+        router.calleeOutput = presenter
+
         viewController.onWillDeallocate {
             presenter.willDeinit()
         }

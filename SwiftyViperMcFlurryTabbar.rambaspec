@@ -1,6 +1,6 @@
 # Template information section
-name: "SwiftyViperMcFlurryTrasparent"
-summary: "Swift VIPER module template with TransparentProxyViewController playing as a View."
+name: "SwiftyViperMcFlurryTabbar"
+summary: "Swift VIPER module template with UITabBarController playing as a View. Based on https://github.com/rambler-digital-solutions/generamba-catalog/tree/master/swifty_viper"
 author: "Siarhei Ladzeika"
 version: "1.7.0"
 license: "MIT"
@@ -11,7 +11,7 @@ code_files:
 # View layer
 - {name: View/ViewInput.swift,  path: Code/View/view_input.swift.liquid}
 - {name: View/ViewOutput.swift, path: Code/View/view_output.swift.liquid}
-- {name: View/ViewController.swift, path: Code/View/view_controller.transparent.swift.liquid}
+- {name: View/ViewController.swift, path: Code/View/view_controller.tabbar.swift.liquid}
 
 # Presenter layer
 {% if custom_parameters.extended_configure %}
@@ -31,7 +31,7 @@ code_files:
 - {name: Router/Router.swift, path: Code/Router/router.mcflurry.swift.liquid}
 
 # Configurator
-- {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.mcflurry.swift.liquid}
+- {name: Configurator/Configurator.swift, path: Code/Configurator/tabbar.configurator.mcflurry.swift.liquid}
 {% if custom_parameters.extended_configurator_create != 'true' %}
 - {name: Configurator/Initializer.swift, path: Code/Configurator/initializer.swift.liquid}
 {% endif %}

@@ -19,6 +19,23 @@ Collection of [Generamba](https://github.com/rambler-digital-solutions/Generamba
  * also you can pass additional keys to generamba (see keys supported by these templates):
 ```generamba gen MyModuleName SwiftyViperMcFlurryAlert --custom_parameters extended_configure:true```
 
+### Short names of templates
+
+* ```tabbar``` = ```SwiftyViperMcFlurryTabbar```
+* ```service``` = ```SwiftyViperService```
+* ```default``` = ```SwiftyViperMcFlurryStoryboard```
+* ```alert``` = ```SwiftyViperMcFlurryAlert```
+* ```container``` = ```SwiftyViperMcFlurryEmbedStoryboard```
+* ```collection_as_root_and_cachetracker``` = ```SwiftyViperMcFlurryStoryboardRootCollectionViewCacheTracker```
+* ```collection_as_root_with_embeddables_and_cachetracker``` = ```SwiftyViperMcFlurryStoryboardComplexRootCollectionViewCacheTracker```
+* ```collection_as_secondary_and_cachetracker``` = ```SwiftyViperMcFlurryStoryboardCollectionViewCacheTracker```
+* ```collection_as_secondary_with_embeddables_and_cachetracker``` = ```SwiftyViperMcFlurryStoryboardComplexCollectionViewCacheTracker```
+* ```table_as_root_and_cachetracker``` = ```SwiftyViperMcFlurryStoryboardRootTableViewCacheTracker```
+* ```table_as_root_with_embeddables_and_cachetracker``` = ```SwiftyViperMcFlurryStoryboardComplexRootTableViewCacheTracker```
+* ```table_as_secondary_and_cachetracker``` = ```SwiftyViperMcFlurryStoryboardTableViewCacheTracker```
+* ```table_as_secondary_with_embeddables_and_cachetracker``` = ```SwiftyViperMcFlurryStoryboardComplexTableViewCacheTracker```
+* ```transparent``` = ```SwiftyViperMcFlurryTrasparent```
+
 ### Custom keys
 
 Keys passed with --custom_parameters to generamba.
@@ -51,6 +68,11 @@ protocol MyModuleInput: class {
 ```
 
 In this case you can add more parameters while development to ```MyModuleConfig``` without modifying existing code.
+
+#### embeddable\_extended\_configure\_vars 
+**NOTE:** Parameter make sense for templates where embeddable module used only (SwiftyViperMcFlurryStoryboardComplexRootTableViewCacheTracker, etc...).
+
+If defined, then configuration method of embeddable module will generated with input object.
 
 #### redux\_service\_state\_vars=VARS
 

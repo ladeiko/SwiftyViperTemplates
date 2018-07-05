@@ -15,6 +15,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, {{ prefix }}{{ modu
     weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
     var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
     var router: {{ prefix }}{{ module_info.name }}RouterInput!
+    weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
     private final var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
 
     // MARK: Vars
@@ -42,6 +43,10 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, {{ prefix }}{{ modu
         assert(state == .initial)
         state = .ready
         // TODO
+    }
+
+    func setOutput(_ output: {{ prefix }}{{ module_info.name }}ModuleOutput) {
+        self.output = output
     }
 
     // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput
