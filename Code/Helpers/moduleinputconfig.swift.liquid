@@ -1,8 +1,8 @@
 {% include 'header' %}
 
-struct {{ prefix }}{{ module_info.name }}ModuleConfig {
+struct {{ prefix }}{{ module_info.name }}ModuleInputConfig {
     {% if custom_parameters.extended_configure_vars %}{% assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," %}
     {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}let {{ var_components[0] }}: {{ var_components[1] }}
     {% endfor %}{% endif %}
     // TODO
-} 
+}

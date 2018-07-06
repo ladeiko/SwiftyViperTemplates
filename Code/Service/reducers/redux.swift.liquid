@@ -3,11 +3,11 @@
 import ReSwift
 
 func {{ prefix }}{{ module_info.name }}ServiceStateTopReducer(action: Action, state: {{ prefix }}{{ module_info.name }}ServiceState?) -> {{ prefix }}{{ module_info.name }}ServiceState {
-    
+
     var state = state!
 
     switch action {
-    case _ as {{ prefix }}{{ module_info.name }}ServiceDefaultAction: 
+    case _ as {{ prefix }}{{ module_info.name }}ServiceDefaultAction:
         // TODO
         break
 

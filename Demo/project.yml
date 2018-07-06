@@ -6,19 +6,21 @@ targets:
     type: application
     platform: iOS
     deploymentTarget: "10.0"
-    sources: 
-      - Sources
+    sources:
+      - Demo
     dependencies:
       - target: DemoTests
     scheme:
       testTargets:
-        - DemoTests    
+        - DemoTests
+    settings:
+      INFOPLIST_FILE: Info.plist
   DemoTests:
     type: bundle.unit-test
     platform: iOS
     deploymentTarget: "10.0"
-    sources: 
-      - path: Sources
-        excludes: 
+    sources:
+      - path: Demo
+        excludes:
           - "Sources/AppDelegate.swift"
           - "Sources/*.storyboard"

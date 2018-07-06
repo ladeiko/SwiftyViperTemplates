@@ -10,19 +10,19 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
     weak var output: {{ prefix }}{{ module_info.name }}InteractorOutput!
 
     // MARK: Vars
-    
+
     private final var cacheTracker: CoreDataCacheTracker<{{ prefix }}{{ module_info.name }}ModuleDatabaseModel, {{ prefix }}{{ module_info.name }}ModuleEntityModel>?
     private final var changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] = [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]()
 
     // MARK: {{ prefix }}{{ module_info.name }}InteractorInput
-    
+
     func isDeliveringModelsListChanges() -> Bool {
         return cacheTracker != nil
     }
 
     func startDeliveringModelsListChanges() {
         assert(cacheTracker == nil)
-        let context: NSManagedObjectContext! = nil // TODO: Place context here
+        let context: NSManagedObjectContext! = <nil> // TODO: Place UI coredata context here, e.g. NSManagedObjectContext.mr_default(), etc...
         cacheTracker = CoreDataCacheTracker<{{ prefix }}{{ module_info.name }}ModuleDatabaseModel, {{ prefix }}{{ module_info.name }}ModuleEntityModel>(context: context)
         cacheTracker!.delegate = self
         let predicate = {{ prefix }}{{ module_info.name }}ModuleDatabaseModel.somePredicate() // or NSPredicate(block: true)
@@ -42,28 +42,28 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
     }
 
     // MARK: - CacheTrackerDelegate
-    
+
     func cacheTrackerShouldMakeInitialReload() {
         output.modelsListDidReset(cacheTracker!.transactionsForCurrentState())
     }
-    
+
     func cacheTrackerBeginUpdates() {
         changes.removeAll()
     }
-    
+
     func cacheTrackerDidGenerate<P>(transactions: [CacheTransaction<P>]) where P : CacheTrackerPlainModel {
         changes.append(contentsOf: transactions as! [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>])
     }
-    
+
     func cacheTrackerEndUpdates() {
         defer {
             changes.removeAll()
         }
-        
+
         guard !changes.isEmpty else {
             return
         }
-        
+
         output.modelsListDidChange(changes)
     }
 

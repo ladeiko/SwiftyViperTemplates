@@ -32,9 +32,9 @@ class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{
     func boot(launchOptions: [UIApplicationLaunchOptionsKey: Any]?, completion: @escaping ViperServiceBootCompletion) {
         let reducer = {{ prefix }}{{ module_info.name }}ServiceStateTopReducer
         {%- if custom_parameters.redux_service_state_persistent %}
-        let state = Defaults.shared.get(for: type(of: self).defaultsKey) ?? {{ prefix }}{{ module_info.name }}ServiceState({% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})
+        let state = Defaults.shared.get(for: type(of: self).defaultsKey) ?? {{ prefix }}{{ module_info.name }}ServiceState(example: nil{% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}, {{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})
         {% else %}
-        let state = {{ prefix }}{{ module_info.name }}ServiceState({% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})
+        let state = {{ prefix }}{{ module_info.name }}ServiceState(example: nil{% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}, {{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})
         {% endif -%}
         store = Store<{{ prefix }}{{ module_info.name }}ServiceState>(reducer: reducer, state: state)
         {% if custom_parameters.redux_service_state_persistent %}store.subscribe(self){% endif %}
@@ -76,7 +76,7 @@ class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{
     {% if custom_parameters.redux_service_generate_state_vars_getters %}
     {% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}
     {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}
-    var {{ var_components[0] }}: {{ var_components[1] }} { 
+    var {{ var_components[0] }}: {{ var_components[1] }} {
         {% if custom_parameters.redux_service_generate_state_vars_getters %}get { return store.state.{{ var_components[0] }} }{% endif %}
         {% if custom_parameters.redux_service_generate_state_vars_setters %}set { store.dispatch({{ prefix }}{{ module_info.name }}ServiceUpdate{{ var_components[0] | capitalize }}Action(value: newValue)) }{% endif %}
     }

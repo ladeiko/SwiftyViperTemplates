@@ -1,9 +1,8 @@
 {% include 'header' %}
 
 protocol {{ prefix }}{{ module_info.name }}ModuleInput: class {
-    {% if custom_parameters.extended_configure %}
-    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig)
-    {% else %}
-    func configure()
-    {% endif %}
+
+    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig){% else %}func configure(){% endif %}
+    func setOutput(_ output: {{ prefix }}{{ module_info.name }}ModuleOutput)
+
 }

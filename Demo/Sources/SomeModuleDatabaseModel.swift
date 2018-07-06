@@ -10,28 +10,31 @@ import Foundation
 import CacheTracker
 import CoreData
 
+@objc(SomeModuleDatabaseModel)
 class SomeModuleDatabaseModel: NSManagedObject, CacheTrackerDatabaseModel {
-    
+
+    @NSManaged var xxx: String
+
     // MARK: CacheTrackerDatabaseModel
-    
+
     static func entityName() -> String {
         return NSStringFromClass(self)
     }
-    
+
     func toPlainModel<P>() -> P? {
-        return SomeModuleEntityModel() as? P
+        return SomeModuleEntityModel(xxx: xxx) as? P
     }
-    
+
     class func somePredicate() -> NSPredicate {
         return NSPredicate(value: true)
     }
-    
+
     class func someSortDescriptors() -> [NSSortDescriptor] {
         return [
-            NSSortDescriptor(key: "a", ascending: true)
+            NSSortDescriptor(key: #keyPath(xxx), ascending: true)
         ]
     }
-    
+
 }
 
 

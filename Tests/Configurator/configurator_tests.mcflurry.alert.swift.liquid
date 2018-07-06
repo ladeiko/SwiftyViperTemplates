@@ -20,7 +20,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfiguratorTests: XCTestCase {
         let viewController = {{ prefix }}{{ module_info.name }}ViewControllerMock()
         let configurator = {{ prefix }}{{ module_info.name }}ModuleConfigurator()
         {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
-        let config = {{ prefix }}{{ module_info.name }}ModuleConfig(title: "Title", message: "Message")
+        let config = {{ prefix }}{{ module_info.name }}ModuleInputConfig(title: "Title", message: "Message")
         {% endif %}
 
         //when
@@ -39,7 +39,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfiguratorTests: XCTestCase {
         XCTAssertNotNil(presenter.router, "router in {{ prefix }}{{ module_info.name }}Presenter is nil after configuration")
         XCTAssertTrue(presenter.router is {{ prefix }}{{ module_info.name }}Router, "router is not {{ prefix }}{{ module_info.name }}Router")
         XCTAssertTrue((presenter.router as!{{ prefix }}{{ module_info.name }}Router).transitionHandler is {{ prefix }}{{ module_info.name }}ViewController, "router.transitionHandler is not {{ prefix }}{{ module_info.name }}ViewController")
-		
+
         let interactor: {{ prefix }}{{ module_info.name }}Interactor = presenter.interactor as! {{ prefix }}{{ module_info.name }}Interactor
         XCTAssertNotNil(interactor.output, "output in {{ prefix }}{{ module_info.name }}Interactor is nil after configuration")
     }

@@ -1,0 +1,7 @@
+{% include 'header' %}
+
+import UIKit
+
+typealias {{ prefix }}{{ module_info.name }}EmbeddableModuleInput = SomeEmbeddableModuleInput // TODO
+{% if custom_parameters.embeddable_extended_configure %}typealias {{ prefix }}{{ module_info.name }}EmbeddableModuleInputConfig = SomeEmbeddableModuleInputConfig // TODO{% endif %}
+typealias {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator = SomeEmbeddableModuleConfigurator // TODO

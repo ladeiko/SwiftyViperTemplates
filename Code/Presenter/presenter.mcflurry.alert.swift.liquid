@@ -20,8 +20,8 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     private final var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
 
     // MARK: Vars
-    
-    private final var config: {{ prefix }}{{ module_info.name }}ModuleConfig!
+
+    private final var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!
     private final var dismissed = false
 
     // MARK: Life cycle
@@ -38,7 +38,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     func setModuleOutput(_ moduleOutput: RamblerViperModuleOutput!) {
         output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
     }
-    
+
     // MARK: {{ prefix }}{{module_info.name}}ViewOutput
 
     func viewIsReady() {
@@ -57,7 +57,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
 
     // MARK: {{ prefix }}{{module_info.name}}ModuleInput
 
-    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig) {
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
         assert(state == .initial)
         state = .ready
         self.config = config

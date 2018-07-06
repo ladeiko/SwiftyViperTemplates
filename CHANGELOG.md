@@ -2,16 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## 1.6.3, ## 1.6.4
-Bug fixes
+## 1.7.0
+### Added
+* Shortcuts for some of templates: tabbar -> SwiftyViperMcFlurryTabbar, service -> SwiftyViperService, etc.
+* SwiftyViperMcFlurryTabbar
 
-## 1.6.2
-### Fixed 
-* Call of 'configure' in configurator when ```extended_configurator_create:true```
+### Changed
+* viewIsReady for tabbar templates moved to ```viewWillAppear```.
 
-## 1.6.1
-### Fixed 
-* SwiftyViperTabbar with ```custom_parameters.extended_configure```
+### Fixed
+* compilation tests for all templates (in Demo)
 
 ## 1.6.0
 ### Added

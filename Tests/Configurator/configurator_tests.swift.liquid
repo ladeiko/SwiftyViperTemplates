@@ -20,7 +20,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfiguratorTests: XCTestCase {
         let viewController = {{ prefix }}{{ module_info.name }}ViewControllerMock()
         let configurator = {{ prefix }}{{ module_info.name }}ModuleConfigurator()
         {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
-        let config = {{ prefix }}{{ module_info.name }}ModuleConfig({% if custom_parameters.extended_configure_vars %}{% assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})
+        let config = {{ prefix }}{{ module_info.name }}ModuleInputConfig()
         {% endif %}
 
         //when
@@ -38,7 +38,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfiguratorTests: XCTestCase {
         XCTAssertNotNil(presenter.view, "view in {{ prefix }}{{ module_info.name }}Presenter is nil after configuration")
         XCTAssertNotNil(presenter.router, "router in {{ prefix }}{{ module_info.name }}Presenter is nil after configuration")
         XCTAssertTrue(presenter.router is {{ prefix }}{{ module_info.name }}Router, "router is not {{ prefix }}{{ module_info.name }}Router")
-		
+
         let interactor: {{ prefix }}{{ module_info.name }}Interactor = presenter.interactor as! {{ prefix }}{{ module_info.name }}Interactor
         XCTAssertNotNil(interactor.output, "output in {{ prefix }}{{ module_info.name }}Interactor is nil after configuration")
     }

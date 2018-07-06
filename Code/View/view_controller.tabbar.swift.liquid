@@ -7,6 +7,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITabBarController, {{ p
     // MARK: VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
+    private var viewIsReadyCalled = false
 
     // MARK: Outlets
     // TODO
@@ -20,6 +21,15 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITabBarController, {{ p
         super.viewDidLoad()
         // NOTE: Does not call output.viewIsReady() here
         // because it is called in constructor() for UITabBarController
+        // we will called it in viewWillAppear
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        if !viewIsReadyCalled {
+            viewIsReadyCalled = true
+            output.viewIsReady() // call it here, it's a trick :)
+        }
+        super.viewWillAppear(animated)
     }
 
     // MARK: {{ prefix }}{{module_info.name}}ViewInput

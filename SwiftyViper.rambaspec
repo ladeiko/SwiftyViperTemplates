@@ -2,7 +2,7 @@
 name: "SwiftyViper"
 summary: "Swift VIPER module template with UIViewController playing as a View. Based on https://github.com/rambler-digital-solutions/generamba-catalog/tree/master/swifty_viper"
 author: "Siarhei Ladzeika"
-version: "1.6.4"
+version: "1.7.0"
 license: "MIT"
 
 # The declarations for code files
@@ -19,6 +19,7 @@ code_files:
 - {name: Presenter/Helpers/ModuleConfig.swift, path: Code/Helpers/moduleinputconfig.swift.liquid}
 {% endif %}
 - {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.swift.liquid}
+- {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.swift.liquid}
 - {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.swift.liquid}
 
 # Interactor layer

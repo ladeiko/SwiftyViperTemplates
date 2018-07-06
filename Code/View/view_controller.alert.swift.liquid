@@ -13,7 +13,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: TransparentProxyViewCont
     // TODO
 
     // MARK: Vars
-    
+
     private final var shown = false
     private final var alertTitle: String?
     private final var alertMessage: String?
@@ -30,11 +30,11 @@ class {{ prefix }}{{ module_info.name }}ViewController: TransparentProxyViewCont
         if !shown {
             shown = true
             showController()
-        }  
+        }
     }
 
     // MARK: {{ prefix }}{{module_info.name}}ViewInput
-    
+
     func setAlertTitle(_ title: String?) {
         alertTitle = title
     }

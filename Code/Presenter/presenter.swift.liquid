@@ -15,6 +15,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, {{ prefix }}{{ modu
     weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
     var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
     var router: {{ prefix }}{{ module_info.name }}RouterInput!
+    weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
     private final var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
 
     // MARK: Vars
@@ -37,14 +38,15 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, {{ prefix }}{{ modu
     }
 
     // MARK: {{ prefix }}{{module_info.name}}ModuleInput
-    {% if custom_parameters.extended_configure %}
-    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig) {
-    {% else %}
-    func configure() {
-        {% endif -%}
+
+    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {% else %}func configure() {% endif %}{
         assert(state == .initial)
         state = .ready
         // TODO
+    }
+
+    func setOutput(_ output: {{ prefix }}{{ module_info.name }}ModuleOutput) {
+        self.output = output
     }
 
     // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput

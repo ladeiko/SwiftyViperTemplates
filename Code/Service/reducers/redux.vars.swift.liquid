@@ -3,13 +3,13 @@
 import ReSwift
 
 func {{ prefix }}{{ module_info.name }}ServiceStateVarsReducer(action: Action, state: {{ prefix }}{{ module_info.name }}ServiceState?) -> {{ prefix }}{{ module_info.name }}ServiceState {
-    
+
     var state = state!
 
     switch action {
     {% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}
-    {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}    
-    case let action as {{ prefix }}{{ module_info.name }}ServiceUpdate{{ var_components[0] | capitalize }}Action: 
+    {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}
+    case let action as {{ prefix }}{{ module_info.name }}ServiceUpdate{{ var_components[0] | capitalize }}Action:
         state.{{ var_components[0] }} = action.value
         break
     {% endfor %}

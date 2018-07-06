@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MagicalRecord
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,8 +15,77 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        MagicalRecord.setupCoreDataStack(withStoreNamed: "Model")
+        NSManagedObjectContext.mr_default().mr_save(blockAndWait: { (context) in
+            SomeModuleDatabaseModel.mr_deleteAll(matching: NSPredicate(value: true), in: context)
+            for val in ["1", "2", "3"] {
+                let e = SomeModuleDatabaseModel.mr_createEntity(in: context)!
+                e.xxx = val
+            }
+        })
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UIViewController()
+
+        var repeatCounter = 0
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
+
+            repeatCounter += 1
+
+            let stop = repeatCounter > 3
+
+            if stop {
+                timer.invalidate()
+            }
+
+            NSManagedObjectContext.mr_default().mr_save(blockAndWait: { (context) in
+                SomeModuleDatabaseModel.mr_deleteAll(matching: NSPredicate(value: true), in: context)
+
+                if stop {
+                    return
+                }
+
+                for val in ["1", "2", "3"] {
+                    let e = SomeModuleDatabaseModel.mr_createEntity(in: context)!
+                    e.xxx = val
+                }
+            })
+        }
+
+        #if !SwiftyViperService && !SwiftyViperReduxService && !service && !redux_service
+            let configurator = TestedConfigurator()
+            #if extended_configure
+                #if extended_configurator_create
+                    #if SwiftyViperMcFlurryAlert
+                        let viewController = (configurator.create(with: TestedModuleInputConfig(title: nil, message: nil)) as! TestedViewController)
+                    #elseif extended_configure_vars
+                        let viewController = (configurator.create(with: TestedModuleInputConfig(a: AClass(), b: nil)) as! TestedViewController)
+                    #else
+                        let viewController = (configurator.create(with: TestedModuleInputConfig()) as! TestedViewController)
+                    #endif
+                #else
+                    let viewController = (configurator.create() as! TestedViewController)
+                    #if SwiftyViperMcFlurryAlert
+                        (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig(title: nil, message: nil))
+                    #else
+                        #if extended_configure_vars
+                            (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig(a: AClass(), b: nil))
+                        #else
+                            (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig())
+                        #endif
+                    #endif
+                #endif
+            #else
+                let viewController = (configurator.create() as! TestedViewController)
+                #if SwiftyViperMcFlurryAlert
+                    (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig(title: nil, message: nil))
+                #else
+                    (viewController.output as! TestedModuleInput).configure()
+                #endif
+            #endif
+            window?.rootViewController = viewController
+        #else
+            window?.rootViewController = UIViewController()
+        #endif
+
         window?.makeKeyAndVisible()
         return true
     }
@@ -45,3 +115,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+#if !extended_configure
+#if SwiftyViperMcFlurryAlert
+typealias TestedModuleInputConfig = SwiftyViperMcFlurryAlertModuleInputConfig
+#endif
+#endif

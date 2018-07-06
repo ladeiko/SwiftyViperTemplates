@@ -23,7 +23,7 @@ class {{ prefix }}{{ module_info.name }}ServiceTests: XCTestCase {
         let container = DefaultViperServicesContainer()
         var failed: [ViperServiceBootFailureResult]?
         let bootExpect = expectation(description: "Boot expectation")
-        
+
         {% if custom_parameters.redux_service_observable %}
         let subscribeExpect = expectation(description: "Subscribe expectation")
         let disposeBag = DisposeBag()
@@ -61,7 +61,7 @@ class {{ prefix }}{{ module_info.name }}ServiceTests: XCTestCase {
         {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}
         let _var_{{ var_components[0] }} = service.{{ var_components[0] }}
         {% endfor %}{% endif %}{% endif %}
-        
+
         service.observable()
             .subscribe(onNext: { service in
 
@@ -74,7 +74,7 @@ class {{ prefix }}{{ module_info.name }}ServiceTests: XCTestCase {
                 subscribeExpect.fulfill()
             })
             .disposed(by: disposeBag)
-        
+
         wait(for: [subscribeExpect], timeout: 1.0)
 
         {% endif %}
