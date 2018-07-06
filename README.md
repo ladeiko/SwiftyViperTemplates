@@ -4,20 +4,22 @@ Collection of [Generamba](https://github.com/rambler-digital-solutions/Generamba
 
 ## Usage
 
-* Create [Rambafile](Demo/Rambafile) at the root of your project folder.
- * setup all variables
- * in 'Templates' section define all templates or only some them.
- * open terminal in project folder
- * install [Generamba](https://github.com/ladeiko/Generamba)
- * run:
-  ```
-  generamba template install
-  ```
- * generamba will fetch required templates to "./Templates" folder
- * now you can generate any new module using generamba:
+* create [Rambafile](Demo/Rambafile) at the root of your project folder.
+* add templates description to it (see below)
+* setup all variables
+* in 'Templates' section define all templates or only some them.
+* open terminal in project folder
+* install [Generamba](https://github.com/ladeiko/Generamba)
+* run:
+```
+generamba template install
+```
+* generamba will fetch required templates to "./Templates" folder
+* now you can generate any new module using generamba:
 ```generamba gen MyModuleName SwiftyViperMcFlurryAlert```
- * also you can pass additional keys to generamba (see keys supported by these templates):
+* also you can pass additional keys to generamba (see keys supported by these templates):
 ```generamba gen MyModuleName SwiftyViperMcFlurryAlert --custom_parameters extended_configure:true```
+* most of the templates requires additional pods installed, see concrete template description
 
 ### Short names of templates
 
@@ -35,6 +37,27 @@ Collection of [Generamba](https://github.com/rambler-digital-solutions/Generamba
 * ```table_as_secondary_and_cachetracker``` = ```SwiftyViperMcFlurryStoryboardTableViewCacheTracker```
 * ```table_as_secondary_with_embeddables_and_cachetracker``` = ```SwiftyViperMcFlurryStoryboardComplexTableViewCacheTracker```
 * ```transparent``` = ```SwiftyViperMcFlurryTrasparent```
+
+### Special templates
+
+Most of the templates generate UI modules, but some of them generate lowe level logic modules: services.
+In project structure services code is located usually in different place than UI. So whil generation you should
+pass another path for new module location. This can be achieved by passed special keys to generamba:
+
+* --module_path
+* --test_path
+
+```
+generamba gen My service --module_path MyApp/Services
+```
+
+or if you use tests
+
+```
+generamba gen My service --module_path MyApp/Services --test_path MyAppTests/Services
+```
+
+More generamba info you can find at [generamba commands](https://github.com/rambler-digital-solutions/Generamba/wiki/Available-Commands)
 
 ### Custom keys
 
@@ -121,6 +144,28 @@ Will generate setters for state vars. Usefull only if ```redux_service_generate_
 ```
 var a: AClass { get set }
 var b: BClass? { get set }
+```
+
+## Rambafile example
+
+```
+### Templates
+templates:
+- {name: default, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: container, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: tabbar, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: alert, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: transparent, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: table_as_root_and_cachetracker, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: table_as_root_with_embeddables_and_cachetracker, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: table_as_secondary_and_cachetracker, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: table_as_secondary_with_embeddables_and_cachetracker, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: collection_as_root_and_cachetracker, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: collection_as_root_with_embeddables_and_cachetracker, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: collection_as_secondary_and_cachetracker, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: collection_as_secondary_with_embeddables_and_cachetracker, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: service, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
+- {name: redux_service, git: 'https://github.com/ladeiko/SwiftyViperTemplates.git'}
 ```
 
 ## Changes
