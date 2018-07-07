@@ -9,6 +9,11 @@ before_install:
   - gem specific_install -l https://github.com/ladeiko/Generamba.git
   - brew tap yonaskolb/XcodeGen https://github.com/yonaskolb/XcodeGen.git
   - travis_wait brew install XcodeGen    
-script:
-  - pod repo update
-  - cd Demo && travis_wait 1440 make
+  - pod repo update  
+jobs:
+  default:
+    script:
+      - cd Demo && travis_wait 1440 make default
+  alert:
+    script:
+      - cd Demo && travis_wait 1440 make alert
