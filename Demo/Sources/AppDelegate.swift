@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let configurator = TestedConfigurator()
             #if extended_configure
                 #if extended_configurator_create
-                    #if SwiftyViperMcFlurryAlert
+                    #if SwiftyViperMcFlurryAlert || alert
                         let viewController = (configurator.create(with: TestedModuleInputConfig(title: nil, message: nil)) as! TestedViewController)
                     #elseif extended_configure_vars
                         let viewController = (configurator.create(with: TestedModuleInputConfig(a: AClass(), b: nil)) as! TestedViewController)
@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     #endif
                 #else
                     let viewController = (configurator.create() as! TestedViewController)
-                    #if SwiftyViperMcFlurryAlert
+                    #if SwiftyViperMcFlurryAlert || alert
                         (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig(title: nil, message: nil))
                     #else
                         #if extended_configure_vars
@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 #endif
             #else
                 let viewController = (configurator.create() as! TestedViewController)
-                #if SwiftyViperMcFlurryAlert
+                #if SwiftyViperMcFlurryAlert || alert
                     (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig(title: nil, message: nil))
                 #else
                     (viewController.output as! TestedModuleInput).configure()
@@ -118,5 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 #if !extended_configure
 #if SwiftyViperMcFlurryAlert
 typealias TestedModuleInputConfig = SwiftyViperMcFlurryAlertModuleInputConfig
+#elseif alert
+typealias TestedModuleInputConfig = alertModuleInputConfig
 #endif
 #endif
