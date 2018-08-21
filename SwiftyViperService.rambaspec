@@ -2,20 +2,20 @@
 name: "SwiftyViperService"
 summary: "Swift VIPER Service based on ViperServices module"
 author: "Siarhei Ladzeika"
-version: "1.7.0"
+version: "1.7.1"
 license: "MIT"
 
 # The declarations for code files
 
 code_files:
 # Declaration
-- {name: .swift,  path: Code/Service/default.swift.liquid}
+- {name: Service.swift,  path: Code/Service/default.swift.liquid}
 
 # Implementation
-- {name: Impl.swift,  path: Code/Service/default_impl.swift.liquid}
+- {name: ServiceImpl.swift,  path: Code/Service/default_impl.swift.liquid}
 
 # The declarations for test files
 test_files:
 
 # tests
-- {name: Tests.swift, path: Tests/Service/default_tests.swift.liquid}
+- {name: ServiceTests.swift, path: Tests/Service/default_tests.swift.liquid}

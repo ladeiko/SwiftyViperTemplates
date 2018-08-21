@@ -2,7 +2,7 @@
 name: "SwiftyViperReduxService"
 summary: "Swift VIPER Service based on ViperServices module and using Redux concept"
 author: "Siarhei Ladzeika"
-version: "1.7.0"
+version: "1.7.1"
 license: "MIT"
 
 # The declarations for code files
@@ -36,4 +36,4 @@ code_files:
 test_files:
 
 # tests
-- {name: Tests.swift, path: Tests/Service/redux_tests.swift.liquid}
+- {name: ServiceTests.swift, path: Tests/Service/redux_tests.swift.liquid}
