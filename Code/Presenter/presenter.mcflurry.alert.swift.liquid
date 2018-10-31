@@ -11,7 +11,7 @@ fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState {
 
 class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, RamblerViperModuleOutput {
 
-    // MARK: VIPER Vars
+    // MARK: - VIPER Vars
 
     weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
     var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
@@ -19,27 +19,27 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
     private final var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
 
-    // MARK: Vars
+    // MARK: - Vars
 
     private final var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!
     private final var dismissed = false
 
-    // MARK: Life cycle
+    // MARK: - Life cycle
 
     func willDeinit() {
         if state == .ready {
-            // TODO
+            // TODO: Place your code here
         }
         state = .deinitialized
     }
 
-    // MARK: RamblerViperModuleInput
+    // MARK: - RamblerViperModuleInput
 
     func setModuleOutput(_ moduleOutput: RamblerViperModuleOutput!) {
         output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
     }
 
-    // MARK: {{ prefix }}{{module_info.name}}ViewOutput
+    // MARK: - {{ prefix }}{{module_info.name}}ViewOutput
 
     func viewIsReady() {
         assert(state == .ready)
@@ -55,7 +55,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
         }
     }
 
-    // MARK: {{ prefix }}{{module_info.name}}ModuleInput
+    // MARK: - {{ prefix }}{{module_info.name}}ModuleInput
 
     func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
         assert(state == .initial)
@@ -63,9 +63,9 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
         self.config = config
     }
 
-    // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput
-    // TODO
+    // MARK: - {{ prefix }}{{ module_info.name }}InteractorOutput
+    // TODO: Place your code here
 
-    // MARK: Helpers
-    // TODO
+    // MARK: - Helpers
+    // TODO: Place your code here
 }

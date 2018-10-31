@@ -17,11 +17,11 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
 
     class MockInteractor: {{ prefix }}{{ module_info.name }}InteractorInput {
 
-        // MARK: Vars
+        // MARK: - Vars
 
         private final var tracking = false
 
-        // MARK: {{ prefix }}{{ module_info.name }}InteractorInput
+        // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
 
         func isDeliveringModelsListChanges() -> Bool {
             return tracking
@@ -44,20 +44,20 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
 
     class MockRouter: {{ prefix }}{{ module_info.name }}RouterInput {
 
-        // MARK: Vars
-        // TODO
+        // MARK: - Vars
+        // TODO: Place your code here
 
-        // MARK: {{ prefix }}{{ module_info.name }}RouterInput
-        // TODO
+        // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
+        // TODO: Place your code here
 
     }
 
     class MockViewController: {{ prefix }}{{ module_info.name }}ViewInput {
 
-        // MARK: Vars
-        // TODO
+        // MARK: - Vars
+        // TODO: Place your code here
 
-        // MARK: {{ prefix }}{{ module_info.name }}ViewInput
+        // MARK: - {{ prefix }}{{ module_info.name }}ViewInput
 
         func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
 

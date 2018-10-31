@@ -7,7 +7,7 @@ import CacheTrackerConsumer
 // Example:
 //  import CacheTracker
 //  class SomeModuleEntityModel: CacheTrackerPlainModel {
-//      // MARK: CacheTrackerPlainModel
+//      // MARK: - CacheTrackerPlainModel
 //      required init() {}
 //  }
 //  More info at https://github.com/ladeiko/CacheTracker
@@ -18,25 +18,25 @@ class {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel: CacheTrackerPlain
 
     let model: {{ prefix }}{{ module_info.name }}ModuleEntityModel!
 
-    // MARK: CacheTrackerPlainModel
+    // MARK: - CacheTrackerPlainModel
 
     required init() {
         model = nil
         embed = nil
     }
 
-    // MARK: CacheTrackerPlainRecurrentConsumerItem
+    // MARK: - CacheTrackerPlainRecurrentConsumerItem
 
     func recurrentPlainConsumerItem(using oldValue: CacheTrackerPlainRecurrentConsumerItem) -> CacheTrackerPlainRecurrentConsumerItem {
         let oldValue = oldValue as! {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel
         return {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel(model: model, embed: oldValue.embed)
     }
 
-    // MARK: {{ prefix }}{{ module_info.name }}Embeddable
+    // MARK: - {{ prefix }}{{ module_info.name }}Embeddable
 
     let embed: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock!
 
-    // MARK: Life cycle
+    // MARK: - Life cycle
 
     init(model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) {
         self.model = model

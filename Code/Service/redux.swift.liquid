@@ -13,5 +13,5 @@ protocol {{ prefix }}{{ module_info.name }}Service: class {
     {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}var {{ var_components[0] }}: {{ var_components[1] }} { {% if custom_parameters.redux_service_generate_state_vars_getters %}get{% endif %} {% if custom_parameters.redux_service_generate_state_vars_setters %}set{% endif %} }
     {% endfor %}{% endif %}{% endif %}
 
-    // TODO
+    // TODO: Place your code here
 }

@@ -15,7 +15,7 @@ class SomeModuleDatabaseModel: NSManagedObject, CacheTrackerDatabaseModel {
 
     @NSManaged var xxx: String
 
-    // MARK: CacheTrackerDatabaseModel
+    // MARK: - CacheTrackerDatabaseModel
 
     static func entityName() -> String {
         return NSStringFromClass(self)

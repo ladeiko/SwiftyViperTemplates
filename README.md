@@ -80,7 +80,7 @@ then ```configure()``` method of module input will be generated as:
 
 ```swift
 struct MyModuleConfig {
-    // TODO
+    // TODO: Place your code here
 }
 
 protocol MyModuleInput: class {

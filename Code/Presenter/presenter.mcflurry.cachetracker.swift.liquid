@@ -12,7 +12,7 @@ fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState {
 
 class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, RamblerViperModuleOutput {
 
-    // MARK: VIPER Vars
+    // MARK: - VIPER Vars
 
     weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
     var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
@@ -20,28 +20,28 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
     private final var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
 
-    // MARK: Vars
-    // TODO
+    // MARK: - Vars
+    // TODO: Place your code here
 
-    // MARK: Life cycle
+    // MARK: - Life cycle
 
     func willDeinit() {
         if state == .ready {
             if interactor.isDeliveringModelsListChanges() {
                 interactor.stopDeliveringModelsListChanges()
             }
-            // TODO
+            // TODO: Place your code here
         }
         state = .deinitialized
     }
 
-    // MARK: RamblerViperModuleInput
+    // MARK: - RamblerViperModuleInput
 
     func setModuleOutput(_ moduleOutput: RamblerViperModuleOutput!) {
         output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
     }
 
-    // MARK: {{ prefix }}{{module_info.name}}ViewOutput
+    // MARK: - {{ prefix }}{{module_info.name}}ViewOutput
 
     func viewIsReady() {
         assert(state == .ready)
@@ -51,18 +51,18 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
         else {
             view.loadInitialModelsList(interactor.initialStateOfModelsList())
         }
-        // TODO
+        // TODO: Place your code here
     }
 
-    // MARK: {{ prefix }}{{module_info.name}}ModuleInput
+    // MARK: - {{ prefix }}{{module_info.name}}ModuleInput
 
     {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {% else %}func configure() {% endif %}{
         assert(state == .initial)
         state = .ready
-        // TODO
+        // TODO: Place your code here
     }
 
-    // MARK: {{ prefix }}{{ module_info.name }}InteractorOutput
+    // MARK: - {{ prefix }}{{ module_info.name }}InteractorOutput
 
     func modelsListDidReset(_ initialState: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
         guard state == .ready else { return }
@@ -74,6 +74,6 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
         view.applyModelsListChanges(changes)
     }
 
-    // MARK: Helpers
-    // TODO
+    // MARK: - Helpers
+    // TODO: Place your code here
 }

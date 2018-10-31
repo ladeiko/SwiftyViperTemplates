@@ -14,11 +14,11 @@ class SomeModuleEntityModel: CacheTrackerPlainModel {
 
     let xxx: String
 
-    // MARK: CacheTrackerPlainModel
+    // MARK: - CacheTrackerPlainModel
 
     required init() { xxx = "" }
 
-    // MARK: Life cycle
+    // MARK: - Life cycle
 
     init(xxx: String) {
         self.xxx = xxx

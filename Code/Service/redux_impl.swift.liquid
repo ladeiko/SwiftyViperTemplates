@@ -7,14 +7,14 @@ import ViperServices
 
 class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{{ module_info.name }}Service{% if custom_parameters.redux_service_state_persistent %}, StoreSubscriber{% endif %} {
 
-    // MARK: Vars
+    // MARK: - Vars
 
     {% if custom_parameters.redux_service_state_persistent %}
     private static let defaultsKey = Key<{{ prefix }}{{ module_info.name }}ServiceState>("{{ prefix | upcase}}{{ module_info.name | upcase}}")
     {% endif %}
     private final var store: Store<{{ prefix }}{{ module_info.name }}ServiceState>!
 
-    // MARK: Life cycle
+    // MARK: - Life cycle
 
     deinit {
         {% if custom_parameters.redux_service_state_persistent %}if store != nil {
@@ -22,10 +22,10 @@ class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{
         }{% endif %}
     }
 
-    // MARK: ViperService
+    // MARK: - ViperService
 
     func setupDependencies(_ container: ViperServicesContainer) -> [AnyObject]? {
-        // TODO
+        // TODO: Place your code here
         return nil
     }
 
@@ -43,18 +43,18 @@ class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{
     }
 
     func shutdown(completion: @escaping ViperServiceShutdownCompletion) {
-        // TODO
+        // TODO: Place your code here
         completion()
     }
 
-    {% if custom_parameters.redux_service_state_persistent %}// MARK: StoreSubscriber
+    {% if custom_parameters.redux_service_state_persistent %}// MARK: - StoreSubscriber
 
     func newState(state: {{ prefix }}{{ module_info.name }}ServiceState) {
         assert(Thread.isMainThread)
         Defaults.shared.set(store.state, for: type(of: self).defaultsKey)
     }{% endif %}
 
-    // MARK: {{ prefix }}{{ module_info.name }}Service
+    // MARK: - {{ prefix }}{{ module_info.name }}Service
 
     func makeDefaultAction() {
         assert(Thread.isMainThread)

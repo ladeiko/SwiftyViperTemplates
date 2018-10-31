@@ -5,16 +5,16 @@ import CoreData
 
 class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.name }}InteractorInput, CacheTrackerDelegate {
 
-    // MARK: VIPER Vars
+    // MARK: - VIPER Vars
 
     weak var output: {{ prefix }}{{ module_info.name }}InteractorOutput!
 
-    // MARK: Vars
+    // MARK: - Vars
 
     private final var cacheTracker: CoreDataCacheTracker<{{ prefix }}{{ module_info.name }}ModuleDatabaseModel, {{ prefix }}{{ module_info.name }}ModuleEntityModel>?
     private final var changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] = [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]()
 
-    // MARK: {{ prefix }}{{ module_info.name }}InteractorInput
+    // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
 
     func isDeliveringModelsListChanges() -> Bool {
         return cacheTracker != nil
@@ -67,6 +67,6 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
         output.modelsListDidChange(changes)
     }
 
-    // MARK: Helpers
-    // TODO
+    // MARK: - Helpers
+    // TODO: Place your code here
 }

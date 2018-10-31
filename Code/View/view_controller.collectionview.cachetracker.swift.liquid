@@ -6,19 +6,19 @@ import CacheTrackerConsumer
 
 class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, {{ prefix }}{{module_info.name}}ViewInput {
 
-    // MARK: VIPER Vars
+    // MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
 
-    // MARK: Outlets
+    // MARK: - Outlets
 
     @IBOutlet weak var collectionView: UICollectionView!
 
-    // MARK: Vars
+    // MARK: - Vars
 
     private final let consumer: CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel> = CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel>()
 
-    // MARK: Life cycle
+    // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +27,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
         output.viewIsReady()
     }
 
-    // MARK: {{ prefix }}{{module_info.name}}ViewInput
+    // MARK: - {{ prefix }}{{module_info.name}}ViewInput
 
     func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
         consumer.reset(with: state)
@@ -49,8 +49,8 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
         consumer.didChange()
     }
 
-    // MARK: UI Actions
-    // TODO
+    // MARK: - UI Actions
+    // TODO: Place your code here
 
     // MARK: - UICollectionViewDataSource
 
@@ -65,7 +65,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
         return cell
     }
 
-    // MARK: UICollectionViewDelegate
+    // MARK: - UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
@@ -79,17 +79,17 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //let model = consumer.object(at: indexPath.row)
-        // TODO
+        // TODO: Place your code here
     }
 
-    // MARK: Helpers
+    // MARK: - Helpers
 
     private final func setupConsumer() {
         consumer.delegate = collectionView
     }
 
     private final func setupCollectioView() {
-        // TODO
+        // TODO: Place your code here
     }
 
 }

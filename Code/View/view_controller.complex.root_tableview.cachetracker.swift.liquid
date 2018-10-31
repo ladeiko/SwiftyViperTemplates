@@ -6,18 +6,18 @@ import CacheTrackerConsumer
 
 class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {{ prefix }}{{module_info.name}}ViewInput {
 
-    // MARK: VIPER Vars
+    // MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
 
-    // MARK: Outlets
-    // TODO
+    // MARK: - Outlets
+    // TODO: Place your code here
 
-    // MARK: Vars
+    // MARK: - Vars
 
     private final let consumer: CacheTrackerPlainRecurrentConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel> = CacheTrackerPlainRecurrentConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>()
 
-    // MARK: Life cycle
+    // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {
         output.viewIsReady()
     }
 
-    // MARK: {{ prefix }}{{module_info.name}}ViewInput
+    // MARK: - {{ prefix }}{{module_info.name}}ViewInput
 
     func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]) {
         consumer.reset(with: state)
@@ -39,8 +39,8 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {
         consumer.didChange()
     }
 
-    // MARK: UI Actions
-    // TODO
+    // MARK: - UI Actions
+    // TODO: Place your code here
 
     // MARK: - UITableViewDataSource
 
@@ -59,7 +59,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {
         return cell
     }
 
-    // MARK: UITableViewDelegate
+    // MARK: - UITableViewDelegate
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
@@ -74,17 +74,17 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //let item = consumer.object(at: indexPath.row)
-        // TODO
+        // TODO: Place your code here
     }
 
-    // MARK: Helpers
+    // MARK: - Helpers
 
     private final func setupConsumer() {
         consumer.delegate = self
     }
 
     private final func setupTableView() {
-        // TODO
+        // TODO: Place your code here
     }
 
 }

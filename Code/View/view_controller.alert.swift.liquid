@@ -5,20 +5,20 @@ import TransparentProxyViewController
 
 class {{ prefix }}{{ module_info.name }}ViewController: TransparentProxyViewController, {{ prefix }}{{module_info.name}}ViewInput {
 
-    // MARK: VIPER Vars
+    // MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
 
-    // MARK: Outlets
-    // TODO
+    // MARK: - Outlets
+    // TODO: Place your code here
 
-    // MARK: Vars
+    // MARK: - Vars
 
     private final var shown = false
     private final var alertTitle: String?
     private final var alertMessage: String?
 
-    // MARK: Life cycle
+    // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: TransparentProxyViewCont
         }
     }
 
-    // MARK: {{ prefix }}{{module_info.name}}ViewInput
+    // MARK: - {{ prefix }}{{module_info.name}}ViewInput
 
     func setAlertTitle(_ title: String?) {
         alertTitle = title
@@ -43,10 +43,10 @@ class {{ prefix }}{{ module_info.name }}ViewController: TransparentProxyViewCont
         alertMessage = message
     }
 
-    // MARK: UI Actions
-    // TODO
+    // MARK: - UI Actions
+    // TODO: Place your code here
 
-    // MARK: Helpers
+    // MARK: - Helpers
 
     private final func showController() {
         let controller = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)

@@ -4,24 +4,24 @@ import ViperServices
 
 class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{{ module_info.name }}Service {
 
-    // MARK: ViperService
+    // MARK: - ViperService
 
     func setupDependencies(_ container: ViperServicesContainer) -> [AnyObject]? {
-        // TODO
+        // TODO: Place your code here
         return nil
     }
 
     func boot(launchOptions: [UIApplicationLaunchOptionsKey: Any]?, completion: @escaping ViperServiceBootCompletion) {
-        // TODO
+        // TODO: Place your code here
         completion(.succeeded)
     }
 
     func shutdown(completion: @escaping ViperServiceShutdownCompletion) {
-        // TODO
+        // TODO: Place your code here
         completion()
     }
 
-    // MARK: {{ prefix }}{{ module_info.name }}Service
-    // TODO
+    // MARK: - {{ prefix }}{{ module_info.name }}Service
+    // TODO: Place your code here
 
 }
