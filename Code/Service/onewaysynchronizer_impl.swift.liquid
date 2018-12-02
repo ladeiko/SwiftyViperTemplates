@@ -1,0 +1,125 @@
+{% include 'header' %}
+
+import ViperServices
+import OneWaySynchronizer
+
+fileprivate struct Remote{{ prefix }}{{ module_info.name }}ServiceItemDescription: OneWaySynchronizerItemDescription {
+
+    // TODO
+
+    // MARK: - OneWaySynchronizerItemDescription
+
+    var owsPrimaryKey: OneWaySynchronizerItemKey
+    var owsDownloadOrder: OneWaySynchronizerItemDownloadOrder
+}
+
+
+class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{{ module_info.name }}Service, OneWaySynchronizerProcessor {
+
+    // MARK: - Vars
+
+    private var synchronizer: OneWaySynchronizer!
+    private var needResync = false
+
+    // MARK: - ViperService
+
+    func setupDependencies(_ container: ViperServicesContainer) -> [AnyObject]? {
+        // TODO
+        return nil
+    }
+
+    func boot(launchOptions: [UIApplicationLaunchOptionsKey: Any]?, completion: @escaping ViperServiceBootCompletion) {
+
+        synchronizer = OneWaySynchronizer(processor: self)
+        synchronizer.concurrency = 1 // TODO Set value
+        synchronizer.downloadPreview = true // TODO Set value
+        synchronizer.downloadContent = true // TODO Set value
+
+        completion(.succeeded)
+    }
+
+    func shutdown(completion: @escaping ViperServiceShutdownCompletion) {
+        // TODO
+        completion()
+    }
+
+    // MARK: - Helpers
+
+    @discardableResult
+    private func sync() {
+
+        objc_sync_enter(self); defer { objc_sync_exit(self) }
+
+        guard needResync == false else {
+            return
+        }
+
+        guard self.synchronizer.isSyncing == false else {
+            needResync = true
+            return
+        }
+
+        self.synchronizer.sync { (_) in
+            objc_sync_enter(self); defer { objc_sync_exit(self) }
+
+            if self.needResync == true {
+                self.needResync = false
+                self.sync()
+            }
+        }
+    }
+
+    // MARK: - {{ prefix }}{{ module_info.name }}Service
+    // TODO
+
+    // MARK: - OneWaySynchronizerProcessor
+
+    func owsSyncBegin(_ completion: @escaping OwsCompletion) {
+        completion()
+    }
+
+    func owsSyncEnd(_ completion: @escaping OwsCompletion) {
+        completion()
+    }
+
+    func owsFetchSourceList(_ completion: @escaping OwsItemsCompletion) {
+
+        let remote = []
+
+        completion(nil, remote.enumerated().map({ (index, item) -> Remote{{ prefix }}{{ module_info.name }}ServiceItemDescription in
+            return Remote{{ prefix }}{{ module_info.name }}ServiceItemDescription(
+                                            owsPrimaryKey: , // TODO
+                                            owsDownloadOrder: index)
+        }))
+    }
+
+    func owsGetLocalKeys(_ completion: @escaping OwsKeysCompletion) {
+
+        completion([OneWaySynchronizerItemKey]())
+    }
+
+    func owsRemoveLocalItems(for primaryKeys: Set<OneWaySynchronizerItemKey>, completion: @escaping OwsSimpleCompletion) {
+
+        completion(nil)
+    }
+
+    func owsShouldUpdateItem(forKey: OneWaySynchronizerItemKey, with description: OneWaySynchronizerItemDescription, completion: @escaping OwsBoolCompletion) {
+
+        completion(nil, false)
+    }
+
+    func owsDownloadItemPreview(forDescription description: OneWaySynchronizerItemDescription, completion: @escaping OwsSimpleCompletion) {
+
+        completion(nil)
+    }
+
+    func owsDownloadItem(forDescription description: OneWaySynchronizerItemDescription, completion: @escaping OwsSimpleCompletion) {
+
+        completion(nil)
+    }
+
+    func owsPrepareDownload(of descriptions: [OneWaySynchronizerItemDescription], completion: @escaping OwsItemsCompletion) {
+        completion(nil, descriptions)
+    }
+
+}
