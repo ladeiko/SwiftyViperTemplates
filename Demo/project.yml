@@ -15,6 +15,7 @@ targets:
         - DemoTests
     settings:
       INFOPLIST_FILE: Info.plist
+      SWIFT_VERSION: "4.2"
   DemoTests:
     type: bundle.unit-test
     platform: iOS

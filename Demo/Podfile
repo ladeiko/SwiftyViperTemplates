@@ -20,3 +20,15 @@ target 'Demo' do
     inherit! :complete
   end
 end
+
+pre_install do |installer|
+  installer.analysis_result.specifications.each do |s|
+    s.swift_version = '4.2' unless s.swift_version
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings['SWIFT_VERSION'] = '4.2'
+  end
+end

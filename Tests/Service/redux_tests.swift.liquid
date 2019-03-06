@@ -19,7 +19,7 @@ class {{ prefix }}{{ module_info.name }}ServiceTests: XCTestCase {
     func testBoot() {
 
         //given
-        let launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil
+        let launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
         let container = DefaultViperServicesContainer()
         var failed: [ViperServiceBootFailureResult]?
         let bootExpect = expectation(description: "Boot expectation")

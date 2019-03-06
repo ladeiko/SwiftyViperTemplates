@@ -28,7 +28,7 @@ class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{
         return nil
     }
 
-    func boot(launchOptions: [UIApplicationLaunchOptionsKey: Any]?, completion: @escaping ViperServiceBootCompletion) {
+    func boot(launchOptions: [UIApplication.LaunchOptionsKey: Any]?, completion: @escaping ViperServiceBootCompletion) {
 
         synchronizer = OneWaySynchronizer(processor: self)
         synchronizer.concurrency = 1 // TODO Set value
