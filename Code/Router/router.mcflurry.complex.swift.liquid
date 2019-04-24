@@ -23,10 +23,10 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
             return nil // or self.calleeOutput
         }
 
-        let nativeEmbedder = transitionHandler.createEmbeddableModule!(usingFactory: factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)!
+        let nativeEmbedder = transitionHandler.createEmbeddableModule!(usingFactory: factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
 
         let embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock = { containerView in
-            let nativeRemover = nativeEmbedder(containerView)!
+            let nativeRemover = nativeEmbedder(containerView)
             let  remover: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock = {
                 nativeRemover()
             }
@@ -51,9 +51,9 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
 
             sourceViewController.present(destinationViewController, animated: true, completion: nil)
 
-            }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
-                (moduleInput as! SomeModuleInput).configure()
-                return nil // or self.calleeOutput
+        }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
+            (moduleInput as! SomeModuleInput).configure()
+            return nil // or self.calleeOutput
         }
     }
     */

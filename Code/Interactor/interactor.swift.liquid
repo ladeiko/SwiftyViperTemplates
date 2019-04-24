@@ -7,10 +7,18 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
     weak var output: {{ prefix }}{{ module_info.name }}InteractorOutput!
 
     // MARK: - Vars
-    // TODO: Place your code here
+    
+    {% if custom_parameters.extended_configure %}private final var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% endif %}
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
-    // TODO: Place your code here
+    
+    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+        assert(self.config == nil)
+        self.config = config
+    }
+    {% else %}func configure() {
+        // TODO
+    }{% endif %}
 
     // MARK: - Helpers
     // TODO: Place your code here

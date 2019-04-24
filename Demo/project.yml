@@ -16,6 +16,7 @@ targets:
     settings:
       INFOPLIST_FILE: Info.plist
       SWIFT_VERSION: "4.2"
+      ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: "$(inherited)"
   DemoTests:
     type: bundle.unit-test
     platform: iOS

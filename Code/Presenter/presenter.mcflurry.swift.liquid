@@ -20,7 +20,8 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     private final var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
 
     // MARK: - Vars
-    // TODO: Place your code here
+
+    {% if custom_parameters.extended_configure %}private final var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% else %}// TODO: Place your code here{% endif %}
 
     // MARK: - Life cycle
 
@@ -49,7 +50,10 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
     {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {% else %}func configure() {% endif %}{
         assert(state == .initial)
         state = .ready
-        // TODO: Place your code here
+        {% if custom_parameters.extended_configure %}
+        self.config = config
+        interactor.configure(with: config)
+        {% else %}interactor.configure(){% endif %}
     }
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorOutput

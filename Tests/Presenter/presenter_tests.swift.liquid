@@ -20,7 +20,10 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
         // TODO: Place your code here
 
         // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
-        // TODO: Place your code here
+        
+        {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+        }{% else %}func configure() {
+        }{% endif %}
 
     }
 

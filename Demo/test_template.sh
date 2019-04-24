@@ -71,7 +71,7 @@ function runTest() {
 	pod install || exit 1
 	generamba gen ${TEMPLATE_NAME} ${TEMPLATE_NAME} ${extra} || exit 1
 	find Demo -name "*.swift" -type f -print0 | xargs -0 sed -i '' -e 's/let context: NSManagedObjectContext! = <nil>/let context: NSManagedObjectContext! = NSManagedObjectContext.mr_default()/g'
-	xcodebuild ${XCODEBUILD_ACT} -scheme Demo -workspace ./Demo.xcworkspace/ -destination 'platform=iOS Simulator,name=iPhone 8' $XCCONFIG || { rm -rf /tmp/${TEMPLATE_NAME}.xcconfig; exit 1; }
+	xcodebuild ${XCODEBUILD_ACT} -scheme Demo -workspace ./Demo.xcworkspace/ -destination 'platform=iOS Simulator,name=iPhone 8' $XCCONFIG | xcpretty || { rm -rf /tmp/${TEMPLATE_NAME}.xcconfig; exit 1; }
 	rm -rf /tmp/${TEMPLATE_NAME}.xcconfig
 }
 
