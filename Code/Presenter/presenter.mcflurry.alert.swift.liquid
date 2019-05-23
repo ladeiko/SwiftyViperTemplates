@@ -28,6 +28,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
 
     func willDeinit() {
         if state == .ready {
+            interactor.deinitialize()
             // TODO: Place your code here
         }
         state = .deinitialized

@@ -26,6 +26,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, {{ prefix }}{{ modu
 
     func willDeinit() {
         if state == .ready {
+            interactor.deinitialize()
             // TODO: Place your code here
         }
         state = .deinitialized
