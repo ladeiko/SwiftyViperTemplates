@@ -1,0 +1,40 @@
+{% include 'header' %}
+
+import SwiftUI
+
+typealias {{ prefix }}{{ module_info.name }}ViewController = {{ prefix }}{{ module_info.name }}ViewControllerImpl<{{ prefix }}{{ module_info.name }}RootView>
+
+class {{ prefix }}{{ module_info.name }}ViewControllerImpl<Content>: UIHostingController<Content>, {{ prefix }}{{module_info.name}}ViewInput where Content : {{ prefix }}{{ module_info.name }}RootViewProtocol {
+
+    // MARK: - VIPER Vars
+
+    var output: {{ prefix }}{{ module_info.name }}ViewOutput!
+
+    // MARK: - Vars
+    // TODO: Place your code here
+
+    // MARK: - Life cycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        output.viewIsReady()
+    }
+
+    // MARK: - {{ prefix }}{{module_info.name}}ViewInput
+    // TODO: Place your code here
+
+    // MARK: - Helpers
+    // TODO: Place your code here
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewControllerImpl: {{ prefix }}{{ module_info.name }}RootViewDelegate {
+
+    // MARK: - UI Actions
+    // TODO: Place your code here
+
+    func didTapOnSampleButton() {
+        print("did tap on sample button")
+        rootView.viewState.sampleValue += 1
+    }
+
+}

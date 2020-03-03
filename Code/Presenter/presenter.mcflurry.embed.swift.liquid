@@ -1,7 +1,7 @@
 {% include 'header' %}
 
 import Foundation
-import ViperMcFlurryX
+import {% if custom_parameters.mcflurry_swift %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
 
 fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState {
     case initial
@@ -9,7 +9,7 @@ fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState {
     case deinitialized
 }
 
-class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, RamblerViperModuleOutput {
+class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflurry_swift != "true" %}NSObject,{% endif %} {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput {
 
     // MARK: - VIPER Vars
 
@@ -33,9 +33,9 @@ class {{ prefix }}{{ module_info.name }}Presenter: NSObject, RamblerViperModuleI
         state = .deinitialized
     }
 
-    // MARK: - RamblerViperModuleInput
+    // MARK: - {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleInput
 
-    func setModuleOutput(_ moduleOutput: RamblerViperModuleOutput!) {
+    func setModuleOutput(_ moduleOutput: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput!) {
         output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
     }
 

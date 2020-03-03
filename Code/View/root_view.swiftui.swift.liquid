@@ -1,0 +1,31 @@
+{% include 'header' %}
+
+import SwiftUI
+
+protocol {{ prefix }}{{ module_info.name }}RootViewProtocol: View {
+    var viewState: {{ prefix }}{{ module_info.name }}RootViewState { get }
+}
+
+struct {{ prefix }}{{ module_info.name }}RootView: {{ prefix }}{{ module_info.name }}RootViewProtocol {
+
+    weak var delegate: {{ prefix }}{{ module_info.name }}RootViewDelegate?
+
+    @ObservedObject var viewState = {{ prefix }}{{ module_info.name }}RootViewState()
+
+    var body: some View {
+        Group {
+            Text("Sample Label \(viewState.sampleValue)")
+            Button("Sample Button") {
+                self.delegate?.didTapOnSampleButton()
+            }
+        }
+    }
+}
+
+#if DEBUG
+struct {{ prefix }}{{ module_info.name }}RootView_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}RootView()
+    }
+}
+#endif

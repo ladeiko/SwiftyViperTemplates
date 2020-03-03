@@ -1,13 +1,13 @@
 {% include 'header' %}
 
-import ViperMcFlurryX
+import {% if custom_parameters.mcflurry_swift %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
 
 class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name }}RouterInput {
 
     // MARK: - VIPER Vars
 
-    weak var calleeOutput: (RamblerViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
-    weak var transitionHandler: RamblerViperModuleTransitionHandlerProtocol!
+    weak var calleeOutput: ({% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
+    weak var transitionHandler: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleTransitionHandler{% if custom_parameters.mcflurry_swift != "true" %}Protocol{% endif %}!
 
     // MARK: - Vars
     // TODO: Place your code here
@@ -17,13 +17,13 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
     func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, lazyAllocation: Bool) -> {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock {
 
         let factory = {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator()
-        let configurationBlock: EmbeddedModuleConfigurationBlock = { (moduleInput) -> RamblerViperModuleOutput? in
+        let configurationBlock: EmbeddedModuleConfigurationBlock = { (moduleInput) -> {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput? in
             let moduleInput = moduleInput as! {{ prefix }}{{ module_info.name }}EmbeddableModuleInput
             {% if custom_parameters.embeddable_extended_configure %}moduleInput.configure(with: {{ prefix }}{{ module_info.name }}EmbeddableModuleInputConfig({% if custom_parameters.embeddable_extended_configure_vars %}{% assign module_config_vars = custom_parameters.embeddable_extended_configure_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})){% else %}moduleInput.configure(){% endif %}
             return nil // or self.calleeOutput
         }
 
-        let nativeEmbedder = transitionHandler.createEmbeddableModule!(usingFactory: factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
+        let nativeEmbedder = transitionHandler.createEmbeddableModule{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}(usingFactory: factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
 
         let embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock = { containerView in
             let nativeRemover = nativeEmbedder(containerView)
@@ -38,20 +38,20 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
 
     /*  // Example
     func dismiss() {
-        transitionHandler.closeCurrentModule!(true)
+        transitionHandler.closeCurrentModule{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}(true)
     }
     */
 
     /* // Example
     func showSomeModule() {
-        transitionHandler.openModule!(usingFactory: SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
+        transitionHandler.openModule{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}(usingFactory: SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
 
             let sourceViewController = sourceModuleTransitionHandler as! UIViewController
             let destinationViewController = destinationModuleTransitionHandler as! UIViewController
 
             sourceViewController.present(destinationViewController, animated: true, completion: nil)
 
-        }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
+        }.thenChain { (moduleInput) -> {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput? in
             (moduleInput as! SomeModuleInput).configure()
             return nil // or self.calleeOutput
         }

@@ -8,7 +8,7 @@ fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState {
     case deinitialized
 }
 
-class {{ prefix }}{{ module_info.name }}Presenter: NSObject, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput {
+class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflurry_swift != "true" %}NSObject,{% endif %} {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput {
 
     // MARK: - VIPER Vars
 

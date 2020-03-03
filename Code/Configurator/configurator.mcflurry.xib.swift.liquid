@@ -2,12 +2,12 @@
 
 import UIKit
 import OnDeallocateX
-{% if  custom_parameters.extended_configurator_create != 'true' %}import ViperMcFlurryX{% endif %}
+{% if  custom_parameters.extended_configurator_create != 'true' %}import {% if custom_parameters.mcflurry_swift %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}{% endif %}
 
 {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
 class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
 {% else %}
-class {{ prefix }}{{ module_info.name }}ModuleConfigurator: NSObject, RamblerViperModuleFactoryProtocol {
+class {{ prefix }}{{ module_info.name }}ModuleConfigurator: {% if custom_parameters.mcflurry_swift != "true" %}NSObject,{% endif %} {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleFactory{% if custom_parameters.mcflurry_swift != "true" %}Protocol{% endif %} {
 {% endif %}
 
     func configureModuleForViewInput<UIViewController>(viewInput: UIViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) {
@@ -33,7 +33,7 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator: NSObject, RamblerVip
 
         presenter.interactor = interactor
         viewController.output = presenter
-        viewController.moduleInput = presenter
+        viewController.moduleInput{% if custom_parameters.mcflurry_swift == "true" %}Interface{% endif %} = presenter
 
         router.transitionHandler = viewController
         router.calleeOutput = presenter
@@ -58,9 +58,9 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator: NSObject, RamblerVip
     }
 
     {%- if custom_parameters.extended_configurator_create != 'true' %}
-    // MARK: - RamblerViperModuleFactoryProtocol
+    // MARK: - {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleFactory{% if custom_parameters.mcflurry_swift != "true" %}Protocol{% endif %}
 
-    func instantiateModuleTransitionHandler() -> RamblerViperModuleTransitionHandlerProtocol? {
+    func instantiateModuleTransitionHandler() -> {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleTransitionHandler{% if custom_parameters.mcflurry_swift != "true" %}Protocol?{% endif %} {
         return create()
     }
     {% endif %}
