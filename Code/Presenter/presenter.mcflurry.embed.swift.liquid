@@ -35,7 +35,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
 
     // MARK: - {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleInput
 
-    func setModuleOutput(_ moduleOutput: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput!) {
+    func setModuleOutput(_ moduleOutput: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}) {
         output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
     }
 
