@@ -6,7 +6,7 @@ import CacheTracker
 
 fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState {
     case initial
-    case ready
+    case ready(isViewReady: Bool)
     case deinitialized
 }
 
@@ -22,12 +22,12 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
 
     // MARK: - Vars
     
-        {% if custom_parameters.extended_configure %}private final var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% else %}// TODO: Place your code here{% endif %}
+    {% if custom_parameters.extended_configure %}private final var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% else %}// TODO: Place your code here{% endif %}
 
     // MARK: - Life cycle
 
     func willDeinit() {
-        if state == .ready {
+        if case .ready = state {
             interactor.deinitialize()
             // TODO: Place your code here
         }
@@ -43,7 +43,13 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     // MARK: - {{ prefix }}{{module_info.name}}ViewOutput
 
     func viewIsReady() {
-        assert(state == .ready)
+        switch state {
+        case let .ready(isViewReady):
+            assert(!isViewReady)
+            state = .ready(isViewReady: true)
+        default:
+            fatalError()
+        }
         if !interactor.isDeliveringModelsListChanges() {
             interactor.startDeliveringModelsListChanges()
         }
@@ -57,8 +63,12 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     // MARK: - {{ prefix }}{{module_info.name}}ModuleInput
 
     {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {% else %}func configure() {% endif %}{
-        assert(state == .initial)
-        state = .ready
+        switch state {
+        case .initial:
+            state = .ready(isViewReady: false)
+        default:
+            fatalError()
+        }
         {% if custom_parameters.extended_configure %}
         self.config = config
         interactor.configure(with: config)
@@ -68,12 +78,12 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorOutput
 
     func modelsListDidReset(_ initialState: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
-        guard state == .ready else { return }
+        guard case let .ready(isViewReady) = state, isViewReady else { return }
         view.loadInitialModelsList(adaptModels(initialState))
     }
 
     func modelsListDidChange(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
-        guard state == .ready else { return }
+        guard case let .ready(isViewReady) = state, isViewReady else { return }
         view.applyModelsListChanges(adaptModels(changes))
     }
 

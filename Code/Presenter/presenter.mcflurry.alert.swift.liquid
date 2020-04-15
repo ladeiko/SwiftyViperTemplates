@@ -5,7 +5,7 @@ import {% if custom_parameters.mcflurry_swift %}ViperMcFlurryX_Swift{% else %}Vi
 
 fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState {
     case initial
-    case ready
+    case ready(isViewReady: Bool)
     case deinitialized
 }
 
@@ -27,7 +27,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     // MARK: - Life cycle
 
     func willDeinit() {
-        if state == .ready {
+        if case .ready = state {
             interactor.deinitialize()
             // TODO: Place your code here
         }
@@ -43,13 +43,19 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     // MARK: - {{ prefix }}{{module_info.name}}ViewOutput
 
     func viewIsReady() {
-        assert(state == .ready)
+        switch state {
+        case let .ready(isViewReady):
+            assert(!isViewReady)
+            state = .ready(isViewReady: true)
+        default:
+            fatalError()
+        }
         view.setAlertTitle(config.title)
         view.setAlertMessage(config.message)
     }
 
     func userDidTapOnClose() {
-        guard state == .ready && dismissed == false else { return }
+        guard case .ready = state && dismissed == false else { return }
         dismissed = true
         router.dismiss {
             self.output?.{{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss()
@@ -59,8 +65,12 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     // MARK: - {{ prefix }}{{module_info.name}}ModuleInput
 
     func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
-        assert(state == .initial)
-        state = .ready
+        switch state {
+        case .initial:
+            state = .ready(isViewReady: false)
+        default:
+            fatalError()
+        }
         self.config = config
         {% if custom_parameters.extended_configure %}interactor.configure(with: config){% else %}interactor.configure(){% endif %}
     }
