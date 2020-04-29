@@ -55,7 +55,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     }
 
     func userDidTapOnClose() {
-        guard case .ready = state && dismissed == false else { return }
+        guard case .ready = state, dismissed == false else { return }
         dismissed = true
         router.dismiss {
             self.output?.{{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss()
