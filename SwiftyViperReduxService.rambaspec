@@ -2,7 +2,7 @@
 name: "SwiftyViperReduxService"
 summary: "Swift VIPER Service based on ViperServices module and using Redux concept"
 author: "Siarhei Ladzeika"
-version: "1.8.3"
+version: "1.8.4"
 license: "MIT"
 
 # The declarations for code files

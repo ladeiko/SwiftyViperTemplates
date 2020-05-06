@@ -3,7 +3,7 @@
 import Foundation
 import {% if custom_parameters.mcflurry_swift %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
 
-fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState {
+fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState: Equatable {
     case initial
     case ready(isViewReady: Bool)
     case deinitialized
