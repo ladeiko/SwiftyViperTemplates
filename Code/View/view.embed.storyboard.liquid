@@ -28,7 +28,7 @@
                     </view>
                     <connections>
                         <outlet property="embedSomeModuleSegueContainer" destination="1Sc-rP-FqP" id="5n9-aX-SPW"/>
-                        <segue destination="wbk-f7-Ip8" kind="custom" identifier="EmbedSomeModuleSegue" customClass="RamblerEmbedSegue" id="yZa-9b-gis"/>
+                        <segue destination="wbk-f7-Ip8" kind="custom" identifier="EmbedSomeModuleSegue" customClass="{% if custom_parameters.mcflurry_swift == "true" %}EmbedSegue{% else %}RamblerEmbedSegue{% endif %}" id="yZa-9b-gis"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aqI-SS-yFs" sceneMemberID="firstResponder"/>
