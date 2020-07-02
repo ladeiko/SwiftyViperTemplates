@@ -2,7 +2,7 @@
 name: "SwiftyViperMcFlurryAlert"
 summary: "Swift VIPER module template with TransparentProxyViewController playing as a View and UIAlertController."
 author: "Siarhei Ladzeika"
-version: "1.8.4"
+version: "1.8.5"
 license: "MIT"
 
 # The declarations for code files

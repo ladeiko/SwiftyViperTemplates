@@ -22,14 +22,20 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
 
     /* // Example
     func showSomeModule() {
-        transitionHandler.openModule{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}(usingFactory: SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
-
+        {% if custom_parameters.mcflurry_swift == 'true' %}
+        transitionHandler.openModuleUsingFactory(SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
+        {% else %}
+        transitionHandler.openModule!(usingFactory: SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
+        {% endif %}
             let sourceViewController = sourceModuleTransitionHandler as! UIViewController
             let destinationViewController = destinationModuleTransitionHandler as! UIViewController
 
             sourceViewController.present(destinationViewController, animated: true, completion: nil)
-
-        }.thenChain { (moduleInput) -> {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput? in
+        {% if custom_parameters.mcflurry_swift == 'true' %}
+        }.thenChainUsingBlock { (moduleInput) -> ViperModuleOutput? in
+        {% else %}
+        }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
+        {% endif %}
             (moduleInput as! SomeModuleInput).configure()
             return nil // or self.calleeOutput
         }

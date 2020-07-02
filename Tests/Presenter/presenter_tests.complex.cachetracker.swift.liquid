@@ -66,7 +66,11 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
                 return nil // or self.calleeOutput
             }
 
+            {% if custom_parameters.mcflurry_swift == 'true' %}
+            let nativeEmbedder = transitionHandler.createEmbeddableModuleUsingFactory(factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
+            {% else %}
             let nativeEmbedder = transitionHandler.createEmbeddableModule!(usingFactory: factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
+            {% endif %}
 
             let embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock = { containerView in
                 let nativeRemover = nativeEmbedder(containerView)
