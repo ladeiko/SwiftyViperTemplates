@@ -29,7 +29,7 @@ class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{
         return nil
     }
 
-    func boot(launchOptions: [UIApplication.LaunchOptionsKey: Any]?, completion: @escaping ViperServiceBootCompletion) {
+    func boot(launchOptions: ViperServicesLaunchOptions?, completion: @escaping ViperServiceBootCompletion) {
         let reducer = {{ prefix }}{{ module_info.name }}ServiceStateTopReducer
         {%- if custom_parameters.redux_service_state_persistent %}
         let state = Defaults.shared.get(for: type(of: self).defaultsKey) ?? {{ prefix }}{{ module_info.name }}ServiceState(example: nil{% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}, {{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})
