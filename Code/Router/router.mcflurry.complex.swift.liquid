@@ -23,7 +23,11 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
             return nil // or self.calleeOutput
         }
 
-        let nativeEmbedder = transitionHandler.createEmbeddableModule{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}(usingFactory: factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
+        {% if custom_parameters.mcflurry_swift == 'true' %}
+        let nativeEmbedder = transitionHandler.createEmbeddableModuleUsingFactory(factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
+        {% else %}
+        let nativeEmbedder = transitionHandler.createEmbeddableModule!(usingFactory: factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
+        {% endif }
 
         let embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock = { containerView in
             let nativeRemover = nativeEmbedder(containerView)
