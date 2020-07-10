@@ -16,9 +16,12 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
 
     func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, lazyAllocation: Bool) -> {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock {
 
+        var embeddedInput: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput?
+
         let factory = {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator()
         let configurationBlock: EmbeddedModuleConfigurationBlock = { (moduleInput) -> {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput? in
             let moduleInput = moduleInput as! {{ prefix }}{{ module_info.name }}EmbeddableModuleInput
+            embeddedInput = moduleInput
             {% if custom_parameters.embeddable_extended_configure %}moduleInput.configure(with: {{ prefix }}{{ module_info.name }}EmbeddableModuleInputConfig({% if custom_parameters.embeddable_extended_configure_vars %}{% assign module_config_vars = custom_parameters.embeddable_extended_configure_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})){% else %}moduleInput.configure(){% endif %}
             return nil // or self.calleeOutput
         }
@@ -29,10 +32,29 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
         let nativeEmbedder = transitionHandler.createEmbeddableModule!(usingFactory: factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
         {% endif }
 
-        let embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock = { containerView in
+        // Sometimes embeddable mobule can be reattached to another containerView
+        // therefore we should track number of add/remove operations
+        // and call remove only when required
+        var embedBalanceCounter = 0
+
+        let embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock = { [weak embeddedInput] containerView in
             let nativeRemover = nativeEmbedder(containerView)
-            let  remover: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock = {
-                nativeRemover()
+
+            embedBalanceCounter += 1
+                
+            if embedBalanceCounter == 1 {
+                // Example:
+                //embeddedInput?.moduleDidBecomeVisible()
+            }
+
+            let  remover: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock = { [weak embeddedInput] in
+                embedBalanceCounter -= 1
+                assert(embedBalanceCounter >= 0)
+                if embedBalanceCounter == 0 {
+                    nativeRemover()
+                    // Example:
+                    //embeddedInput?.moduleDidBecomeInvisible()
+                }
             }
             return remover
         }
