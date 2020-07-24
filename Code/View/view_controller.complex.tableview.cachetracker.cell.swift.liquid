@@ -9,11 +9,13 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UITableViewCell {
 
     // MARK: - Vars
 
-    private var removeEmbeddableBlock: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock?
+    private final var removeEmbeddableBlock: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock?
+    private final var context: {{ prefix }}{{ module_info.name }}ViewCellContext?
 
     // MARK: - Public
 
-    func configure(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) {
+    func configure(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, in context: context: {{ prefix }}{{ module_info.name }}ViewCellContext) {
+        self.context = context
         // TODO: Place your code here
     }
 

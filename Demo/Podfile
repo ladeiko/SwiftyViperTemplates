@@ -2,7 +2,8 @@ platform :ios, '10.0'
 use_frameworks!
 
 target 'Demo' do
-  pod 'ViperMcFlurryX', '>= 2.0.0'
+  pod 'ViperMcFlurryX', '>= 3.0.1'
+  pod 'ViperMcFlurryX_Swift', '>= 3.0.2'
   pod 'CacheTracker'
   pod 'CacheTracker/CoreData'
   pod 'CacheTrackerConsumer', '>= 1.5.0'

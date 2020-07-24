@@ -94,10 +94,15 @@ if [[ "${LOWER_TEMPLATE_NAME}" =~ service ]]; then
 	fi
 else
 	runTest "extended_configure:true"
+	runTest "extended_configure:true mcflurry_swift:true"
 	runTest "extended_configure:true extended_configure_vars:a=AClass,b=BClass?"
+	runTest "extended_configure:true extended_configure_vars:a=AClass,b=BClass? mcflurry_swift:true"
 	runTest "extended_configure:true extended_configurator_create:true"
+	runTest "extended_configure:true extended_configurator_create:true mcflurry_swift:true"
 	runTest "embeddable_extended_configure:true embeddable_extended_configure_vars:title=String?"
+	runTest "embeddable_extended_configure:true embeddable_extended_configure_vars:title=String? mcflurry_swift:true"
 	runTest "embeddable_extended_configure:true  embeddable_extended_configure_vars:title=String? extended_configure:true"
+	runTest "embeddable_extended_configure:true  embeddable_extended_configure_vars:title=String? extended_configure:true mcflurry_swift:true"
 fi
 
 touch "${RESULT}" || exit 1

@@ -27,6 +27,8 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
         }{% else %}func configure() {
         }{% endif %}
 
+        func deinitialize() {}
+
         func isDeliveringModelsListChanges() -> Bool {
             return tracking
         }

@@ -20,6 +20,7 @@ code_files:
 - {name: View/ViewController.swift, path: Code/View/view_controller.complex.root_collectionview.cachetracker.swift.liquid}
 - {name: View/Storyboards/.storyboard, path: Code/View/view.root_collectionview.storyboard.liquid}
 - {name: View/Helpers/ViewCell.swift, path: Code/View/view_controller.complex.collectionview.cachetracker.cell.swift.liquid}
+- {name: View/Helpers/ViewCellContext.swift, path: Code/View/view_controller.cell_context.swift.liquid}
 
 # Presenter layer
 {% if custom_parameters.extended_configure %}

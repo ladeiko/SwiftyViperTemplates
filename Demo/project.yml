@@ -21,6 +21,8 @@ targets:
     type: bundle.unit-test
     platform: iOS
     deploymentTarget: "10.0"
+    settings:
+      SWIFT_VERSION: "4.2"
     sources:
       - path: Demo
         excludes:

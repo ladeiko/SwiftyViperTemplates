@@ -60,6 +60,10 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
         // TODO: Place your code here
     }
 
+    //func viewNeedsImage(for model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, completion: @escaping ((_ image: UIImage?) -> Void)) {
+    //    interactor.loadImage(for: model, completion: completion)
+    //}
+
     // MARK: - {{ prefix }}{{module_info.name}}ModuleInput
 
     {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {% else %}func configure() {% endif %}{

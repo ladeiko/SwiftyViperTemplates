@@ -16,11 +16,13 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
     // MARK: - Vars
 
     private final let consumer: CacheTrackerPlainRecurrentConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel> = CacheTrackerPlainRecurrentConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>()
-
+    private final var context: {{ prefix }}{{ module_info.name }}ViewCellContext!
+    
     // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupContext()
         setupCollectioView()
         setupConsumer()
         output.viewIsReady()
@@ -30,15 +32,31 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
 
     func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]) {
         consumer.reset(with: state)
-        if let collectionView = collectionView {
-            collectionView.performBatchUpdates({
-                collectionView.reloadSections(IndexSet(integer: 0))
-            }, completion:  { _ in
-                if self.consumer.numberOfItems() > 0 {
+        if isViewLoaded {
+            let collectionView = self.collectionView!
+            
+            // Check if this reset occurred just after view was loaded
+            // but is still not visible: in this situation we can reload
+            // cells without animation (this also helps to exclude visual bugs 
+            //  when cell is resized with animation when collection view size is changed)
+            //  NOTE: use self.view not collectionView
+            if view.superview == nil {
+                UIView.performWithoutAnimation {
+                    collectionView.reloadData()
                     collectionView.layoutIfNeeded()
-                    collectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 0), animated: true)
+                    collectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 0), animated: false)
                 }
-            })
+            }
+            else {
+                collectionView.performBatchUpdates({
+                    collectionView.reloadSections(IndexSet(integer: 0))
+                }, completion:  { _ in
+                    if self.consumer.numberOfItems() > 0 {
+                        collectionView.layoutIfNeeded()
+                        collectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 0), animated: true)
+                    }
+                })
+            }
         }
     }
 
@@ -60,7 +78,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Default", for: indexPath) as! {{ prefix }}{{ module_info.name }}ViewCell
         let item = consumer.object(at: indexPath.row)
-        cell.configure(with: item.model)
+        cell.configure(with: item.model, in: context)
         return cell
     }
 
@@ -83,6 +101,19 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
     }
 
     // MARK: - Helpers
+
+    private final func setupContext() {
+        context = {{ prefix }}{{ module_info.name }}ViewCellContext(
+            //let loadModelImage: { [weak self] model, completion in
+            //
+            //    guard let sself = self else {
+            //        return .init(result: .success(nil))
+            //   }
+            //
+            //    return sself.output.viewNeedsImage(for: model, completion: completion)
+            //}
+        )
+    }
 
     private final func setupConsumer() {
         consumer.delegate = self
