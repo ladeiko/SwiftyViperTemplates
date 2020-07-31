@@ -82,10 +82,10 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {
 
     private final func setupContext() {
         context = {{ prefix }}{{ module_info.name }}ViewCellContext(
-            //let loadModelImage: { [weak self] model, completion in
+             //loadModelImage: { [weak self] model, completion in
             //
             //    guard let sself = self else {
-            //        return .init(result: .success(nil))
+            //        return DispatchQueue.main.async { completion(nil) }
             //   }
             //
             //    return sself.output.viewNeedsImage(for: model, completion: completion)

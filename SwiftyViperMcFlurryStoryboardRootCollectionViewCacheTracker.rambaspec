@@ -14,7 +14,7 @@ code_files:
 
 # View layer
 - {name: View/ViewInput.swift,  path: Code/View/view_input.cachetracker.swift.liquid}
-- {name: View/ViewOutput.swift, path: Code/View/view_output.swift.liquid}
+- {name: View/ViewOutput.swift, path: Code/View/view_output.cachetracker.swift.liquid}
 - {name: View/ViewController.swift, path: Code/View/view_controller.root_collectionview.cachetracker.swift.liquid}
 - {name: View/Storyboards/.storyboard, path: Code/View/view.root_collectionview.storyboard.liquid}
 - {name: View/Helpers/ViewCell.swift, path: Code/View/view_controller.collectionview.cachetracker.cell.swift.liquid}
