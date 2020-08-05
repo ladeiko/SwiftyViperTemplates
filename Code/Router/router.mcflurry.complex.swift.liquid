@@ -16,7 +16,7 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
 
     func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, lazyAllocation: Bool) -> {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock {
 
-        var embeddedInput: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput?
+        weak var embeddedInput: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput?
 
         let factory = {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator()
         let configurationBlock: EmbeddedModuleConfigurationBlock = { (moduleInput) -> {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput? in
@@ -51,6 +51,7 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
                 embedBalanceCounter -= 1
                 assert(embedBalanceCounter >= 0)
                 if embedBalanceCounter == 0 {
+                    let embeddedInput = embeddedInput // keep strong ref
                     nativeRemover()
                     // Example:
                     //embeddedInput?.moduleDidBecomeInvisible()
