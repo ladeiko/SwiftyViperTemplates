@@ -42,6 +42,8 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
         default:
             fatalError()
         }
+
+        view.configure(with: .init())
         // TODO: Place your code here
     }
 

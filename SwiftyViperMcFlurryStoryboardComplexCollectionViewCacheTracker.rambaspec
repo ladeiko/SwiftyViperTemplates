@@ -2,7 +2,7 @@
 name: "SwiftyViperMcFlurryStoryboardComplexCollectionViewCacheTracker"
 summary: "Swift VIPER module template with UICollectionView playing as secondary view"
 author: "Siarhei Ladzeika"
-version: "1.8.7"
+version: "1.9.0"
 license: "MIT"
 
 # The declarations for code files
@@ -15,6 +15,7 @@ code_files:
 - {name: Helpers/ModuleDatabaseModel.swift,  path: Code/Helpers/moduledatabasemodel.cachetracker.swift.liquid}
 
 # View layer
+- {name: View/Helpers/ViewInputTheme.swift,  path: Code/View/view_input_theme.swift.liquid}
 - {name: View/ViewInput.swift,  path: Code/View/view_input.complex.cachetracker.swift.liquid}
 - {name: View/ViewOutput.swift, path: Code/View/view_output.cachetracker.swift.liquid}
 - {name: View/ViewController.swift, path: Code/View/view_controller.complex.collectionview.cachetracker.swift.liquid}

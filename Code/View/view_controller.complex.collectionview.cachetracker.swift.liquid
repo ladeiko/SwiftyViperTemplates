@@ -31,6 +31,10 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
 
     // MARK: - {{ prefix }}{{module_info.name}}ViewInput
 
+    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+        // TODO: Place your code here
+    }
+
     func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]) {
         consumer.reset(with: state)
         if isViewLoaded {

@@ -50,6 +50,8 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
         default:
             fatalError()
         }
+
+        view.configure(with: .init())
         view.setAlertTitle(config.title)
         view.setAlertMessage(config.message)
     }

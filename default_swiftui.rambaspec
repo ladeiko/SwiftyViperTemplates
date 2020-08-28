@@ -2,13 +2,14 @@
 name: "default_swiftui"
 summary: "Swift UI default viper module"
 author: "Siarhei Ladzeika"
-version: "1.8.7"
+version: "1.9.0"
 license: "MIT"
 
 # The declarations for code files
 
 code_files:
 # View layer
+- {name: View/Helpers/ViewInputTheme.swift,  path: Code/View/view_input_theme.swift.liquid}
 - {name: View/ViewInput.swift,  path: Code/View/view_input.swift.liquid}
 - {name: View/ViewOutput.swift, path: Code/View/view_output.swift.liquid}
 - {name: View/ViewController.swift, path: Code/View/view_controller.swiftui.swift.liquid}
