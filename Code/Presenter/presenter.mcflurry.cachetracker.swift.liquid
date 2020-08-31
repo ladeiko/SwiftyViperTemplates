@@ -69,12 +69,8 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     // MARK: - {{ prefix }}{{module_info.name}}ModuleInput
 
     {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {% else %}func configure() {% endif %}{
-        switch state {
-        case .initial:
-            state = .ready(isViewReady: false)
-        default:
-            fatalError()
-        }
+        guard case .initial = state else { fatalError() }
+        state = .ready(isViewReady: false)
         {% if custom_parameters.extended_configure %}
         self.config = config
         interactor.configure(with: config)
