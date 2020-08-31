@@ -42,13 +42,8 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     // MARK: - {{ prefix }}{{module_info.name}}ViewOutput
 
     func viewIsReady() {
-        switch state {
-        case let .ready(isViewReady):
-            assert(!isViewReady)
-            state = .ready(isViewReady: true)
-        default:
-            fatalError()
-        }
+        guard case let .ready(isViewReady) = self.state, !isViewReady else { fatalError() }
+        state = .ready(isViewReady: true)
 
         view.configure(with: .init())
         router.embedSomeModule()
