@@ -5,17 +5,32 @@ import UIKit
 class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
 
     // MARK: - Outlets
+    // @IBOutlet weak var imageView: UIImageView!
     // TODO: Place your code here
 
     // MARK: - Vars
 
     private final var removeEmbeddableBlock: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock?
     private final var context: {{ prefix }}{{ module_info.name }}ViewCellContext?
+    private final var model: {{ prefix }}{{ module_info.name }}ModuleEntityModel?
 
     // MARK: - Public
 
     func configure(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, in context: {{ prefix }}{{ module_info.name }}ViewCellContext) {
         self.context = context
+        self.model = model
+
+//        context.loadModelImage(model) { image in
+//
+//            assert(Thread.isMainThread)
+//
+//            guard model == self.model else {
+//                return
+//            }
+//
+//            self.imageView.image = image
+//        }
+
         // TODO: Place your code here
     }
 
@@ -36,6 +51,8 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         removeEmbeddable()
+        model = nil
+        context = nil
         super.prepareForReuse()
     }
 
