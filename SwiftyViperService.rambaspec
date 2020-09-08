@@ -2,7 +2,7 @@
 name: "SwiftyViperService"
 summary: "Swift VIPER Service based on ViperServices module"
 author: "Siarhei Ladzeika"
-version: "1.9.2"
+version: "1.9.3"
 license: "MIT"
 
 # The declarations for code files
