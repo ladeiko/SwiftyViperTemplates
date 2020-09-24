@@ -2,7 +2,7 @@
 
 import UIKit
 import OnDeallocateX
-{% if  custom_parameters.extended_configurator_create != 'true' %}import {% if custom_parameters.mcflurry_swift %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}{% endif %}
+{% if  custom_parameters.extended_configurator_create != 'true' %}import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}{% endif %}
 
 {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
 class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
