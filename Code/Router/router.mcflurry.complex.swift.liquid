@@ -30,7 +30,7 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
         let nativeEmbedder = transitionHandler.createEmbeddableModuleUsingFactory(factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
         {% else %}
         let nativeEmbedder = transitionHandler.createEmbeddableModule!(usingFactory: factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
-        {% endif }
+        {% endif %}
 
         // Sometimes embeddable mobule can be reattached to another containerView
         // therefore we should track number of add/remove operations
