@@ -41,7 +41,7 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
         let context: NSManagedObjectContext! = <nil> // TODO: Place UI coredata context here, e.g. NSManagedObjectContext.mr_default(), etc...
         cacheTracker = CoreDataCacheTracker<{{ prefix }}{{ module_info.name }}ModuleDatabaseModel, {{ prefix }}{{ module_info.name }}ModuleEntityModel>(context: context)
         cacheTracker!.delegate = self
-        let predicate = {{ prefix }}{{ module_info.name }}ModuleDatabaseModel.somePredicate() // or NSPredicate(block: true)
+        let predicate = {{ prefix }}{{ module_info.name }}ModuleDatabaseModel.somePredicate() // or NSPredicate(value: true)
         let sortDescriptors = {{ prefix }}{{ module_info.name }}ModuleDatabaseModel.someSortDescriptors()
         let cacheRequest = CacheRequest(predicate: predicate, sortDescriptors: sortDescriptors)
         cacheTracker!.fetchWithRequest(cacheRequest)
