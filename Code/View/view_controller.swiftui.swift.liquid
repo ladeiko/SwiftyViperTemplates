@@ -3,6 +3,7 @@
 import SwiftUI
 
 typealias {{ prefix }}{{ module_info.name }}ViewController = {{ prefix }}{{ module_info.name }}ViewControllerImpl<{{ prefix }}{{ module_info.name }}RootView>
+typealias {{ prefix }}{{ module_info.name }}ViewControllerConfigureBlock = () -> Void
 
 class {{ prefix }}{{ module_info.name }}ViewControllerImpl<Content>: UIHostingController<Content>, {{ prefix }}{{module_info.name}}ViewInput where Content : {{ prefix }}{{ module_info.name }}RootViewProtocol {
 
@@ -15,9 +16,12 @@ class {{ prefix }}{{ module_info.name }}ViewControllerImpl<Content>: UIHostingCo
 
     // MARK: - Life cycle
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        output.viewIsReady()
+    @objc required dynamic init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder, rootView: {{ prefix }}{{ module_info.name }}RootView())
+    }
+
+    init() {
+        super.init(rootView: {{ prefix }}{{ module_info.name }}RootView())
     }
 
     // MARK: - {{ prefix }}{{module_info.name}}ViewInput
@@ -28,6 +32,13 @@ class {{ prefix }}{{ module_info.name }}ViewControllerImpl<Content>: UIHostingCo
 
     // MARK: - Helpers
     // TODO: Place your code here
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewControllerImpl {
+    func prepare(_ configurationBlock: {{ prefix }}{{ module_info.name }}ViewControllerConfigureBlock) {
+        configurationBlock()
+        output.viewIsReady() // viewDidLoad is not called in UIHostingController
+    }
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewControllerImpl: {{ prefix }}{{ module_info.name }}RootViewDelegate {
