@@ -14,6 +14,9 @@ import CacheTracker
 
 typealias {{ prefix }}{{ module_info.name }}ModuleEntityModel = SomeModuleEntityModel
 
+//class {{ prefix }}{{ module_info.name }}ModuleEntityModel: CacheTrackerPlainModel {
+//}
+
 extension {{ prefix }}{{ module_info.name }}ModuleEntityModel: ArrayCacheTrackerElement {
 
     func evaluate(_ predicate: NSPredicate) -> Bool {
