@@ -1,0 +1,92 @@
+{% include 'header' %}
+
+import CacheTracker
+
+class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.name }}InteractorInput, CacheTrackerDelegate {
+
+    // MARK: - VIPER Vars
+
+    weak var output: {{ prefix }}{{ module_info.name }}InteractorOutput!
+
+    // MARK: - Vars
+
+    private final var cacheTracker: CoreDataCacheTracker<{{ prefix }}{{ module_info.name }}ModuleDatabaseModel, {{ prefix }}{{ module_info.name }}ModuleEntityModel>?
+    private final var changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] = [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]()
+    {% if custom_parameters.extended_configure %}private final var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% endif %}
+
+    // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
+
+    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+        assert(self.config == nil)
+        self.config = config
+    }
+    {% else %}func configure() {
+        // TODO
+    }{% endif %}
+
+    func deinitialize() {
+        if isDeliveringModelsListChanges() {
+            stopDeliveringModelsListChanges()
+        }
+        // TODO: Place your code here
+    }
+
+    func isDeliveringModelsListChanges() -> Bool {
+        return cacheTracker != nil
+    }
+
+    func startDeliveringModelsListChanges() {
+        assert(cacheTracker == nil)
+        let data: [{{ prefix }}{{ module_info.name }}ModuleEntityModel] = [] // TODO
+        cacheTracker = ArrayCacheTracker<{{ prefix }}{{ module_info.name }}ModuleEntityModel>(data: data)
+        cacheTracker!.delegate = self
+        let predicate = NSPredicate(value: true)
+        let sortDescriptors: [NSSortDescriptor] = []
+        let cacheRequest = CacheRequest(predicate: predicate, sortDescriptors: sortDescriptors)
+        cacheTracker!.fetchWithRequest(cacheRequest)
+    }
+
+    func stopDeliveringModelsListChanges() {
+        cacheTracker?.delegate = nil
+        cacheTracker?.stopFetching()
+        cacheTracker = nil
+    }
+
+    func initialStateOfModelsList() -> [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] {
+        return cacheTracker?.transactionsForCurrentState() ?? [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]()
+    }
+
+    //func loadImage(for model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, completion: @escaping ((_ image: UIImage?) -> Void)) { 
+    //    // TODO: Place your code here
+    //    DispatchQueue.main.async { completion(nil) }
+    //}
+
+    // MARK: - CacheTrackerDelegate
+
+    func cacheTrackerShouldMakeInitialReload() {
+        output.modelsListDidReset(cacheTracker!.transactionsForCurrentState())
+    }
+
+    func cacheTrackerBeginUpdates() {
+        changes.removeAll()
+    }
+
+    func cacheTrackerDidGenerate<P>(transactions: [CacheTransaction<P>]) where P : CacheTrackerPlainModel {
+        changes.append(contentsOf: transactions as! [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>])
+    }
+
+    func cacheTrackerEndUpdates() {
+        defer {
+            changes.removeAll()
+        }
+
+        guard !changes.isEmpty else {
+            return
+        }
+
+        output.modelsListDidChange(changes)
+    }
+
+    // MARK: - Helpers
+    // TODO: Place your code here
+}

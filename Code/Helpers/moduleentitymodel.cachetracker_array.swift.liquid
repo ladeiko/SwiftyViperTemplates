@@ -1,0 +1,26 @@
+{% include 'header' %}
+
+import Foundation
+import CacheTracker
+
+// TODO: Replace SomeModuleEntityModel with project model implementing CacheTracker/CacheTrackerPlainModel protocol
+// Example:
+//  import CacheTracker
+//  class SomeModuleEntityModel: CacheTrackerPlainModel {
+//      // MARK: - CacheTrackerPlainModel
+//      required init() {}
+//  }
+//  More info at https://github.com/ladeiko/CacheTracker
+
+typealias {{ prefix }}{{ module_info.name }}ModuleEntityModel = SomeModuleEntityModel
+
+extension {{ prefix }}{{ module_info.name }}ModuleEntityModel: ArrayCacheTrackerElement {
+
+    func evaluate(_ predicate: NSPredicate) -> Bool {
+        return true
+    }
+
+    static func sort(_ descriptors: [NSSortDescriptor], lhs: Self, rhs: Self) -> Bool {
+        return true
+    }
+}
