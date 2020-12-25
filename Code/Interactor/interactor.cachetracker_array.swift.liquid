@@ -10,9 +10,9 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
 
     // MARK: - Vars
 
-    private final var cacheTracker: CoreDataCacheTracker<{{ prefix }}{{ module_info.name }}ModuleDatabaseModel, {{ prefix }}{{ module_info.name }}ModuleEntityModel>?
-    private final var changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] = [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]()
-    {% if custom_parameters.extended_configure %}private final var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% endif %}
+    private var cacheTracker: CoreDataCacheTracker<{{ prefix }}{{ module_info.name }}ModuleDatabaseModel, {{ prefix }}{{ module_info.name }}ModuleEntityModel>?
+    private var changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] = [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]()
+    {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% endif %}
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
 
@@ -29,6 +29,7 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
             stopDeliveringModelsListChanges()
         }
         // TODO: Place your code here
+        {% if custom_parameters.extended_configure %}self.config = nil{% endif %}
     }
 
     func isDeliveringModelsListChanges() -> Bool {

@@ -14,7 +14,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: TransparentProxyViewCont
 
     // MARK: - Vars
 
-    private final var shown = false
+    private var shown = false
 
     // MARK: - Life cycle
 
@@ -42,7 +42,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: TransparentProxyViewCont
 
     // MARK: - Helpers
 
-    private final func showController() {
+    private func showController() {
         // TODO Show your real controller like UIAlertController, etc.
         //let controller = UIViewController()
         //present(controller, animated: animated, completion: nil)

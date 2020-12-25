@@ -15,8 +15,8 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
 
     // MARK: - Vars
 
-    private final let consumer: CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel> = CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel>()
-    private final var context: {{ prefix }}{{ module_info.name }}ViewCellContext!
+    private let consumer: CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel> = CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel>()
+    private var context: {{ prefix }}{{ module_info.name }}ViewCellContext!
 
     // MARK: - Life cycle
 
@@ -105,7 +105,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
 
     // MARK: - Helpers
 
-    private final func setupContext() {
+    private func setupContext() {
         context = {{ prefix }}{{ module_info.name }}ViewCellContext(
              //loadModelImage: { [weak self] model, completion in
             //
@@ -118,11 +118,11 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
         )
     }
 
-    private final func setupConsumer() {
+    private func setupConsumer() {
         consumer.delegate = self
     }
 
-    private final func setupCollectioView() {
+    private func setupCollectioView() {
         // TODO: Place your code here
     }
 }

@@ -12,7 +12,7 @@ class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{
     {% if custom_parameters.redux_service_state_persistent %}
     private static let defaultsKey = Key<{{ prefix }}{{ module_info.name }}ServiceState>("{{ prefix | upcase}}{{ module_info.name | upcase}}")
     {% endif %}
-    private final var store: Store<{{ prefix }}{{ module_info.name }}ServiceState>!
+    private var store: Store<{{ prefix }}{{ module_info.name }}ServiceState>!
 
     // MARK: - Life cycle
 

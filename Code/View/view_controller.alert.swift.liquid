@@ -14,9 +14,9 @@ class {{ prefix }}{{ module_info.name }}ViewController: TransparentProxyViewCont
 
     // MARK: - Vars
 
-    private final var shown = false
-    private final var alertTitle: String?
-    private final var alertMessage: String?
+    private var shown = false
+    private var alertTitle: String?
+    private var alertMessage: String?
 
     // MARK: - Life cycle
 
@@ -52,7 +52,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: TransparentProxyViewCont
 
     // MARK: - Helpers
 
-    private final func showController() {
+    private func showController() {
         let controller = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         let closeAction = UIAlertAction (title: NSLocalizedString("OK", comment: ""), style: .cancel, handler:  { _ in
             self.output.userDidTapOnClose()

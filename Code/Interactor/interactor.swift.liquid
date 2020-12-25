@@ -8,7 +8,7 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
 
     // MARK: - Vars
     
-    {% if custom_parameters.extended_configure %}private final var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% endif %}
+    {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% endif %}
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
     
@@ -22,6 +22,7 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
 
     func deinitialize() {
         // TODO: Place your code here
+        {% if custom_parameters.extended_configure %}self.config = nil{% endif %}
     }
 
     // MARK: - Helpers

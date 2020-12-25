@@ -16,8 +16,8 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITabl
 
     // MARK: - Vars
 
-    private final let consumer: CacheTrackerPlainRecurrentConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel> = CacheTrackerPlainRecurrentConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>()
-    private final var context: {{ prefix }}{{ module_info.name }}ViewCellContext!
+    private let consumer: CacheTrackerPlainRecurrentConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel> = CacheTrackerPlainRecurrentConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>()
+    private var context: {{ prefix }}{{ module_info.name }}ViewCellContext!
 
     // MARK: - Life cycle
 
@@ -86,7 +86,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITabl
 
     // MARK: - Helpers
 
-    private final func setupContext() {
+    private func setupContext() {
         context = {{ prefix }}{{ module_info.name }}ViewCellContext(
              //loadModelImage: { [weak self] model, completion in
             //
@@ -99,11 +99,11 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITabl
         )
     }
 
-    private final func setupConsumer() {
+    private func setupConsumer() {
         consumer.delegate = tableView
     }
 
-    private final func setupTableView() {
+    private func setupTableView() {
         // TODO: Place your code here
     }
 
