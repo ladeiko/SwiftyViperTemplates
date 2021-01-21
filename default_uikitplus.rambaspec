@@ -1,6 +1,6 @@
 # Template information section
-name: "SwiftyViperMcFlurryXib"
-summary: "Swift VIPER module template with UIViewController playing as a View. Based on https://github.com/rambler-digital-solutions/generamba-catalog/tree/master/swifty_viper"
+name: "default_uikitplus"
+summary: "Swift UIKitPLus default viper module (https://github.com/MihaelIsaev/UIKitPlus)"
 author: "Siarhei Ladzeika"
 version: "1.9.6"
 license: "MIT"
@@ -12,8 +12,7 @@ code_files:
 - {name: View/Helpers/ViewInputTheme.swift,  path: Code/View/view_input_theme.swift.liquid}
 - {name: View/ViewInput.swift,  path: Code/View/view_input.swift.liquid}
 - {name: View/ViewOutput.swift, path: Code/View/view_output.swift.liquid}
-- {name: View/ViewController.swift, path: Code/View/view_controller.swift.liquid}
-- {name: View/ViewController.xib, path: Code/View/view_controller.xib.liquid}
+- {name: View/ViewController.swift, path: Code/View/view_controller.uikitplus.swift.liquid}
 
 # Presenter layer
 {% if custom_parameters.extended_configure %}
@@ -33,10 +32,7 @@ code_files:
 - {name: Router/Router.swift, path: Code/Router/router.mcflurry.swift.liquid}
 
 # Configurator
-- {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.mcflurry.xib.swift.liquid}
-{% if custom_parameters.extended_configurator_create != 'true' %}
-- {name: Configurator/Initializer.swift, path: Code/Configurator/initializer.swift.liquid}
-{% endif %}
+- {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.swiftui.swift.liquid}
 
 # The declarations for test files
 test_files:

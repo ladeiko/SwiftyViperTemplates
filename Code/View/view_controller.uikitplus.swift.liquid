@@ -1,0 +1,69 @@
+{% include 'header' %}
+
+import UIKitPlus
+
+class {{ prefix }}{{ module_info.name }}ViewController: ViewController {
+
+    // MARK: - VIPER Vars
+
+    var output: {{ prefix }}{{ module_info.name }}ViewOutput!
+
+    // MARK: - Outlets
+    // TODO: Place your code here
+
+    // MARK: - Vars
+    // TODO: Place your code here
+
+    // MARK: - Life cycle
+
+    override func buildUI() {
+        super.buildUI()
+        view.backgroundColor = .red
+        body {
+            Text("Hello World").centerInSuperview()
+        }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        output.viewIsReady()
+    }
+
+}
+
+fileprivate extension {{ prefix }}{{ module_info.name }}ViewController {
+
+    // MARK: - UI Actions
+    // TODO: Place your code here
+
+}
+
+fileprivate extension {{ prefix }}{{ module_info.name }}ViewController {
+    
+    // MARK: - Helpers
+
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController:  {{ prefix }}{{module_info.name}}ViewInput {
+
+    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+        // TODO: Place your code here
+    }
+
+}
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+@available(iOS 13.0, *)
+struct {{ prefix }}{{ module_info.name }}ViewController_Preview: PreviewProvider, DeclarativePreview {
+    static var preview: Preview {
+        Preview {
+            {{ prefix }}{{ module_info.name }}ViewController()
+        }
+        .colorScheme(.dark)
+        .device(.iPhoneX)
+        .language(.fr)
+        .rtl(true)
+    }
+}
+#endif
