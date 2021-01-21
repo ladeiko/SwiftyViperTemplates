@@ -2,46 +2,51 @@
 
 import SwiftUI
 
-typealias {{ prefix }}{{ module_info.name }}ViewController = {{ prefix }}{{ module_info.name }}ViewControllerImpl<{{ prefix }}{{ module_info.name }}RootView>
-typealias {{ prefix }}{{ module_info.name }}ViewControllerConfigureBlock = () -> Void
-
-class {{ prefix }}{{ module_info.name }}ViewControllerImpl<Content>: UIHostingController<Content>, {{ prefix }}{{module_info.name}}ViewInput where Content : {{ prefix }}{{ module_info.name }}RootViewProtocol {
+class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
     // MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
 
     // MARK: - Vars
-    // TODO: Place your code here
+    
+    private var wrapperController: {{ prefix }}{{ module_info.name }}ViewControllerWrapper?
+    private var rootView: {{ prefix }}{{ module_info.name }}RootView { wrapperController!.rootView }
 
     // MARK: - Life cycle
 
-    @objc required dynamic init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder, rootView: {{ prefix }}{{ module_info.name }}RootView())
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .clear
+        wrapperController = {{ prefix }}{{ module_info.name }}ViewControllerWrapper()
+        wrapperController!.rootView.delegate = self
+        addChild(wrapperController!)
+        wrapperController!.view.frame = view.bounds
+        view.addSubview(wrapperController!.view)
+        wrapperController!.didMove(toParent: self)
     }
 
-    init() {
-        super.init(rootView: {{ prefix }}{{ module_info.name }}RootView())
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        wrapperController?.view.frame = view.bounds
     }
+}
 
-    // MARK: - {{ prefix }}{{module_info.name}}ViewInput
-    
-    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
-        // TODO: Place your code here
-    }
+extension {{ prefix }}{{ module_info.name }}ViewController {
 
     // MARK: - Helpers
     // TODO: Place your code here
 }
 
-extension {{ prefix }}{{ module_info.name }}ViewControllerImpl {
-    func prepare(_ configurationBlock: {{ prefix }}{{ module_info.name }}ViewControllerConfigureBlock) {
-        configurationBlock()
-        output.viewIsReady() // viewDidLoad is not called in UIHostingController
+extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{module_info.name}}ViewInput {
+
+    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+        // TODO: Place your code here
     }
+
 }
 
-extension {{ prefix }}{{ module_info.name }}ViewControllerImpl: {{ prefix }}{{ module_info.name }}RootViewDelegate {
+extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{ module_info.name }}RootViewDelegate {
 
     // MARK: - UI Actions
     // TODO: Place your code here
@@ -49,6 +54,18 @@ extension {{ prefix }}{{ module_info.name }}ViewControllerImpl: {{ prefix }}{{ m
     func didTapOnSampleButton() {
         print("did tap on sample button")
         rootView.viewState.sampleValue += 1
+    }
+
+}
+
+fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerWrapper: UIHostingController<{{ prefix }}{{ module_info.name }}RootViewImpl> {
+
+    @objc required dynamic init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder, rootView: {{ prefix }}{{ module_info.name }}RootViewImpl())
+    }
+
+    init() {
+        super.init(rootView: {{ prefix }}{{ module_info.name }}RootViewImpl())
     }
 
 }

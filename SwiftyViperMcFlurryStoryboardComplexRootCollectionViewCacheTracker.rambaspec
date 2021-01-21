@@ -2,7 +2,7 @@
 name: "SwiftyViperMcFlurryStoryboardComplexRootCollectionViewCacheTracker"
 summary: "Swift VIPER module template with UICollectionView playing as root View"
 author: "Siarhei Ladzeika"
-version: "1.9.4"
+version: "1.9.5"
 license: "MIT"
 
 # The declarations for code files

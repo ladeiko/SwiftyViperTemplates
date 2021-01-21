@@ -2,11 +2,11 @@
 
 import SwiftUI
 
-protocol {{ prefix }}{{ module_info.name }}RootViewProtocol: View {
+protocol {{ prefix }}{{ module_info.name }}RootView {
     var viewState: {{ prefix }}{{ module_info.name }}RootViewState { get }
 }
 
-struct {{ prefix }}{{ module_info.name }}RootView: {{ prefix }}{{ module_info.name }}RootViewProtocol {
+struct {{ prefix }}{{ module_info.name }}RootViewImpl: View, {{ prefix }}{{ module_info.name }}RootView {
 
     weak var delegate: {{ prefix }}{{ module_info.name }}RootViewDelegate?
 
@@ -14,8 +14,8 @@ struct {{ prefix }}{{ module_info.name }}RootView: {{ prefix }}{{ module_info.na
 
     var body: some View {
         Group {
-            Text("Sample Label \(viewState.sampleValue)")
-            Button("Sample Button") {
+            Text("Sample Label [{{ prefix }}{{ module_info.name }}] \(viewState.sampleValue)")
+            Button("Sample Button [{{ prefix }}{{ module_info.name }}]") {
                 self.delegate?.didTapOnSampleButton()
             }
         }
@@ -25,7 +25,7 @@ struct {{ prefix }}{{ module_info.name }}RootView: {{ prefix }}{{ module_info.na
 #if DEBUG
 struct {{ prefix }}{{ module_info.name }}RootView_Previews: PreviewProvider {
     static var previews: some View {
-        {{ prefix }}{{ module_info.name }}RootView()
+        {{ prefix }}{{ module_info.name }}RootViewImpl()
     }
 }
 #endif
