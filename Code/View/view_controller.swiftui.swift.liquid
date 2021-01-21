@@ -24,6 +24,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
         wrapperController!.view.frame = view.bounds
         view.addSubview(wrapperController!.view)
         wrapperController!.didMove(toParent: self)
+        output.viewIsReady()
     }
 
     override func viewDidLayoutSubviews() {
