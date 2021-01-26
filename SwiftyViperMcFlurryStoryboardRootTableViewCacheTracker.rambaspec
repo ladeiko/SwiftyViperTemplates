@@ -1,8 +1,8 @@
 # Template information section
-name: "SwiftyViperMcFlurryStoryboardRootTableViewCacheTracker"
+name: "table_as_root_and_cachetracker"
 summary: "Swift VIPER module template with UITableView playing as secondary view"
 author: "Siarhei Ladzeika"
-version: "1.9.6"
+version: "1.10.0"
 license: "MIT"
 
 # The declarations for code files

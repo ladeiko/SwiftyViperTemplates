@@ -2,7 +2,7 @@
 name: "default_swiftui"
 summary: "Swift UI default viper module"
 author: "Siarhei Ladzeika"
-version: "1.9.6"
+version: "1.10.0"
 license: "MIT"
 
 # The declarations for code files

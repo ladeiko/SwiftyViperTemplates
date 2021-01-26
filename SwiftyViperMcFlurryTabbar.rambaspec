@@ -1,35 +1,39 @@
 # Template information section
-name: "SwiftyViperMcFlurryTabbar"
+name: "tabbar"
 summary: "Swift VIPER module template with UITabBarController playing as a View. Based on https://github.com/rambler-digital-solutions/generamba-catalog/tree/master/swifty_viper"
 author: "Siarhei Ladzeika"
-version: "1.9.6"
+version: "1.10.0"
 license: "MIT"
 
 # The declarations for code files
 
 code_files:
+# Helpers
+- {name: Helpers/Tabs.swift,  path: Code/Helpers/tabbar_tab.swift.liquid}
+
 # View layer
 - {name: View/Helpers/ViewInputTheme.swift,  path: Code/View/view_input_theme.swift.liquid}
 - {name: View/ViewInput.swift,  path: Code/View/view_input.swift.liquid}
-- {name: View/ViewOutput.swift, path: Code/View/view_output.swift.liquid}
+- {name: View/ViewOutput.swift, path: Code/View/view_output.tabbar.swift.liquid}
 - {name: View/ViewController.swift, path: Code/View/view_controller.tabbar.swift.liquid}
 
 # Presenter layer
 {% if custom_parameters.extended_configure %}
 - {name: Presenter/Helpers/ModuleConfig.swift, path: Code/Helpers/moduleinputconfig.swift.liquid}
 {% endif %}
-- {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.swift.liquid}
+- {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.tabbar.swift.liquid}
 - {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.swift.liquid}
-- {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.swift.liquid}
+- {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.tabbar.swift.liquid}
 
 # Interactor layer
-- {name: Interactor/InteractorInput.swift, path: Code/Interactor/interactor_input.swift.liquid}
+- {name: Interactor/InteractorInput.swift, path: Code/Interactor/interactor_input.tabbar.swift.liquid}
 - {name: Interactor/InteractorOutput.swift, path: Code/Interactor/interactor_output.swift.liquid}
-- {name: Interactor/Interactor.swift, path: Code/Interactor/interactor.swift.liquid}
+- {name: Interactor/Interactor.swift, path: Code/Interactor/interactor.tabbar.swift.liquid}
 
 # Router layer
-- {name: Router/RouterInput.swift, path: Code/Router/router_input.mcflurry.swift.liquid}
-- {name: Router/Router.swift, path: Code/Router/router.mcflurry.swift.liquid}
+- {name: Router/RouterInput.swift, path: Code/Router/router_input.mcflurry.tabbar.swift.liquid}
+- {name: Router/RouterOutput.swift, path: Code/Router/router_output.mcflurry.tabbar.swift.liquid}
+- {name: Router/Router.swift, path: Code/Router/router.mcflurry.tabbar.swift.liquid}
 
 # Configurator
 - {name: Configurator/Configurator.swift, path: Code/Configurator/tabbar.configurator.mcflurry.swift.liquid}

@@ -1,0 +1,7 @@
+{% include 'header' %}
+
+import Foundation
+
+protocol {{ prefix }}{{ module_info.name }}RouterOutput: class {
+    func routerDidChangeCurrentModule(_ module: {{ prefix }}{{ module_info.name }}ModuleTab)
+}

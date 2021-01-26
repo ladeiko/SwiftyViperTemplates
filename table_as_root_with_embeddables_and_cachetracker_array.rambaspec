@@ -1,6 +1,6 @@
 # Template information section
-name: "SwiftyViperMcFlurryStoryboardCollectionViewCacheTracker"
-summary: "Swift VIPER module template with UICollectionView playing as secondary view"
+name: "table_as_root_with_embeddables_and_cachetracker_array"
+summary: "Swift VIPER module template with UITableView playing as secondary view"
 author: "Siarhei Ladzeika"
 version: "1.10.0"
 license: "MIT"
@@ -9,16 +9,17 @@ license: "MIT"
 
 code_files:
 # Helpers
-- {name: Helpers/ModuleEntityModel.swift,  path: Code/Helpers/moduleentitymodel.cachetracker.swift.liquid}
-- {name: Helpers/ModuleDatabaseModel.swift,  path: Code/Helpers/moduledatabasemodel.cachetracker.swift.liquid}
+- {name: Helpers/Embeddable.swift,  path: Code/Helpers/embeddable.swift.liquid}
+- {name: Helpers/EmbeddableModule.swift,  path: Code/Helpers/embeddable_module.swift.liquid}
+- {name: Helpers/ModuleEntityModel.swift,  path: Code/Helpers/moduleentitymodel.complex.cachetracker_array.swift.liquid}
 
 # View layer
 - {name: View/Helpers/ViewInputTheme.swift,  path: Code/View/view_input_theme.swift.liquid}
-- {name: View/ViewInput.swift,  path: Code/View/view_input.cachetracker.swift.liquid}
+- {name: View/ViewInput.swift,  path: Code/View/view_input.complex.cachetracker.swift.liquid}
 - {name: View/ViewOutput.swift, path: Code/View/view_output.cachetracker.swift.liquid}
-- {name: View/ViewController.swift, path: Code/View/view_controller.collectionview.cachetracker.swift.liquid}
-- {name: View/Storyboards/.storyboard, path: Code/View/view.collectionview.storyboard.liquid}
-- {name: View/Helpers/ViewCell.swift, path: Code/View/view_controller.collectionview.cachetracker.cell.swift.liquid}
+- {name: View/ViewController.swift, path: Code/View/view_controller.complex.root_tableview.cachetracker.swift.liquid}
+- {name: View/Storyboards/.storyboard, path: Code/View/view.root_tableview.storyboard.liquid}
+- {name: View/Helpers/ViewCell.swift, path: Code/View/view_controller.complex.tableview.cachetracker.cell.swift.liquid}
 - {name: View/Helpers/ViewCellContext.swift, path: Code/View/view_controller.cell_context.swift.liquid}
 
 # Presenter layer
@@ -27,16 +28,16 @@ code_files:
 {% endif %}
 - {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.swift.liquid}
 - {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.swift.liquid}
-- {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.cachetracker.swift.liquid}
+- {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.complex.cachetracker_array.swift.liquid}
 
 # Interactor layer
-- {name: Interactor/InteractorInput.swift, path: Code/Interactor/interactor_input.cachetracker.swift.liquid}
-- {name: Interactor/InteractorOutput.swift, path: Code/Interactor/interactor_output.cachetracker.swift.liquid}
-- {name: Interactor/Interactor.swift, path: Code/Interactor/interactor.cachetracker.swift.liquid}
+- {name: Interactor/InteractorInput.swift, path: Code/Interactor/interactor_input.cachetracker_array.swift.liquid}
+- {name: Interactor/InteractorOutput.swift, path: Code/Interactor/interactor_output.cachetracker_array.swift.liquid}
+- {name: Interactor/Interactor.swift, path: Code/Interactor/interactor.cachetracker_array.swift.liquid}
 
 # Router layer
-- {name: Router/RouterInput.swift, path: Code/Router/router_input.mcflurry.swift.liquid}
-- {name: Router/Router.swift, path: Code/Router/router.mcflurry.swift.liquid}
+- {name: Router/RouterInput.swift, path: Code/Router/router_input.mcflurry.complex.swift.liquid}
+- {name: Router/Router.swift, path: Code/Router/router.mcflurry.complex.swift.liquid}
 
 # Configurator
 - {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.mcflurry.storyboard.swift.liquid}
@@ -57,7 +58,7 @@ test_files:
 - {name: Interactor/InteractorTests.swift, path: Tests/Interactor/interactor_tests.cachetracker.swift.liquid}
 
 # Presenter tests
-- {name: Presenter/PresenterTests.swift, path: Tests/Presenter/presenter_tests.cachetracker.swift.liquid}
+- {name: Presenter/PresenterTests.swift, path: Tests/Presenter/presenter_tests.complex.cachetracker.swift.liquid}
 
 # Router tests
 - {name: Router/RouterTests.swift, path: Tests/Router/router_tests.swift.liquid}

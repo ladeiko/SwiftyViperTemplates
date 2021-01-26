@@ -7,7 +7,6 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITabBarController, {{ p
     // MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
-    private var viewIsReadyCalled = false
 
     // MARK: - Outlets
     // TODO: Place your code here
@@ -17,21 +16,24 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITabBarController, {{ p
 
     // MARK: - Life cycle
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // NOTE: Does not call output.viewIsReady() here
-        // because it is called in constructor() for UITabBarController
-        // we will called it in viewWillAppear
-    }
+    override var viewControllers: [UIViewController]? {
+        set {
 
-    override func viewWillAppear(_ animated: Bool) {
-        if !viewIsReadyCalled {
-            viewIsReadyCalled = true
-            output.viewIsReady() // call it here, it's a trick :)
+            newValue?.forEach({ (childViewController) in
+                if let navigationController = childViewController as? UINavigationController {
+                    // Propagate tabBarItem of child to the navigation controller
+                    _ = navigationController.viewControllers[0].view // Load view to be sure tabBarItem is filled in viewDidLoad
+                    childViewController.tabBarItem = navigationController.viewControllers[0].tabBarItem
+                }
+            })
+
+            super.viewControllers = newValue
         }
-        super.viewWillAppear(animated)
+        get {
+            super.viewControllers
+        }
     }
-
+    
     // MARK: - {{ prefix }}{{module_info.name}}ViewInput
     
     func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {

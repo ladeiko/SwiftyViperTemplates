@@ -1,0 +1,110 @@
+{% include 'header' %}
+
+import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
+
+class {{ prefix }}{{ module_info.name }}Router: NSObject, {{ prefix }}{{ module_info.name }}RouterInput {
+
+    // MARK: - VIPER Vars
+
+    weak var calleeOutput: ({% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
+    weak var transitionHandler: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleTransitionHandler{% if custom_parameters.mcflurry_swift != "true" %}Protocol{% endif %}!
+    weak var output: {{ prefix }}{{ module_info.name }}RouterOutput!
+
+    // MARK: - Vars
+
+    private struct Tab {
+        let id: {{ prefix }}{{ module_info.name }}ModuleTab
+        weak var controller: UIViewController?
+    }
+    
+    private var tabs: [Tab] = []
+
+    // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
+    
+    func embedTabs(_ module: [{{ prefix }}{{ module_info.name }}ModuleTab], current: {{ prefix }}{{ module_info.name }}ModuleTab?{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) {
+        let existing: [{{ prefix }}{{ module_info.name }}ModuleTab: UIViewController] = tabs.reduce(into: [:], { $0[$1.id] = $1.controller })
+        tabs = []
+
+        let viewControllers: [UIViewController] = module.reduce(into: []) { (controllers, module) in
+            var controller: UIViewController! = existing[module]
+
+            if controller == nil {
+                switch module {
+                case .exampleTab:
+                    self.transitionHandler.openModuleUsingFactory(SomeModuleConfigurator()) { (src, dst) in
+                        controller = UINavigationController(rootViewController: dst as! UIViewController)
+                    }.thenChainUsingBlock { (moduleInput) -> ViperModuleOutput? in
+                        (moduleInput as! SomeModuleInput).configure(with: .init())
+                        return nil // or self.calleeOutput
+                    }
+                }
+            }
+
+            tabs.append(.init(id: module, controller: controller))
+            controllers.append(controller)
+        }
+
+        let tabbarController = transitionHandler as! UITabBarController
+        tabbarController.delegate = self
+        tabbarController.viewControllers = viewControllers
+
+        if let current = current, let index = tabs.firstIndex(where: { $0.id == current }) {
+            tabbarController.selectedIndex = index
+        }
+    }
+
+    func showTab(_ tab: {{ prefix }}{{ module_info.name }}ModuleTab) {
+
+        let index = {{ prefix }}{{ module_info.name }}ModuleTab.allCases.firstIndex(of: tab)!
+        let tabbarController = transitionHandler as! UITabBarController
+
+        guard tabbarController.selectedIndex != index else {
+            return
+        }
+
+        tabbarController.selectedIndex = index
+        output.routerDidChangeCurrentModule(tab)
+    }
+
+    /*  // Example
+    func dismiss() {
+        transitionHandler.closeCurrentModule{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}(true)
+    }
+    */
+
+    /* // Example
+    func showSomeModule() {
+        {% if custom_parameters.mcflurry_swift == 'true' %}
+        transitionHandler.openModuleUsingFactory(SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
+        {% else %}
+        transitionHandler.openModule!(usingFactory: SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
+        {% endif %}
+            let sourceViewController = sourceModuleTransitionHandler as! UIViewController
+            let destinationViewController = destinationModuleTransitionHandler as! UIViewController
+
+            sourceViewController.present(destinationViewController, animated: true, completion: nil)
+        {% if custom_parameters.mcflurry_swift == 'true' %}
+        }.thenChainUsingBlock { (moduleInput) -> ViperModuleOutput? in
+        {% else %}
+        }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
+        {% endif %}
+            (moduleInput as! SomeModuleInput).configure()
+            return nil // or self.calleeOutput
+        }
+    }
+    */
+
+    // MARK: - Helpers
+    // TODO: Place your code here
+
+}
+
+extension {{ prefix }}{{ module_info.name }}Router: UITabBarControllerDelegate {
+
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let id = tabs.first(where: { $0.controller == viewController })?.id {
+            output.routerDidChangeCurrentModule(id)
+        }
+    }
+
+}

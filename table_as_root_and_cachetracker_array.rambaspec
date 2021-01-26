@@ -1,8 +1,8 @@
 # Template information section
-name: "SwiftyViperMcFlurryStoryboardRootTableViewCacheTracker"
+name: "table_as_root_and_cachetracker_array"
 summary: "Swift VIPER module template with UITableView playing as secondary view"
 author: "Siarhei Ladzeika"
-version: "1.9.6"
+version: "1.10.0"
 license: "MIT"
 
 # The declarations for code files
@@ -26,11 +26,11 @@ code_files:
 {% endif %}
 - {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.swift.liquid}
 - {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.swift.liquid}
-- {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.cachetracker.swift.liquid}
+- {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.cachetracker_array.swift.liquid}
 
 # Interactor layer
-- {name: Interactor/InteractorInput.swift, path: Code/Interactor/interactor_input.cachetracker.swift.liquid}
-- {name: Interactor/InteractorOutput.swift, path: Code/Interactor/interactor_output.cachetracker.swift.liquid}
+- {name: Interactor/InteractorInput.swift, path: Code/Interactor/interactor_input.cachetracker_array.swift.liquid}
+- {name: Interactor/InteractorOutput.swift, path: Code/Interactor/interactor_output.cachetracker_array.swift.liquid}
 - {name: Interactor/Interactor.swift, path: Code/Interactor/interactor.cachetracker_array.swift.liquid}
 
 # Router layer

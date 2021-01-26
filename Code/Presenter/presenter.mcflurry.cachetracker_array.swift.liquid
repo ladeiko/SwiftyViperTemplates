@@ -1,0 +1,103 @@
+{% include 'header' %}
+
+import Foundation
+import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
+import CacheTracker
+
+fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState: Equatable {
+    case initial
+    case ready(isViewReady: Bool)
+    case deinitialized
+}
+
+class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflurry_swift != "true" %}NSObject,{% endif %} {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput {
+
+    // MARK: - VIPER Vars
+
+    weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
+    var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
+    var router: {{ prefix }}{{ module_info.name }}RouterInput!
+    weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
+    private var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
+
+    // MARK: - Vars
+    
+    {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% else %}// TODO: Place your code here{% endif %}
+
+    // MARK: - Life cycle
+
+    func willDeinit() {
+        if case .ready = state {
+            interactor.deinitialize()
+            // TODO: Place your code here
+        }
+        state = .deinitialized
+    }
+
+    // MARK: - {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleInput
+
+    func setModuleOutput(_ moduleOutput: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}) {
+        output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
+    }
+
+    // MARK: - {{ prefix }}{{module_info.name}}ViewOutput
+
+    func viewIsReady() {
+        guard case let .ready(isViewReady) = self.state, !isViewReady else { fatalError() }
+        state = .ready(isViewReady: true)
+
+        view.configure(with: .init())
+
+        if !interactor.isDeliveringModelsListChanges() {
+            interactor.startDeliveringModelsListChanges()
+        }
+        else {
+            view.loadInitialModelsList(interactor.initialStateOfModelsList())
+        }
+        // TODO: Place your code here
+    }
+
+    //func viewNeedsImage(for model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, completion: @escaping ((_ image: UIImage?) -> Void)) {
+    //    interactor.loadImage(for: model, completion: completion)
+    //}
+
+    // MARK: - {{ prefix }}{{module_info.name}}ModuleInput
+
+    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {% else %}func configure() {% endif %}{
+        guard case .initial = state else { fatalError() }
+        state = .ready(isViewReady: false)
+        {% if custom_parameters.extended_configure %}
+        self.config = config
+        interactor.configure(with: config)
+        {% else %}interactor.configure(){% endif %}
+    }
+
+    // MARK: - {{ prefix }}{{ module_info.name }}InteractorOutput
+
+    func modelsListDidReset(_ initialState: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+        guard case let .ready(isViewReady) = state, isViewReady else { return }
+        view.loadInitialModelsList(initialState)
+    }
+
+    func modelsListDidChange(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
+        guard case let .ready(isViewReady) = state, isViewReady else { return }
+        view.applyModelsListChanges(changes)
+    }
+
+    func didFetchItems() {
+        guard case .ready = state else { return }
+        if interactor.isDeliveringModelsListChanges() {
+            interactor.stopDeliveringModelsListChanges()
+        }
+        interactor.startDeliveringModelsListChanges()
+        // TODO: Place your code here
+    }
+
+    func didFailedToFetchItems(_ error: Error) {
+        guard case .ready = state else { return }
+        // TODO: Place your code here
+    }
+
+    // MARK: - Helpers
+    // TODO: Place your code here
+}

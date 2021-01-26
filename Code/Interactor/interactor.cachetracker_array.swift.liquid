@@ -10,8 +10,9 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
 
     // MARK: - Vars
 
-    private var cacheTracker: CoreDataCacheTracker<{{ prefix }}{{ module_info.name }}ModuleDatabaseModel, {{ prefix }}{{ module_info.name }}ModuleEntityModel>?
+    private var cacheTracker: ArrayCacheTracker<{{ prefix }}{{ module_info.name }}ModuleEntityModel>?
     private var changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] = [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]()
+    private var items = [{{ prefix }}{{ module_info.name }}ModuleEntityModel]()
     {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% endif %}
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
@@ -38,11 +39,11 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
 
     func startDeliveringModelsListChanges() {
         assert(cacheTracker == nil)
-        let data: [{{ prefix }}{{ module_info.name }}ModuleEntityModel] = [] // TODO
-        cacheTracker = ArrayCacheTracker<{{ prefix }}{{ module_info.name }}ModuleEntityModel>(data: data)
+        cacheTracker = ArrayCacheTracker<{{ prefix }}{{ module_info.name }}ModuleEntityModel>(data: items)
+        items = []
         cacheTracker!.delegate = self
         let predicate = NSPredicate(value: true)
-        let sortDescriptors: [NSSortDescriptor] = []
+        let sortDescriptors: [NSSortDescriptor] = [NSSortDescriptor(key: "fake", ascending: true)]
         let cacheRequest = CacheRequest(predicate: predicate, sortDescriptors: sortDescriptors)
         cacheTracker!.fetchWithRequest(cacheRequest)
     }
@@ -61,6 +62,18 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
     //    // TODO: Place your code here
     //    DispatchQueue.main.async { completion(nil) }
     //}
+
+    func fetchItems() {
+        DispatchQueue.main.async {
+            // TODO: Place your code here
+
+            {% if custom_parameters.extended_configure %}guard self.config != nil else { return }{% endif %}
+            
+            self.items = []
+            self.output.didFetchItems()
+            //self.output.didFailedToFetchItems()
+        }
+    }
 
     // MARK: - CacheTrackerDelegate
 
