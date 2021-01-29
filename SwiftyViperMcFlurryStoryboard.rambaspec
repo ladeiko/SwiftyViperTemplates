@@ -5,6 +5,9 @@ author: "Siarhei Ladzeika"
 version: "1.10.0"
 license: "MIT"
 
+variables:
+- { name: ui_mode, description: "UI mode", single_select: [uikit, uikitplus, swiftui] }
+
 # The declarations for code files
 
 code_files:
