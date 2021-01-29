@@ -27,48 +27,21 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {{ pre
         output.viewIsReady()
     }
 
-    // MARK: - {{ prefix }}{{module_info.name}}ViewInput
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{module_info.name}}ViewInput {
 
     func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
         // TODO: Place your code here
     }
+}
 
+extension {{ prefix }}{{ module_info.name }}ViewController {
     // MARK: - UI Actions
     // TODO: Place your code here
+}
 
-    // MARK: - UITableViewDataSource
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return models.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Default") as! {{ prefix }}{{ module_info.name }}ViewCell
-        let model = models[indexPath.item]
-        cell.configure(with: model, in: context)
-        return cell
-    }
-
-    // MARK: - UITableViewDelegate
-
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        cell.willDisplay()
-    }
-
-    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        cell.stopDisplay()
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let model = models[indexPath.item]
-        // TODO: Place your code here
-    }
+extension {{ prefix }}{{ module_info.name }}ViewController {
 
     // MARK: - Helpers
 
@@ -86,6 +59,44 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {{ pre
     }
 
     private func setupTableView() {
+        // TODO: Place your code here
+    }
+
+}
+
+extension  {{ prefix }}{{ module_info.name }}ViewController: UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return models.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Default") as! {{ prefix }}{{ module_info.name }}ViewCell
+        let model = models[indexPath.item]
+        cell.configure(with: model, in: context)
+        return cell
+    }
+
+}
+
+extension  {{ prefix }}{{ module_info.name }}ViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
+        cell.willDisplay()
+    }
+
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
+        cell.stopDisplay()
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //let model = models[indexPath.item]
         // TODO: Place your code here
     }
 
