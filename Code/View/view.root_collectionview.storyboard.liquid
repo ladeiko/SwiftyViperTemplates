@@ -12,7 +12,7 @@
         <!--{{ prefix }}{{ module_info.name }} View Controller-->
         <scene sceneID="2cH-70-FlM">
             <objects>
-                <collectionViewController id="aT8-Bj-86N" customClass="{{ prefix }}{{ module_info.name }}ViewController" customModule={% if module_info.project_targets and module_info.project_targets.size %}"{{ module_info.project_targets[0] }}"{% else %}""{% endif %} sceneMemberID="viewController">
+                <collectionViewController id="aT8-Bj-86N" customClass="{{ prefix }}{{ module_info.name }}ViewController" customModule={% if module_info.project_targets and module_info.project_targets.size %}"{{ module_info.project_targets[0] }}"{% else %}""{% endif %} customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="1Fy-a3-K45">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -24,7 +24,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bam-Re-6gR" customClass="{{ prefix }}{{ module_info.name }}ViewCell" customModule="Demo" customModuleProvider="target" reuseIdentifier="Default">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bam-Re-6gR" customClass="{{ prefix }}{{ module_info.name }}ViewCell" customModule={% if module_info.project_targets and module_info.project_targets.size %}"{{ module_info.project_targets[0] }}"{% else %}""{% endif %} customModuleProvider="target" reuseIdentifier="Default">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
