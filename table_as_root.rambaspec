@@ -8,6 +8,9 @@ license: "MIT"
 # The declarations for code files
 
 code_files:
+# Helpers
+- {name: Helpers/Tabs.swift,  path: Code/Helpers/enum_model.swift.liquid}
+
 # View layer
 - {name: View/Helpers/ViewInputTheme.swift,  path: Code/View/view_input_theme.swift.liquid}
 - {name: View/ViewInput.swift,  path: Code/View/view_input.swift.liquid}
