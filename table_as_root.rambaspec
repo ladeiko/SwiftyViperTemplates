@@ -9,7 +9,7 @@ license: "MIT"
 
 code_files:
 # Helpers
-- {name: Helpers/Tabs.swift,  path: Code/Helpers/enum_model.swift.liquid}
+- {name: Helpers/EntityModel.swift,  path: Code/Helpers/enum_model.swift.liquid}
 
 # View layer
 - {name: View/Helpers/ViewInputTheme.swift,  path: Code/View/view_input_theme.swift.liquid}
