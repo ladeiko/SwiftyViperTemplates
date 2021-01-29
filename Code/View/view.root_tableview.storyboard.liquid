@@ -1,53 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I6M-ZV-GJo">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--{{ prefix }}{{ module_info.name }} View Controller-->
-        <scene sceneID="odO-Tg-eab">
+        <scene sceneID="vaR-0G-mkh">
             <objects>
-                <tableViewController id="I6M-ZV-GJo" customClass="{{ prefix }}{{ module_info.name }}ViewController" customModule="" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UVh-ii-YTz">
+                <tableViewController id="l7F-6f-UuN" customClass="{{ prefix }}{{ module_info.name }}ViewController" customModule={% if module_info.project_targets and module_info.project_targets.size %}"{{ module_info.project_targets[0] }}"{% else %}""{% endif %} customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5DF-Sq-l9Y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Default" id="gtu-Jo-f3f" customClass="{{ prefix }}{{ module_info.name }}ViewCell" customModule="" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Default" id="lZY-i0-IPq" customClass="{{ prefix }}{{ module_info.name }}ViewCell" customModule={% if module_info.project_targets and module_info.project_targets.size %}"{{ module_info.project_targets[0] }}"{% else %}""{% endif %} customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gtu-Jo-f3f" id="0aQ-MO-a7K">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lZY-i0-IPq" id="5q3-Ok-Peo">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="I6M-ZV-GJo" id="6GE-iy-6cH"/>
-                            <outlet property="delegate" destination="I6M-ZV-GJo" id="RR1-XF-aDS"/>
+                            <outlet property="dataSource" destination="l7F-6f-UuN" id="WeX-Qp-VC3"/>
+                            <outlet property="delegate" destination="l7F-6f-UuN" id="yiC-bz-QUG"/>
                         </connections>
                     </tableView>
-                    <connections>
-                        <outlet property="tableView" destination="UVh-ii-YTz" id="2xr-gN-26u"/>
-                    </connections>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1rY-Eb-UFC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                {% if custom_parameters.extended_configurator_create != 'true' %}
-                <customObject id="5Rv-JW-reY" customClass="{{ prefix }}{{ module_info.name }}ModuleInitializer" customModule="" customModuleProvider="target">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RBu-TG-EBy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="5Rv-JW-reY" customClass="{{ prefix }}{{ module_info.name }}ModuleInitializer" customModule={% if module_info.project_targets and module_info.project_targets.size %}"{{ module_info.project_targets[0] }}"{% else %}""{% endif %} customModuleProvider="target">
                     <connections>
-                        <outlet property="{{ module_info.name | downcase }}ViewController" destination="I6M-ZV-GJo" id="wJI-Bu-aoP"/>
+                        <outlet property="{{ prefix | downcase }}{{ module_info.name | downcase }}ViewController" destination="l7F-6f-UuN" id="4he-Jo-MWB"/>
                     </connections>
                 </customObject>
-                {% endif %}
             </objects>
-            <point key="canvasLocation" x="623.20000000000005" y="-126.38680659670166"/>
+            <point key="canvasLocation" x="1163" y="-124"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
