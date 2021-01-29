@@ -12,7 +12,7 @@
         <!--{{ prefix }}{{ module_info.name }} View Controller-->
         <scene sceneID="2cH-70-FlM">
             <objects>
-                <collectionViewController id="aT8-Bj-86N" customClass="{{ prefix }}{{ module_info.name }}ViewController" customModule="" sceneMemberID="viewController">
+                <collectionViewController id="aT8-Bj-86N" customClass="{{ prefix }}{{ module_info.name }}ViewController" customModule={% if module_info.project_targets and module_info.project_targets.size %}"{{ module_info.project_targets[0] }}"{% else %}""{% endif %} sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="1Fy-a3-K45">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -41,7 +41,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aqI-SS-yFs" sceneMemberID="firstResponder"/>
                 {% if custom_parameters.extended_configurator_create != 'true' %}
-                <customObject id="5Rv-JW-reY" customClass="{{ prefix }}{{ module_info.name }}ModuleInitializer" customModule="" customModuleProvider="target">
+                <customObject id="5Rv-JW-reY" customClass="{{ prefix }}{{ module_info.name }}ModuleInitializer" customModule={% if module_info.project_targets and module_info.project_targets.size %}"{{ module_info.project_targets[0] }}"{% else %}""{% endif %} customModuleProvider="target">
                     <connections>
                         <outlet property="{{ module_info.name | downcase }}ViewController" destination="aT8-Bj-86N" id="wJI-Bu-aoP"/>
                     </connections>

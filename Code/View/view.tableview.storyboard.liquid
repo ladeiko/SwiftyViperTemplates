@@ -12,7 +12,7 @@
         <!--{{ prefix }}{{ module_info.name }} View Controller-->
         <scene sceneID="odO-Tg-eab">
             <objects>
-                <viewController id="I6M-ZV-GJo" customClass="{{ prefix }}{{ module_info.name }}ViewController" customModule="" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="I6M-ZV-GJo" customClass="{{ prefix }}{{ module_info.name }}ViewController" customModule={% if module_info.project_targets and module_info.project_targets.size %}"{{ module_info.project_targets[0] }}"{% else %}""{% endif %} customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yRd-o4-GTZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,7 +22,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Default" id="gtu-Jo-f3f" customClass="{{ prefix }}{{ module_info.name }}ViewCell" customModule="" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Default" id="gtu-Jo-f3f" customClass="{{ prefix }}{{ module_info.name }}ViewCell" customModule={% if module_info.project_targets and module_info.project_targets.size %}"{{ module_info.project_targets[0] }}"{% else %}""{% endif %} customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gtu-Jo-f3f" id="0aQ-MO-a7K">
@@ -48,7 +48,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1rY-Eb-UFC" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 {% if custom_parameters.extended_configurator_create != 'true' %}
-                <customObject id="5Rv-JW-reY" customClass="{{ prefix }}{{ module_info.name }}ModuleInitializer" customModule="" customModuleProvider="target">
+                <customObject id="5Rv-JW-reY" customClass="{{ prefix }}{{ module_info.name }}ModuleInitializer" customModule={% if module_info.project_targets and module_info.project_targets.size %}"{{ module_info.project_targets[0] }}"{% else %}""{% endif %} customModuleProvider="target">
                     <connections>
                         <outlet property="{{ module_info.name | downcase }}ViewController" destination="I6M-ZV-GJo" id="wJI-Bu-aoP"/>
                     </connections>
