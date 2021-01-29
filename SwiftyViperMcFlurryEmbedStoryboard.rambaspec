@@ -8,6 +8,12 @@ license: "MIT"
 # The declarations for code files
 
 code_files:
+
+# Helpers
+{% if custom_parameters.mcflurry_swift == "true" %}
+- {name: Helpers/ModuleContainerIdentifier.swift,  path: Code/Helpers/container_identifier.swift.liquid}
+{% endif %}
+
 # View layer
 - {name: View/Helpers/ViewInputTheme.swift,  path: Code/View/view_input_theme.swift.liquid}
 - {name: View/ViewInput.swift,  path: Code/View/view_input.swift.liquid}

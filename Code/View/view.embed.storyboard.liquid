@@ -28,7 +28,9 @@
                     </view>
                     <connections>
                         <outlet property="embedSomeModuleSegueContainer" destination="1Sc-rP-FqP" id="5n9-aX-SPW"/>
+                        {% if custom_parameters.mcflurry_swift != 'true' %}
                         <segue destination="wbk-f7-Ip8" kind="custom" identifier="EmbedSomeModuleSegue" customClass="{% if custom_parameters.mcflurry_swift == "true" %}EmbedSegue{% else %}RamblerEmbedSegue{% endif %}" id="yZa-9b-gis"/>
+                        {% endif %}
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aqI-SS-yFs" sceneMemberID="firstResponder"/>
@@ -42,6 +44,7 @@
             </objects>
             <point key="canvasLocation" x="-361" y="-81"/>
         </scene>
+        {% if custom_parameters.mcflurry_swift != 'true' %}
         <!--SomeModuleStoryBoardName-->
         <scene sceneID="Eli-l8-ByO">
             <objects>
@@ -50,5 +53,6 @@
             </objects>
             <point key="canvasLocation" x="344" y="-95"/>
         </scene>
+        {% endif %}
     </scenes>
 </document>

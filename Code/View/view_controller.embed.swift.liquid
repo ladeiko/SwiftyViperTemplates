@@ -3,7 +3,7 @@
 import UIKit
 import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}RamblerSegues{% endif %}
 
-class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {% if custom_parameters.mcflurry_swift == "true" %}EmbedSegueContainerViewProvider{% else %}RamblerEmbedSegueViewContainer{% endif %}, {{ prefix }}{{module_info.name}}ViewInput {
+class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
     // MARK: - VIPER Vars
 
@@ -12,7 +12,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {% if 
     // MARK: - Outlets
     // TODO: Place your code here
 
-    // see https://github.com/rambler-digital-solutions/RamblerSegues
+    {% if custom_parameters.mcflurry_swift != "true" %}// see https://github.com/rambler-digital-solutions/RamblerSegues{% endif %}
     @IBOutlet weak var embedSomeModuleSegueContainer: UIView!
 
     // MARK: - Vars
@@ -25,18 +25,43 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {% if 
         output.viewIsReady()
     }
 
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController {
+
+    // MARK: - UI Actions
+    // TODO: Place your code here
+
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController {
+
+    // MARK: - Helpers
+    // TODO: Place your code here
+
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{module_info.name}}ViewInput {
+
     // MARK: - {{ prefix }}{{module_info.name}}ViewInput
     
     func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
         // TODO: Place your code here
     }
 
-    // MARK: - UI Actions
-    // TODO: Place your code here
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController: {% if custom_parameters.mcflurry_swift == "true" %}EmbedSegueContainerViewProvider{% else %}RamblerEmbedSegueViewContainer{% endif %} {
 
     // MARK: - {% if custom_parameters.mcflurry_swift == "true" %}EmbedSegueContainerViewProvider{% else %}RamblerEmbedSegueViewContainer{% endif %}
 
     {% if custom_parameters.mcflurry_swift == 'true' %}func containerViewForSegue(_ identifier: String) -> UIView?{% else %}func view(forEmbedIdentifier identifier: String!) -> UIView!{% endif %} {
+        {% if custom_parameters.mcflurry_swift == 'true' %}
+        switch {{ prefix }}{{ module_info.name }}ModuleContainerIdentifier(rawValue: identifier)! {
+        case .module1:
+            return self.embedSomeModuleSegueContainer
+        }
+        {% else %}
         switch identifier {
         // see https://github.com/rambler-digital-solutions/RamblerSegues
         case "EmbedSomeModuleSegue":
@@ -44,8 +69,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {% if 
         default:
             return nil
         }
+        {% endif %}
     }
 
-    // MARK: - Helpers
-    // TODO: Place your code here
 }

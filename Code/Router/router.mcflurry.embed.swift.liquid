@@ -13,7 +13,7 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
 
     func embedSomeModule() {
         {% if custom_parameters.mcflurry_swift == 'true' %}
-        transitionHandler.openModuleUsingSegue("EmbedSomeModuleSegue").thenChainUsingBlock { (module) -> ViperModuleOutput? in
+        transitionHandler.embedModuleUsing(SomeModuleConfigurator(), into: {{ prefix }}{{ module_info.name }}ModuleContainerIdentifier.module1.rawValue).thenChainUsingBlock { (module) -> ViperModuleOutput? in
         {% else %}
         transitionHandler.openModule!(usingSegue: "EmbedSomeModuleSegue").thenChain { (module) -> RamblerViperModuleOutput? in
         {% endif %}
