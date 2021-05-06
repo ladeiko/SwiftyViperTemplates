@@ -7,4 +7,14 @@ protocol {{ prefix }}{{ module_info.name }}ModuleOutput: {% if custom_parameters
 
     func {{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss()
 
+    func {{ module_info.name[0] | downcase -}}
+    {%- assign myvariable_length = module_info.name | size | minus: 1 -%} 
+    {{- module_info.name | slice: 1, myvariable_length }}ModuleDidDeallocate(_ moduleInput: {{ prefix }}{{ module_info.name }}ModuleInput)
+
+}
+
+extension {{ prefix }}{{ module_info.name }}ModuleOutput {
+    func {{ module_info.name[0] | downcase -}}
+    {%- assign myvariable_length = module_info.name | size | minus: 1 -%} 
+    {{- module_info.name | slice: 1, myvariable_length }}ModuleDidDeallocate(_ moduleInput: {{ prefix }}{{ module_info.name }}ModuleInput) {}
 }

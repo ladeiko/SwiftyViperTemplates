@@ -5,7 +5,11 @@ import CacheTracker
 
 protocol {{ prefix }}{{ module_info.name }}InteractorInput: class {
 
-    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig){% else %}func configure(){% endif %}
+    {% if custom_parameters.extended_configure %}func configure(with {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+                                                                    environment: {{ prefix }}{{ module_info.name }}ModuleInputEnvironment)
+                                                                    {%- else -%}
+                                                                    config: {{ prefix }}{{ module_info.name }}ModuleInputConfig)
+                                                                    {%- endif -%}{% else %}func configure(){% endif %}
     func deinitialize()
     func isDeliveringModelsListChanges() -> Bool
     func startDeliveringModelsListChanges()

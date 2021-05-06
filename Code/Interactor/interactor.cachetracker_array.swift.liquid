@@ -17,7 +17,12 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
 
-    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+    {% if custom_parameters.extended_configure %}func configure(with {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+                                                                        environment: {{ prefix }}{{ module_info.name }}ModuleInputEnvironment)
+                                                                        {%- else -%}
+                                                                        config: {{ prefix }}{{ module_info.name }}ModuleInputConfig)
+                                                                        {%- endif -%}) {
+        assert(Thread.isMainThread)
         assert(self.config == nil)
         self.config = config
     }
@@ -38,6 +43,7 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
     }
 
     func startDeliveringModelsListChanges() {
+        assert(Thread.isMainThread)
         assert(cacheTracker == nil)
         cacheTracker = ArrayCacheTracker<{{ prefix }}{{ module_info.name }}ModuleEntityModel>(data: items)
         items = []

@@ -8,13 +8,23 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
 
     // MARK: - Vars
     
-    {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% endif %}
+    {% if custom_parameters.extended_configure %}private var environment: {{ prefix }}{{ module_info.name }}ModuleInputEnvironment!{% endif %}
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
     
-    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+    {% if custom_parameters.extended_configure %}func configure(with {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+                                                                        environment: {{ prefix }}{{ module_info.name }}ModuleInputEnvironment)
+                                                                        {%- else -%}
+                                                                        config: {{ prefix }}{{ module_info.name }}ModuleInputConfig)
+                                                                        {%- endif -%}) {
+        assert(Thread.isMainThread)
+        if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+        assert(self.environment == nil)
+        self.environment = environment
+        {%- else -%}
         assert(self.config == nil)
         self.config = config
+        {%- endif -%}
     }
     {% else %}func configure() {
         // TODO
@@ -22,7 +32,7 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
 
     func deinitialize() {
         // TODO: Place your code here
-        {% if custom_parameters.extended_configure %}self.config = nil{% endif %}
+        {% if custom_parameters.extended_configure %}self.environment = nil{% endif %}
     }
 
     var currentTab: {{ prefix }}{{ module_info.name }}ModuleTab = .exampleTab

@@ -1,6 +1,34 @@
 {% include 'header' %}
 
-struct {{ prefix }}{{ module_info.name }}ModuleInputConfig {
+{% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+environment: {{ prefix }}{{ module_info.name }}ModuleInputEnvironment
+
+protocol {{ prefix }}{{ module_info.name }}ModuleInputParameters {
+    {% if custom_parameters.extended_configure_vars %}{% assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," %}
+    {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if var_components[0] != "services" %}let {{ var_components[0] }}: {{ var_components[1] }}{% endif %}
+    {% endfor %}{% endif %}
+}
+
+{% if custom_parameters.extended_configure_vars contains "services=" -%}
+protocol {{ prefix }}{{ module_info.name }}ModuleInputEnvironmentService1 {
+    func someFunc1()
+}
+
+protocol {{ prefix }}{{ module_info.name }}ModuleInputEnvironmentServices {
+    // TODO
+    // e.g:
+    // let service: {{ prefix }}{{ module_info.name }}ModuleInputEnvironmentService1
+}
+{%- endif %}
+
+protocol {{ prefix }}{{ module_info.name }}ModuleInputEnvironment {
+    {% if custom_parameters.extended_configure_vars contains "services=" -%}
+    let services: {{ prefix }}{{ module_info.name }}ModuleInputEnvironmentServices
+    {%- endif %}
+}
+{%- endif %}
+
+struct {{ prefix }}{{ module_info.name }}ModuleInputConfig{% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}: {{ prefix }}{{ module_info.name }}ModuleInputParametersConfig, {{ prefix }}{{ module_info.name }}ModuleInputEnvironmentConfig{%- endif %} {
     {% if custom_parameters.extended_configure_vars %}{% assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," %}
     {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}let {{ var_components[0] }}: {{ var_components[1] }}
     {% endfor %}{% endif %}
