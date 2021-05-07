@@ -34,6 +34,7 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
         }
 
         func startDeliveringModelsListChanges() {
+            assert(Thread.isMainThread)
             XCTAssertFalse(tracking)
             tracking = true
         }

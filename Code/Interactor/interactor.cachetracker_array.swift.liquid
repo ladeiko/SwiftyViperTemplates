@@ -13,7 +13,11 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
     private var cacheTracker: ArrayCacheTracker<{{ prefix }}{{ module_info.name }}ModuleEntityModel>?
     private var changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] = [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]()
     private var items = [{{ prefix }}{{ module_info.name }}ModuleEntityModel]()
-    {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% endif %}
+    {% if custom_parameters.extended_configure %}private var {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+                                                            environment: {{ prefix }}{{ module_info.name }}ModuleInputEnvironment)!
+                                                            {%- else -%}
+                                                            config: {{ prefix }}{{ module_info.name }}ModuleInputConfig)!
+                                                            {%- endif -%}{%- endif %}
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
 
@@ -23,8 +27,13 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
                                                                         config: {{ prefix }}{{ module_info.name }}ModuleInputConfig)
                                                                         {%- endif -%}) {
         assert(Thread.isMainThread)
+        if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+        assert(self.environment == nil)
+        self.environment = environment
+        {%- else -%}
         assert(self.config == nil)
         self.config = config
+        {%- endif -%}
     }
     {% else %}func configure() {
         // TODO

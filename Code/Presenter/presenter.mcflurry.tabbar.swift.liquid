@@ -21,7 +21,11 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
 
     // MARK: - Vars
 
-    {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% else %}// TODO: Place your code here{% endif %}
+    {% if custom_parameters.extended_configure %}private var {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+                                                            environment: {{ prefix }}{{ module_info.name }}ModuleInputParameters)!
+                                                            {%- else -%}
+                                                            config: {{ prefix }}{{ module_info.name }}ModuleInputConfig)!
+                                                            {%- endif -%}{%- endif %}
 
     // MARK: - Life cycle
 
@@ -45,6 +49,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     // MARK: - {{ prefix }}{{module_info.name}}ModuleInput
 
     {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {% else %}func configure() {% endif %}{
+        assert(Thread.isMainThread)
         guard case .initial = state else { fatalError() }
         state = .ready(isViewReady: false)
         {% if custom_parameters.extended_configure %}
