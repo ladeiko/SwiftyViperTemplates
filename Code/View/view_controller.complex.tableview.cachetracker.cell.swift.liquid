@@ -10,6 +10,14 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UITableViewCell {
 
     // MARK: - Vars
 
+//    private static var imageSessionCounter: Int = 0
+//    private static func generateSession() -> Int {
+//        let value = imageSessionCounter
+//        imageSessionCounter = imageSessionCounter.addingReportingOverflow(1).partialValue
+//        return value
+//    }
+
+//    private var imageSession: Int?
     private var removeEmbeddableBlock: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock?
     private var context: {{ prefix }}{{ module_info.name }}ViewCellContext?
     private var model: {{ prefix }}{{ module_info.name }}ModuleEntityModel?
@@ -20,14 +28,18 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UITableViewCell {
         self.context = context
         self.model = model
 
+//        let imageSession: Int = Self.generateSession()
+//        self.imageSession = imageSession
+//
 //        context.loadModelImage(model) { image in
 //
 //            assert(Thread.isMainThread)
 //
-//            guard model == self.model else {
+//            guard model == self.model, self.imageSession == imageSession else {
 //                return
 //            }
 //
+//            self.imageSession = nil
 //            self.imageView.image = image
 //        }
 
@@ -53,6 +65,7 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UITableViewCell {
         removeEmbeddable()
         model = nil
         context = nil
+//        imageSession = nil        
         super.prepareForReuse()
     }
 
