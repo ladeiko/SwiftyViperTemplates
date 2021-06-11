@@ -23,7 +23,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     {% if custom_parameters.extended_configure %}private var {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
                                                             environment: {{ prefix }}{{ module_info.name }}ModuleInputParameters)!
                                                             {%- else -%}
-                                                            config: {{ prefix }}{{ module_info.name }}ModuleInputConfig)!
+                                                            config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!
                                                             {%- endif -%}{%- endif %}
 
     // MARK: - Life cycle

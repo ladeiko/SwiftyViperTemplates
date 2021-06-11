@@ -1,7 +1,6 @@
 {% include 'header' %}
 
 {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
-environment: {{ prefix }}{{ module_info.name }}ModuleInputEnvironment
 
 protocol {{ prefix }}{{ module_info.name }}ModuleInputParameters {
     {% if custom_parameters.extended_configure_vars %}{% assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," %}

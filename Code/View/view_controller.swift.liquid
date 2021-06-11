@@ -18,6 +18,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {{ pre
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
         output.viewIsReady()
     }
 
@@ -31,5 +32,38 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {{ pre
     // TODO: Place your code here
 
     // MARK: - Helpers
+
+    private final func setupView() {
+        // TODO: Place your code here
+    }
+
     // TODO: Place your code here
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerFakeOutputForPreview: {{ prefix }}{{ module_info.name }}ViewOutput {
+    func viewIsReady() {}
+}
+
+@available(iOS 13.0, tvOS 13.0, *)
+struct {{ prefix }}{{ module_info.name }}ViewControllerRepresentable: UIViewControllerRepresentable {
+    func updateUIViewController(_ uiViewController: {{ prefix }}{{ module_info.name }}ViewController, context: Context) {}
+    func makeUIViewController(context: Context) -> {{ prefix }}{{ module_info.name }}ViewController {
+        let controller = {{ prefix }}{{ module_info.name }}ViewController()
+        controller.output = {{ prefix }}{{ module_info.name }}ViewControllerFakeOutputForPreview()
+        return controller
+    }
+}
+
+@available(iOS 13.0, *)
+struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
+            .preferredColorScheme(.light)
+        {{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
+            .preferredColorScheme(.dark)
+    }
+}
+#endif

@@ -6,7 +6,9 @@ version: "1.10.0"
 license: "MIT"
 
 custom_parameters:
-- { name: ui_engine, description: "UI engine", type: [uikit, uikitplus, swiftui] }
+- { name: ui_engine, description: "UI mode", options: [uikit, uikitplus, swiftui] }
+- { name: use_storyboard, only_if: { ui_engine: [uikit] }, description: "Use storyboard", options: ["yes", "no"] }
+- { name: split_module_config_into_parameters_and_environment, description: "Separate interfaces for Interactor and Presenter", options: ["yes", "no"]  }
 
 # The declarations for code files
 
@@ -15,7 +17,6 @@ code_files:
 - {name: View/Helpers/ViewInputTheme.swift,  path: Code/View/view_input_theme.swift.liquid}
 - {name: View/ViewInput.swift,  path: Code/View/view_input.swift.liquid}
 - {name: View/ViewOutput.swift, path: Code/View/view_output.swift.liquid}
-- {name: View/ViewController.swift, path: Code/View/view_controller.swift.liquid}
 
 {% if custom_parameters and custom_parameters.ui_engine == 'uikitplus' %}
 - {name: View/ViewController.swift, path: Code/View/view_controller.uikitplus.swift.liquid}
@@ -25,11 +26,14 @@ code_files:
 - {name: View/RootViewDelegate.swift, path: Code/View/root_view_delegate.swiftui.swift.liquid}
 - {name: View/RootViewState.swift, path: Code/View/root_view_state.swiftui.swift.liquid}
 {% else %}
+- {name: View/ViewController.swift, path: Code/View/view_controller.swift.liquid}
+{% if custom_parameters and custom_parameters.use_storyboard == 'true' %}
 - {name: View/Storyboards/.storyboard, path: Code/View/view.storyboard.liquid}
+{% endif %}
 {% endif %}
 
 # Presenter layer
-{% if custom_parameters.extended_configure %}
+{% if custom_parameters.extended_configure == 'true' %}
 - {name: Presenter/Helpers/ModuleConfig.swift, path: Code/Helpers/moduleinputconfig.swift.liquid}
 {% endif %}
 - {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.swift.liquid}
@@ -51,11 +55,12 @@ code_files:
 {% elsif custom_parameters and custom_parameters.ui_engine == 'swiftui' %}
 - {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.swiftui.swift.liquid}
 {% else %}
+{% if custom_parameters and custom_parameters.use_storyboard == 'true' %}
 - {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.mcflurry.storyboard.swift.liquid}
-{% endif %}
-
-{% if custom_parameters.extended_configurator_create != 'true' %}
 - {name: Configurator/Initializer.swift, path: Code/Configurator/initializer.swift.liquid}
+{% else %}
+- {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.mcflurry.swift.liquid}
+{% endif %}
 {% endif %}
 
 # The declarations for test files
