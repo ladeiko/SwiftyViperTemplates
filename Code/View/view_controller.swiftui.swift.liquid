@@ -21,15 +21,17 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
         wrapperController = {{ prefix }}{{ module_info.name }}ViewControllerWrapper()
         wrapperController!.rootView.delegate = self
         addChild(wrapperController!)
-        wrapperController!.view.frame = view.bounds
+        wrapperController!.beginAppearanceTransition(true, animated: false)
+        wrapperController!.view.frame = CGSize(origin: .zero, size: view.bounds.size)
         view.addSubview(wrapperController!.view)
+        wrapperController!.endAppearanceTransition()
         wrapperController!.didMove(toParent: self)
         output.viewIsReady()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        wrapperController?.view.frame = view.bounds
+        wrapperController?.view.frame = CGSize(origin: .zero, size: view.bounds.size)
     }
 }
 

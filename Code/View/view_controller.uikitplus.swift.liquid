@@ -23,15 +23,17 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
         wrapperController = {{ prefix }}{{ module_info.name }}ViewControllerWrapper()
         wrapperController!.owner = self
         addChild(wrapperController!)
-        wrapperController!.view.frame = view.bounds
+        wrapperController!.beginAppearanceTransition(true, animated: false)
+        wrapperController!.view.frame = CGSize(origin: .zero, size: view.bounds.size)
         view.addSubview(wrapperController!.view)
+        wrapperController!.endAppearanceTransition()
         wrapperController!.didMove(toParent: self)
         output.viewIsReady()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        wrapperController?.view.frame = view.bounds
+        wrapperController?.view.frame = CGSize(origin: .zero, size: view.bounds.size)
     }
 }
 
@@ -66,7 +68,20 @@ class {{ prefix }}{{ module_info.name }}ViewControllerWrapper: ViewController {
         super.buildUI()
         view.backgroundColor = .red
         body {
-            Text("Hello World").centerInSuperview()
+            UVStack {
+                Text("#TODO")
+                    .background(.blue)
+                Space()
+                    .height(20)
+                Button("#EXAMPLE BUTTON")
+                    .background(.red)
+//                    .onTapGesture { [weak self] button in
+//                        guard let self = self else { return }
+//                        self.owner?.output?.someAction()
+//                    }
+            }
+            .alignment(.center)
+            .centerInSuperview()
         }
     }
 

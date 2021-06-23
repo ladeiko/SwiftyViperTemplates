@@ -4,6 +4,7 @@ summary: "Swift VIPER module template with UIViewController playing as a View. B
 author: "Siarhei Ladzeika"
 version: "1.10.0"
 license: "MIT"
+viperaptor: "2.1.0"
 
 custom_parameters:
 - { name: ui_engine, description: "UI mode", options: [uikit, uikitplus, swiftui] }
