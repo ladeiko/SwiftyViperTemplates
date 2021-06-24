@@ -23,9 +23,9 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     // MARK: - Vars
     
     {% if custom_parameters.extended_configure %}private var {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
-                                                            environment: {{ prefix }}{{ module_info.name }}ModuleInputParameters!
+                                                            config: {{ prefix }}{{ module_info.name }}PresenterConfig!
                                                             {%- else -%}
-                                                            config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!
+                                                            config: {{ prefix }}{{ module_info.name }}ModuleConfig!
                                                             {%- endif -%}{%- endif %}
 
     // MARK: - Life cycle
@@ -36,9 +36,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
             // TODO: Place your code here
         }
         state = .deinitialized
-        output?.{{ module_info.name[0] | downcase -}}
-                {%- assign myvariable_length = module_info.name | size | minus: 1 -%}
-                {{- module_info.name | slice: 1, myvariable_length }}ModuleDidDeallocate(self)
+        output?.{{ module_info.name | slice: 0, 1 | downcase }}{{ module_info.name | slice: 1 }}ModuleDidDeallocate(self)
     }
 
     // MARK: - {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleInput
@@ -52,7 +50,6 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     func viewIsReady() {
         guard case let .ready(isViewReady) = self.state, !isViewReady else { fatalError() }
         state = .ready(isViewReady: true)
-
         view.configure(with: .init())
 
         if !interactor.isDeliveringModelsListChanges() {
@@ -71,14 +68,14 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
 
     // MARK: - {{ prefix }}{{module_info.name}}ModuleInput
 
-    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {% else %}func configure() {% endif %}{
+    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig) {% else %}func configure() {% endif %}{
         assert(Thread.isMainThread)
         guard case .initial = state else { fatalError() }
         state = .ready(isViewReady: false)
-        {% if custom_parameters.extended_configure %}
+        {% if custom_parameters.extended_configure -%}
         self.config = config
         interactor.configure(with: config)
-        {% else %}interactor.configure(){% endif %}
+        {%- else -%}interactor.configure(){%- endif %}
     }
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorOutput
@@ -92,6 +89,19 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
         guard case let .ready(isViewReady) = state, isViewReady else { return }
         view.applyModelsListChanges(adaptModels(changes))
     }
+
+//    func someInteractorOutputAction() {
+//        guard case .ready = self.state else { return }
+//        // TODO: Place your code here
+//    }
+//
+//    func someInteractorOutputActionWithViewInteraction() {
+//        guard case let .ready(isViewReady) = self.state, isViewReady else { return }
+//        // TODO: Place your code here
+//        view.setSomeValue()
+//    }
+
+    // TODO: Place your code here
 
     // MARK: - Helpers
 

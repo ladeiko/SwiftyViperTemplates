@@ -21,7 +21,7 @@ class {{ prefix }}{{ module_info.name }}Router: NSObject, {{ prefix }}{{ module_
 
     // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
     
-    func embedTabs(_ module: [{{ prefix }}{{ module_info.name }}ModuleTab], current: {{ prefix }}{{ module_info.name }}ModuleTab?{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) {
+    func embedTabs(_ module: [{{ prefix }}{{ module_info.name }}ModuleTab], current: {{ prefix }}{{ module_info.name }}ModuleTab?{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
         let existing: [{{ prefix }}{{ module_info.name }}ModuleTab: UIViewController] = tabs.reduce(into: [:], { $0[$1.id] = $1.controller })
         tabs = []
 

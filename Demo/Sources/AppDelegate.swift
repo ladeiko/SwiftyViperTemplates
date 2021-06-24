@@ -55,28 +55,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             #if extended_configure
                 #if extended_configurator_create
                     #if SwiftyViperMcFlurryAlert || alert
-                        let viewController = (configurator.create(with: TestedModuleInputConfig(title: nil, message: nil)) as! TestedViewController)
+                        let viewController = (configurator.create(with: TestedModuleConfig(title: nil, message: nil)) as! TestedViewController)
                     #elseif extended_configure_vars
-                        let viewController = (configurator.create(with: TestedModuleInputConfig(a: AClass(), b: nil)) as! TestedViewController)
+                        let viewController = (configurator.create(with: TestedModuleConfig(a: AClass(), b: nil)) as! TestedViewController)
                     #else
-                        let viewController = (configurator.create(with: TestedModuleInputConfig()) as! TestedViewController)
+                        let viewController = (configurator.create(with: TestedModuleConfig()) as! TestedViewController)
                     #endif
                 #else
                     let viewController = (configurator.create() as! TestedViewController)
                     #if SwiftyViperMcFlurryAlert || alert
-                        (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig(title: nil, message: nil))
+                        (viewController.output as! TestedModuleInput).configure(with: TestedModuleConfig(title: nil, message: nil))
                     #else
                         #if extended_configure_vars
-                            (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig(a: AClass(), b: nil))
+                            (viewController.output as! TestedModuleInput).configure(with: TestedModuleConfig(a: AClass(), b: nil))
                         #else
-                            (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig())
+                            (viewController.output as! TestedModuleInput).configure(with: TestedModuleConfig())
                         #endif
                     #endif
                 #endif
             #else
                 let viewController = (configurator.create() as! TestedViewController)
                 #if SwiftyViperMcFlurryAlert || alert
-                    (viewController.output as! TestedModuleInput).configure(with: TestedModuleInputConfig(title: nil, message: nil))
+                    (viewController.output as! TestedModuleInput).configure(with: TestedModuleConfig(title: nil, message: nil))
                 #else
                     (viewController.output as! TestedModuleInput).configure()
                 #endif
@@ -117,8 +117,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 #if !extended_configure
 #if SwiftyViperMcFlurryAlert
-typealias TestedModuleInputConfig = SwiftyViperMcFlurryAlertModuleInputConfig
+typealias TestedModuleConfig = SwiftyViperMcFlurryAlertModuleConfig
 #elseif alert
-typealias TestedModuleInputConfig = alertModuleInputConfig
+typealias TestedModuleConfig = alertModuleConfig
 #endif
 #endif

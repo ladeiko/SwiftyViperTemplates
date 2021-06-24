@@ -2,7 +2,7 @@
 
 import CacheTracker
 
-protocol {{ prefix }}{{ module_info.name }}ViewInput: class {
+protocol {{ prefix }}{{ module_info.name }}ViewInput: AnyObject {
 
     func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme)
     func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>])

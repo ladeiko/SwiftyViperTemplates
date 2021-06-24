@@ -1,7 +1,7 @@
 {% include 'header' %}
 
-protocol {{ prefix }}{{ module_info.name }}ModuleInput: class {
+protocol {{ prefix }}{{ module_info.name }}ModuleInput: AnyObject {
 
-    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig)
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig)
 
 }

@@ -83,7 +83,7 @@ struct MyModuleConfig {
     // TODO: Place your code here
 }
 
-protocol MyModuleInput: class {
+protocol MyModuleInput: AnyObject {
 
     func configure(with config: MyModuleConfig)
 

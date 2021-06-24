@@ -23,9 +23,6 @@ code_files:
 - {name: View/ViewController.swift, path: Code/View/view_controller.uikitplus.swift.liquid}
 {% elsif custom_parameters and custom_parameters.ui_engine == 'swiftui' %}
 - {name: View/ViewController.swift, path: Code/View/view_controller.swiftui.swift.liquid}
-- {name: View/RootView.swift, path: Code/View/root_view.swiftui.swift.liquid}
-- {name: View/RootViewDelegate.swift, path: Code/View/root_view_delegate.swiftui.swift.liquid}
-- {name: View/RootViewState.swift, path: Code/View/root_view_state.swiftui.swift.liquid}
 {% else %}
 - {name: View/ViewController.swift, path: Code/View/view_controller.swift.liquid}
 {% if custom_parameters and custom_parameters.use_storyboard == 'true' %}

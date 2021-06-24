@@ -2,6 +2,6 @@
 
 import Foundation
 
-protocol {{ prefix }}{{ module_info.name }}RouterOutput: class {
+protocol {{ prefix }}{{ module_info.name }}RouterOutput: AnyObject {
     func routerDidChangeCurrentModule(_ module: {{ prefix }}{{ module_info.name }}ModuleTab)
 }

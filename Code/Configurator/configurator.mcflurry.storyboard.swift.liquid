@@ -10,17 +10,17 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
 class {{ prefix }}{{ module_info.name }}ModuleConfigurator: {% if custom_parameters.mcflurry_swift != "true" %}NSObject,{% endif %} {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleFactory{% if custom_parameters.mcflurry_swift != "true" %}Protocol{% endif %} {
 {% endif %}
 
-    func configureModuleForViewInput<UIViewController>(viewInput: UIViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) {
+    func configureModuleForViewInput<UIViewController>(viewInput: UIViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
         if let viewController = viewInput as? {{ prefix }}{{ module_info.name }}ViewController {
-            {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
+            {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure -%}
             configure(viewController: viewController, with: config)
-            {% else %}
+            {%- else -%}
             configure(viewController: viewController)
-            {% endif -%}
+            {%- endif %}
         }
     }
 
-    private func configure(viewController: {{ prefix }}{{ module_info.name }}ViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) {
+    private func configure(viewController: {{ prefix }}{{ module_info.name }}ViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
 
         guard viewController.output == nil else { // prevent double configuration
             return
@@ -45,11 +45,12 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator: {% if custom_paramet
         viewController.onWillDeallocate {
             presenter.willDeinit()
         }
-
-        {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}presenter.configure(with: config){% endif %}
+        {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure -%}
+        presenter.configure(with: config)
+        {%- endif %}
     }
 
-    func create({% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) -> UIViewController {
+    func create({% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) -> UIViewController {
         let storyboard = UIStoryboard(name: "{{ prefix }}{{ module_info.name }}", bundle: nil)
         let viewController = storyboard.instantiateInitialViewController() as! {{ prefix }}{{ module_info.name }}ViewController
         {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}

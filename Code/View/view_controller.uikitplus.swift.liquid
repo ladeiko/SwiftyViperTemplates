@@ -24,7 +24,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
         wrapperController!.owner = self
         addChild(wrapperController!)
         wrapperController!.beginAppearanceTransition(true, animated: false)
-        wrapperController!.view.frame = CGSize(origin: .zero, size: view.bounds.size)
+        wrapperController!.view.frame = CGRect(origin: .zero, size: view.bounds.size)
         view.addSubview(wrapperController!.view)
         wrapperController!.endAppearanceTransition()
         wrapperController!.didMove(toParent: self)
@@ -33,7 +33,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        wrapperController?.view.frame = CGSize(origin: .zero, size: view.bounds.size)
+        wrapperController?.view.frame = CGRect(origin: .zero, size: view.bounds.size)
     }
 }
 

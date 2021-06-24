@@ -15,26 +15,29 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
     private var cacheTracker: CoreDataCacheTracker<{{ prefix }}{{ module_info.name }}ModuleDatabaseModel, {{ prefix }}{{ module_info.name }}ModuleEntityModel>?
     private var changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] = [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]()
     {% if custom_parameters.extended_configure %}private var {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
-                                                            environment: {{ prefix }}{{ module_info.name }}ModuleInputEnvironment)!
+                                                            config: {{ prefix }}{{ module_info.name }}InteractorConfig!
                                                             {%- else -%}
-                                                            config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!
+                                                            config: {{ prefix }}{{ module_info.name }}ModuleConfig!
                                                             {%- endif -%}{%- endif %}
+    {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+    private var services: {{ prefix }}{{ module_info.name }}RequiredServices { config.servicesFactory.servicesFor{{ prefix }}{{ module_info.name }} }
+    {%- endif %}
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
 
     {% if custom_parameters.extended_configure %}func configure(with {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
-                                                                        environment: {{ prefix }}{{ module_info.name }}ModuleInputEnvironment)
+                                                                        config: {{ prefix }}{{ module_info.name }}InteractorConfig)
                                                                         {%- else -%}
-                                                                        config: {{ prefix }}{{ module_info.name }}ModuleInputConfig)
+                                                                        config: {{ prefix }}{{ module_info.name }}ModuleConfig)
                                                                         {%- endif -%} {
         assert(Thread.isMainThread)
         {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
-        assert(self.environment == nil)
-        self.environment = environment
+        assert(self.config == nil)
+        self.config = config
         {%- else -%}
         assert(self.config == nil)
         self.config = config
-        {%- endif -%}
+        {%- endif %}
     }
     {% else %}func configure() {
         // TODO

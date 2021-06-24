@@ -1,7 +1,7 @@
 {% include 'header' %}
 
-protocol {{ prefix }}{{ module_info.name }}ModuleInput: class {
+protocol {{ prefix }}{{ module_info.name }}ModuleInput: AnyObject {
 
-    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig){% else %}func configure(){% endif %}
+    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig){% else %}func configure(){% endif %}
     func setCurrent(_ tab: {{ prefix }}{{ module_info.name }}ModuleTab)
 }

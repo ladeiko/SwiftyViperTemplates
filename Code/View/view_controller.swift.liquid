@@ -53,6 +53,7 @@ struct {{ prefix }}{{ module_info.name }}ViewControllerRepresentable: UIViewCont
     func makeUIViewController(context: Context) -> {{ prefix }}{{ module_info.name }}ViewController {
         let controller = {{ prefix }}{{ module_info.name }}ViewController()
         controller.output = {{ prefix }}{{ module_info.name }}ViewControllerFakeOutputForPreview()
+        // TODO: Place your code here
         return controller
     }
 }
@@ -62,8 +63,10 @@ struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvide
     static var previews: some View {
         {{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
             .preferredColorScheme(.light)
+            //.previewDevice("iPhone X")
         {{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
             .preferredColorScheme(.dark)
+            //.previewDevice("iPhone 12")
     }
 }
 #endif

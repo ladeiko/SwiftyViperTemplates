@@ -23,15 +23,15 @@ class {{ prefix }}{{ module_info.name }}ModuleConfiguratorTests: XCTestCase {
         {% if custom_parameters.extended_configure_vars %}{% assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," %}
         {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}let {{ var_components[0] }}: {{ var_components[1] }} = ... // TODO: Place your code here
         {% endfor %}{% endif %}
-        let config = {{ prefix }}{{ module_info.name }}ModuleInputConfig({% if custom_parameters.extended_configure_vars %}{% assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {{ var_components[0] }}{% endfor %}{% endif %})
+        let config = {{ prefix }}{{ module_info.name }}ModuleConfig({% if custom_parameters.extended_configure_vars %}{% assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {{ var_components[0] }}{% endfor %}{% endif %})
         {% endif %}
 
         //when
-        {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
+        {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure -%}
         configurator.configureModuleForViewInput(viewInput: viewController, with: config)
-        {% else %}
+        {%- else -%}
         configurator.configureModuleForViewInput(viewInput: viewController)
-        {% endif %}
+        {%- endif %}
 
         //then
         XCTAssertNotNil(viewController.output, "{{ prefix }}{{ module_info.name }}ViewController is nil after configuration")

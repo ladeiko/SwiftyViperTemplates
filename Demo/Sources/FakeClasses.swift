@@ -12,13 +12,13 @@ class AClass {}
 
 class BClass {}
 
-struct SomeEmbeddableModuleInputConfig {
+struct SomeEmbeddableModuleConfig {
     let title: String?
 }
 
 protocol SomeEmbeddableModuleInput {
 #if embeddable_extended_configure
-    func configure(with config: SomeEmbeddableModuleInputConfig)
+    func configure(with config: SomeEmbeddableModuleConfig)
 #else
     func configure()
 #endif
@@ -84,7 +84,7 @@ class SomeEmbeddableModule: SomeEmbeddableModuleInput, SomeEmbeddableModuleViewO
     }
 
 #if embeddable_extended_configure
-    func configure(with config: SomeEmbeddableModuleInputConfig) {
+    func configure(with config: SomeEmbeddableModuleConfig) {
         title = config.title
     }
 #else

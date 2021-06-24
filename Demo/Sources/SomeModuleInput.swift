@@ -8,7 +8,7 @@
 
 import ViperMcFlurryX
 
-protocol SomeModuleInput: class {
+protocol SomeModuleInput: AnyObject {
     func configure()
 }
 

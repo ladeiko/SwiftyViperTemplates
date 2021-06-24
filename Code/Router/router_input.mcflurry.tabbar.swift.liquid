@@ -2,9 +2,9 @@
 
 import Foundation
 
-protocol {{ prefix }}{{ module_info.name }}RouterInput: class {
+protocol {{ prefix }}{{ module_info.name }}RouterInput: AnyObject {
 
-    func embedTabs(_ module: [{{ prefix }}{{ module_info.name }}ModuleTab], current: {{ prefix }}{{ module_info.name }}ModuleTab?{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %})
+    func embedTabs(_ module: [{{ prefix }}{{ module_info.name }}ModuleTab], current: {{ prefix }}{{ module_info.name }}ModuleTab?{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %})
 
     func showTab(_ tab: {{ prefix }}{{ module_info.name }}ModuleTab)
 

@@ -1,6 +1,7 @@
 {% include 'header' %}
 
 import SwiftUI
+import Combine
 
 class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
@@ -22,7 +23,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
         wrapperController!.rootView.delegate = self
         addChild(wrapperController!)
         wrapperController!.beginAppearanceTransition(true, animated: false)
-        wrapperController!.view.frame = CGSize(origin: .zero, size: view.bounds.size)
+        wrapperController!.view.frame = CGRect(origin: .zero, size: view.bounds.size)
         view.addSubview(wrapperController!.view)
         wrapperController!.endAppearanceTransition()
         wrapperController!.didMove(toParent: self)
@@ -31,7 +32,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        wrapperController?.view.frame = CGSize(origin: .zero, size: view.bounds.size)
+        wrapperController?.view.frame = CGRect(origin: .zero, size: view.bounds.size)
     }
 }
 
@@ -61,6 +62,12 @@ extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{ modul
 
 }
 
+fileprivate protocol {{ prefix }}{{ module_info.name }}RootViewDelegate: AnyObject {
+    
+    func didTapOnSampleButton()
+    
+}
+
 fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerWrapper: UIHostingController<{{ prefix }}{{ module_info.name }}RootViewImpl> {
 
     @objc required dynamic init?(coder aDecoder: NSCoder) {
@@ -72,3 +79,38 @@ fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerWrapper: UIHos
     }
 
 }
+
+fileprivate class {{ prefix }}{{ module_info.name }}RootViewState: ObservableObject {
+    
+    @Published var sampleValue = 0
+
+    // TODO: Place your code here
+}
+
+fileprivate protocol {{ prefix }}{{ module_info.name }}RootView {
+    var viewState: {{ prefix }}{{ module_info.name }}RootViewState { get }
+}
+
+fileprivate struct {{ prefix }}{{ module_info.name }}RootViewImpl: View, {{ prefix }}{{ module_info.name }}RootView {
+
+    weak var delegate: {{ prefix }}{{ module_info.name }}RootViewDelegate?
+
+    @ObservedObject var viewState = {{ prefix }}{{ module_info.name }}RootViewState()
+
+    var body: some View {
+        Group {
+            Text("Sample Label [{{ prefix }}{{ module_info.name }}] \(viewState.sampleValue)")
+            Button("Sample Button [{{ prefix }}{{ module_info.name }}]") {
+                self.delegate?.didTapOnSampleButton()
+            }
+        }
+    }
+}
+
+#if DEBUG
+struct {{ prefix }}{{ module_info.name }}RootView_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}RootViewImpl()
+    }
+}
+#endif

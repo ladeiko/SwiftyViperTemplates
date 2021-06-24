@@ -2,34 +2,81 @@
 
 {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
 
-protocol {{ prefix }}{{ module_info.name }}ModuleInputParameters {
-    {% if custom_parameters.extended_configure_vars %}{% assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," %}
-    {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if var_components[0] != "services" %}let {{ var_components[0] }}: {{ var_components[1] }}{% endif %}
-    {% endfor %}{% endif %}
+protocol {{ prefix }}{{ module_info.name }}SharedConfig {
+    // TODO: Place your code here
+}
+
+protocol {{ prefix }}{{ module_info.name }}PresenterConfig: {{ prefix }}{{ module_info.name }}SharedConfig {
+    {% if custom_parameters.extended_configure_vars %}{% assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," -%}
+    {%- for config_var in module_config_vars -%}
+    {%- assign var_components = config_var  | split: "=" -%}
+    {% if var_components[0] != "services" %}let {{ var_components[0] }}: {{ var_components[1] }}{% endif %}
+    {% endfor -%}{% endif %}
+    // TODO: Place your code here
+}
+
+protocol {{ prefix }}{{ module_info.name }}InteractorConfig: {{ prefix }}{{ module_info.name }}SharedConfig {
+    {% if custom_parameters.extended_configure_vars contains "services=" -%}var servicesFactory: {{ prefix }}{{ module_info.name }}RequiredServicesFactory { get }{%- endif %}
 }
 
 {% if custom_parameters.extended_configure_vars contains "services=" -%}
-protocol {{ prefix }}{{ module_info.name }}ModuleInputEnvironmentService1 {
-    func someFunc1()
-}
+//protocol {{ prefix }}{{ module_info.name }}RequiredService1 {
+//    func someFunc1()
+//}
 
-protocol {{ prefix }}{{ module_info.name }}ModuleInputEnvironmentServices {
+//protocol {{ prefix }}{{ module_info.name }}RequiredService2 {
+//    func someFunc2()
+//}
+
+protocol {{ prefix }}{{ module_info.name }}RequiredServices {
     // TODO
     // e.g:
-    // let service: {{ prefix }}{{ module_info.name }}ModuleInputEnvironmentService1
+    //var service1: {{ prefix }}{{ module_info.name }}RequiredService1 { get }
+    //var service2: {{ prefix }}{{ module_info.name }}RequiredService2 { get }
 }
+
+protocol {{ prefix }}{{ module_info.name }}RequiredServicesFactory {
+    var servicesFor{{ prefix }}{{ module_info.name }}: {{ prefix }}{{ module_info.name }}RequiredServices { get }
+}
+
+/* 
+
+Example: {{ prefix }}{{ module_info.name }}RequiredServicesFactory
+
+protocol MyServicesContainerProtocol : {{ prefix }}{{ module_info.name }}RequiredServicesFactory {}
+
+fileprivate struct {{ prefix }}{{ module_info.name }}RequiredServicesFactoryDeps: {{ prefix }}{{ module_info.name }}RequiredServices {
+    //let service1: {{ prefix }}{{ module_info.name }}RequiredService1
+    //let service1: {{ prefix }}{{ module_info.name }}RequiredService2
+}
+
+extension MyServicesContainerProtocol {
+    //...
+    var servicesFor{{ prefix }}{{ module_info.name }}: {{ prefix }}{{ module_info.name }}RequiredServices {
+        return {{ prefix }}{{ module_info.name }}RequiredServicesFactoryDeps(
+            //service1: self.service1, 
+            //service2: self.service1,
+            )
+    }
+    //...
+}
+*/
+{%- endif %}
 {%- endif %}
 
-protocol {{ prefix }}{{ module_info.name }}ModuleInputEnvironment {
-    {% if custom_parameters.extended_configure_vars contains "services=" -%}
-    let services: {{ prefix }}{{ module_info.name }}ModuleInputEnvironmentServices
-    {%- endif %}
-}
-{%- endif %}
+struct {{ prefix }}{{ module_info.name }}ModuleConfig{% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}: {{ prefix }}{{ module_info.name }}InteractorConfig, {{ prefix }}{{ module_info.name }}PresenterConfig{%- endif %} {
+    
+    {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+    {%- if custom_parameters.extended_configure_vars contains "services=" -%}
+    let servicesFactory: {{ prefix }}{{ module_info.name }}RequiredServicesFactory
+    {%- endif -%}
+    {%- endif -%}
+    {% if custom_parameters.extended_configure_vars -%}{%- assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," -%}
+    {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}
+    {%- if custom_parameters.split_module_config_into_parameters_and_environment != "true" -%}
+    let {{ var_components[0] }}: {{ var_components[1] }}
+    {%- endif -%}
+    {% endfor -%}{%- endif %}
 
-struct {{ prefix }}{{ module_info.name }}ModuleInputConfig{% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}: {{ prefix }}{{ module_info.name }}ModuleInputParametersConfig, {{ prefix }}{{ module_info.name }}ModuleInputEnvironmentConfig{%- endif %} {
-    {% if custom_parameters.extended_configure_vars %}{% assign module_config_vars = custom_parameters.extended_configure_vars  | split: "," %}
-    {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}let {{ var_components[0] }}: {{ var_components[1] }}
-    {% endfor %}{% endif %}
     // TODO: Place your code here
 }

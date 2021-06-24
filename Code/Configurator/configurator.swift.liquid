@@ -5,13 +5,13 @@ import OnDeallocateX
 
 class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
 
-    func configureModuleForViewInput<UIViewController>(viewInput: UIViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) {
+    func configureModuleForViewInput<UIViewController>(viewInput: UIViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
         if let viewController = viewInput as? {{ prefix }}{{ module_info.name }}ViewController {
-            configure(viewController: viewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with: config{% endif -%})
+            configure(viewController: viewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with: config{% endif %})
         }
     }
 
-    private func configure(viewController: {{ prefix }}{{ module_info.name }}ViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) {
+    private func configure(viewController: {{ prefix }}{{ module_info.name }}ViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
 
         guard viewController.output == nil else { // prevent double configuration
             return
@@ -32,19 +32,18 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
         viewController.onWillDeallocate {
             presenter.willDeinit()
         }
-
-        {% if custom_parameters.extended_configurator_create %}
+        {% if custom_parameters.extended_configurator_create -%}
         presenter.configure({% if custom_parameters.extended_configure %}with: config{% endif %})
-        {% endif %}
+        {%- endif %}
     }
 
-    func create({% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig{% endif %}) -> UIViewController {
+    func create({% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) -> UIViewController {
         let viewController = {{ prefix }}{{ module_info.name }}ViewController()
-        {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
+        {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure -%}
         configureModuleForViewInput(viewInput: viewController, with: config)
-        {% else %}
+        {%- else -%}
         configureModuleForViewInput(viewInput: viewController)
-        {% endif %}
+        {%- endif %}
         return viewController
     }
 

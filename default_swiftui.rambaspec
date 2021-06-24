@@ -13,9 +13,6 @@ code_files:
 - {name: View/ViewInput.swift,  path: Code/View/view_input.swift.liquid}
 - {name: View/ViewOutput.swift, path: Code/View/view_output.swift.liquid}
 - {name: View/ViewController.swift, path: Code/View/view_controller.swiftui.swift.liquid}
-- {name: View/RootView.swift, path: Code/View/root_view.swiftui.swift.liquid}
-- {name: View/RootViewDelegate.swift, path: Code/View/root_view_delegate.swiftui.swift.liquid}
-- {name: View/RootViewState.swift, path: Code/View/root_view_state.swiftui.swift.liquid}
 
 # Presenter layer
 {% if custom_parameters.extended_configure %}

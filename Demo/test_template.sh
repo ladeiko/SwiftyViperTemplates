@@ -45,7 +45,7 @@ function runTest() {
     echo "typealias TestedViewController = ${TEMPLATE_NAME}ViewController" >> Demo/AppDelegate.swift
 	echo "typealias TestedModuleInput = ${TEMPLATE_NAME}ModuleInput" >> Demo/AppDelegate.swift
 	echo "#if extended_configure" >> Demo/AppDelegate.swift
-	echo "typealias TestedModuleInputConfig = ${TEMPLATE_NAME}ModuleInputConfig" >> Demo/AppDelegate.swift
+	echo "typealias TestedModuleConfig = ${TEMPLATE_NAME}ModuleConfig" >> Demo/AppDelegate.swift
 	echo "#endif" >> Demo/AppDelegate.swift
 	echo "#endif" >> Demo/AppDelegate.swift
 

@@ -24,7 +24,7 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
 
         // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
 
-        {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+        {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleConfig) {
         }{% else %}func configure() {
         }{% endif %}
 
@@ -68,7 +68,7 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
             let configurationBlock: EmbeddedModuleConfigurationBlock = { [weak self] (moduleInput) -> RamblerViperModuleOutput? in
                 let moduleInput = moduleInput as! {{ prefix }}{{ module_info.name }}EmbeddableModuleInput
                 embeddedInput = moduleInput
-                {% if custom_parameters.embeddable_extended_configure %}moduleInput.configure(with: {{ prefix }}{{ module_info.name }}EmbeddableModuleInputConfig({% if custom_parameters.embeddable_extended_configure_vars %}{% assign module_config_vars = custom_parameters.embeddable_extended_configure_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})){% else %}moduleInput.configure(){% endif %}
+                {% if custom_parameters.embeddable_extended_configure %}moduleInput.configure(with: {{ prefix }}{{ module_info.name }}EmbeddableModuleConfig({% if custom_parameters.embeddable_extended_configure_vars %}{% assign module_config_vars = custom_parameters.embeddable_extended_configure_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})){% else %}moduleInput.configure(){% endif %}
                 return nil // or self?.calleeOutput
             }
 
