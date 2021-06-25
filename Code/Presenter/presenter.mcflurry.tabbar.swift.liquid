@@ -21,7 +21,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
 
     // MARK: - Vars
 
-    {% if custom_parameters.extended_configure %}private var {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+    {% if custom_parameters.extended_configure %}private var {% if custom_parameters.split_module_config == "true" -%}
                                                             config: {{ prefix }}{{ module_info.name }}PresenterConfig!
                                                             {%- else -%}
                                                             config: {{ prefix }}{{ module_info.name }}ModuleConfig!

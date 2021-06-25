@@ -9,7 +9,7 @@ viperaptor: "2.1.0"
 custom_parameters:
 - { name: ui_engine, description: "UI mode", options: [uikit, uikitplus, swiftui] }
 - { name: use_storyboard, only_if: { ui_engine: [uikit] }, description: "Use storyboard", options: ["yes", "no"] }
-- { name: split_module_config_into_parameters_and_environment, description: "Separate interfaces for Interactor and Presenter", options: ["yes", "no"]  }
+- { name: split_module_config, description: "Separate interfaces for Interactor and Presenter", options: ["yes", "no"]  }
 
 # The declarations for code files
 

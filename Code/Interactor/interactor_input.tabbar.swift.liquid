@@ -3,7 +3,7 @@
 import Foundation
 
 protocol {{ prefix }}{{ module_info.name }}InteractorInput: AnyObject {
-    {% if custom_parameters.extended_configure %}func configure(with {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
+    {% if custom_parameters.extended_configure %}func configure(with {% if custom_parameters.split_module_config == "true" -%}
                                                                     config: {{ prefix }}{{ module_info.name }}InteractorConfig)
                                                                     {%- else -%}
                                                                     config: {{ prefix }}{{ module_info.name }}ModuleConfig)

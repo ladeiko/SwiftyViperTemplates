@@ -1,0 +1,23 @@
+    {% if custom_parameters.extended_configure %}func configure(with {% if custom_parameters.split_module_config == "true" -%}
+                                                                        config: {{ prefix }}{{ module_info.name }}InteractorConfig)
+                                                                        {%- else -%}
+                                                                        config: {{ prefix }}{{ module_info.name }}ModuleConfig)
+                                                                        {%- endif -%} {
+        assert(Thread.isMainThread)
+        {% if custom_parameters.split_module_config == "true" -%}
+        assert(self.config == nil)
+        self.config = config
+        {%- else -%}
+        assert(self.config == nil)
+        self.config = config
+        {%- endif %}
+    }
+    {% else %}func configure() {
+        // TODO
+    }{% endif %}
+
+    func deinitialize() {
+        // TODO: Place your code here
+        {% if custom_parameters.extended_configure %}self.config = nil{% endif %}
+        self.output = nil
+    }

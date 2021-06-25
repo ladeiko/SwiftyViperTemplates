@@ -1,0 +1,8 @@
+    func deinitialize() {
+        if isDeliveringModelsListChanges() {
+            stopDeliveringModelsListChanges()
+        }
+        // TODO: Place your code here
+        {% if custom_parameters.extended_configure %}self.config = nil{% endif %}
+        self.output = nil
+    }

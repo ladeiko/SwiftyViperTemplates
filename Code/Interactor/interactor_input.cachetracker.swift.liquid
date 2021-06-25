@@ -5,11 +5,15 @@ import CacheTracker
 
 protocol {{ prefix }}{{ module_info.name }}InteractorInput: AnyObject {
 
-    {% if custom_parameters.extended_configure %}func configure(with {% if custom_parameters.split_module_config_into_parameters_and_environment == "true" -%}
-                                                                    config: {{ prefix }}{{ module_info.name }}InteractorConfig)
-                                                                    {%- else -%}
-                                                                    config: {{ prefix }}{{ module_info.name }}ModuleConfig)
-                                                                    {%- endif -%}{% else %}func configure(){% endif %}
+    {% if custom_parameters.extended_configure -%}
+    func configure(with {% if custom_parameters.split_module_config == "true" -%}
+                        config: {{ prefix }}{{ module_info.name }}InteractorConfig)
+                        {%- else -%}
+                        config: {{ prefix }}{{ module_info.name }}ModuleConfig)
+                        {%- endif -%}
+    {%- else -%}
+    func configure()
+    {%- endif %}
     func deinitialize()
     func isDeliveringModelsListChanges() -> Bool
     func startDeliveringModelsListChanges()

@@ -1,0 +1,36 @@
+{% include 'header' %}
+
+{% if custom_parameters.split_module_config == "true" and custom_parameters.extended_configure_vars contains "services=" -%}
+//protocol {{ prefix }}{{ module_info.name }}RequiredService1 {
+//    func someFunc1()
+//}
+
+//protocol {{ prefix }}{{ module_info.name }}RequiredService2 {
+//    func someFunc2()
+//}
+
+struct {{ prefix }}{{ module_info.name }}InteractorServices {
+    // TODO
+    // e.g:
+    //let service1: {{ prefix }}{{ module_info.name }}RequiredService1
+    //let service2: {{ prefix }}{{ module_info.name }}RequiredService2
+}
+
+protocol {{ prefix }}{{ module_info.name }}InteractorServicesFactory {
+    var servicesFor{{ prefix }}{{ module_info.name }}: {{ prefix }}{{ module_info.name }}InteractorServices { get }
+}
+
+typealias {{ prefix }}{{ module_info.name }}ServicesFactories = Any // & SomeFactory1 & SomeFactory2
+
+{%- endif %}
+
+struct {{ prefix }}{{ module_info.name }}InteractorConfig {
+    {% if custom_parameters.split_module_config == "true" -%}
+    {%- if use_storyboard != "false" -%}
+    {%- if custom_parameters.extended_configure_vars contains "services=" -%}
+    let services: {{ prefix }}{{ module_info.name }}InteractorServices
+    {%- endif -%}
+    {%- endif -%}
+    {%- endif %}
+}
+

@@ -10,6 +10,14 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator {
 class {{ prefix }}{{ module_info.name }}ModuleConfigurator: {% if custom_parameters.mcflurry_swift != "true" %}NSObject,{% endif %} {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleFactory{% if custom_parameters.mcflurry_swift != "true" %}Protocol{% endif %} {
 {% endif %}
 
+    {% if custom_parameters.use_storyboard == "false" and custom_parameters.split_module_config == "true" -%}
+    private let servicesFactory: {{ prefix }}{{ module_info.name }}InteractorServicesFactory
+
+    init(servicesFactory: {{ prefix }}{{ module_info.name }}InteractorServicesFactory) {
+        self.servicesFactory = servicesFactory
+    }
+    {%- endif %}
+
     func configureModuleForViewInput<UIViewController>(viewInput: UIViewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with config: {{ prefix }}{{ module_info.name }}ModuleConfig{% endif %}) {
         if let viewController = viewInput as? {{ prefix }}{{ module_info.name }}ViewController {
             configure(viewController: viewController{% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}, with: config{% endif %})
@@ -28,7 +36,11 @@ class {{ prefix }}{{ module_info.name }}ModuleConfigurator: {% if custom_paramet
         presenter.view = viewController
         presenter.router = router
 
-        let interactor = {{ prefix }}{{ module_info.name }}Interactor()
+        let interactor = {{ prefix }}{{ module_info.name }}Interactor(
+            {%- if custom_parameters.use_storyboard == "false" and custom_parameters.split_module_config == "true" -%}
+            servicesFactory: servicesFactory
+            {%- endif -%}
+        )
         interactor.output = presenter
 
         presenter.interactor = interactor
