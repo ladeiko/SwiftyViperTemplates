@@ -4,7 +4,7 @@ import UIKit
 import CacheTracker
 import CacheTrackerConsumer
 
-class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewController, {{ prefix }}{{module_info.name}}ViewInput {
+class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewController {
 
     // MARK: - VIPER Vars
 
@@ -27,6 +27,32 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
         setupConsumer()
         output.viewIsReady()
     }
+
+    // MARK: - Helpers
+
+    private func setupContext() {
+        context = {{ prefix }}{{ module_info.name }}ViewCellContext(
+             //loadModelImage: { [weak self] model, completion in
+            //
+            //    guard let sself = self else {
+            //        return DispatchQueue.main.async { completion(nil) }
+            //   }
+            //
+            //    return sself.output.viewNeedsImage(for: model, completion: completion)
+            //}
+        )
+    }
+
+    private func setupConsumer() {
+        consumer.delegate = self
+    }
+
+    private func setupCollectioView() {
+        // TODO: Place your code here
+    }
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{module_info.name}}ViewInput {
 
     // MARK: - {{ prefix }}{{module_info.name}}ViewInput
 
@@ -70,8 +96,16 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
         consumer.didChange()
     }
 
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController {
+
     // MARK: - UI Actions
     // TODO: Place your code here
+
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController {
 
     // MARK: - UICollectionViewDataSource
 
@@ -85,6 +119,10 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
         cell.configure(with: model, in: context)
         return cell
     }
+
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController {
 
     // MARK: - UICollectionViewDelegate
 
@@ -103,26 +141,35 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
         // TODO: Place your code here
     }
 
-    // MARK: - Helpers
+}
 
-    private func setupContext() {
-        context = {{ prefix }}{{ module_info.name }}ViewCellContext(
-             //loadModelImage: { [weak self] model, completion in
-            //
-            //    guard let sself = self else {
-            //        return DispatchQueue.main.async { completion(nil) }
-            //   }
-            //
-            //    return sself.output.viewNeedsImage(for: model, completion: completion)
-            //}
-        )
-    }
+#if canImport(SwiftUI) && DEBUG && false // set to true, for preview using SwiftUI
+import SwiftUI
 
-    private func setupConsumer() {
-        consumer.delegate = self
-    }
+fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerFakeOutputForPreview: {{ prefix }}{{ module_info.name }}ViewOutput {
+    func viewIsReady() {}
+}
 
-    private func setupCollectioView() {
+@available(iOS 13.0, *)
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerRepresentable: UIViewControllerRepresentable {
+    func updateUIViewController(_ uiViewController: {{ prefix }}{{ module_info.name }}ViewController, context: Context) {}
+    func makeUIViewController(context: Context) -> {{ prefix }}{{ module_info.name }}ViewController {
+        let controller = {{ prefix }}{{ module_info.name }}ViewController()
+        controller.output = {{ prefix }}{{ module_info.name }}ViewControllerFakeOutputForPreview()
         // TODO: Place your code here
+        return controller
     }
 }
+
+@available(iOS 13.0, *)
+struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
+            .preferredColorScheme(.light)
+            //.previewDevice("iPhone X")
+        //{{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
+        //    .preferredColorScheme(.dark)
+        //    .previewDevice("iPhone 12")
+    }
+}
+#endif

@@ -4,7 +4,7 @@ import UIKit
 import CacheTracker
 import CacheTrackerConsumer
 
-class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, {{ prefix }}{{module_info.name}}ViewInput {
+class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
     // MARK: - VIPER Vars
 
@@ -29,7 +29,39 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
         output.viewIsReady()
     }
 
-    // MARK: - {{ prefix }}{{module_info.name}}ViewInput
+    // MARK: - Helpers
+
+    private func setupContext() {
+        context = {{ prefix }}{{ module_info.name }}ViewCellContext(
+             //loadModelImage: { [weak self] model, completion in
+            //
+            //    guard let sself = self else {
+            //        return DispatchQueue.main.async { completion(nil) }
+            //   }
+            //
+            //    return sself.output.viewNeedsImage(for: model, completion: completion)
+            //}
+        )
+    }
+
+    private func setupConsumer() {
+        consumer.delegate = collectionView
+    }
+
+    private func setupCollectioView() {
+        // TODO: Place your code here
+    }
+
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController {
+
+    // MARK: - UI Actions
+    // TODO: Place your code here
+
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{module_info.name}}ViewInput {
 
     func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
         // TODO: Place your code here
@@ -70,24 +102,9 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
         consumer.consume(transactions: changes)
         consumer.didChange()
     }
+}
 
-    // MARK: - UI Actions
-    // TODO: Place your code here
-
-    // MARK: - UICollectionViewDataSource
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return consumer.numberOfItems()
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Default", for: indexPath) as! {{ prefix }}{{ module_info.name }}ViewCell
-        let item = consumer.object(at: indexPath.row)
-        cell.configure(with: item.model, in: context)
-        return cell
-    }
-
-    // MARK: - UICollectionViewDelegate
+extension {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
@@ -104,28 +121,49 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
         //let item = consumer.object(at: indexPath.row)
         // TODO: Place your code here
     }
-
-    // MARK: - Helpers
-
-    private func setupContext() {
-        context = {{ prefix }}{{ module_info.name }}ViewCellContext(
-             //loadModelImage: { [weak self] model, completion in
-            //
-            //    guard let sself = self else {
-            //        return DispatchQueue.main.async { completion(nil) }
-            //   }
-            //
-            //    return sself.output.viewNeedsImage(for: model, completion: completion)
-            //}
-        )
-    }
-
-    private func setupConsumer() {
-        consumer.delegate = collectionView
-    }
-
-    private func setupCollectioView() {
-        // TODO: Place your code here
-    }
-
 }
+
+extension {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewDataSource {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return consumer.numberOfItems()
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Default", for: indexPath) as! {{ prefix }}{{ module_info.name }}ViewCell
+        let item = consumer.object(at: indexPath.row)
+        cell.configure(with: item.model, in: context)
+        return cell
+    }
+}
+
+#if canImport(SwiftUI) && DEBUG && false // set to true, for preview using SwiftUI
+import SwiftUI
+
+fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerFakeOutputForPreview: {{ prefix }}{{ module_info.name }}ViewOutput {
+    func viewIsReady() {}
+}
+
+@available(iOS 13.0, *)
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerRepresentable: UIViewControllerRepresentable {
+    func updateUIViewController(_ uiViewController: {{ prefix }}{{ module_info.name }}ViewController, context: Context) {}
+    func makeUIViewController(context: Context) -> {{ prefix }}{{ module_info.name }}ViewController {
+        let controller = {{ prefix }}{{ module_info.name }}ViewController()
+        controller.output = {{ prefix }}{{ module_info.name }}ViewControllerFakeOutputForPreview()
+        // TODO: Place your code here
+        return controller
+    }
+}
+
+@available(iOS 13.0, *)
+struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
+            .preferredColorScheme(.light)
+            //.previewDevice("iPhone X")
+        //{{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
+        //    .preferredColorScheme(.dark)
+        //    .previewDevice("iPhone 12")
+    }
+}
+#endif

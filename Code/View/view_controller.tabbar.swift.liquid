@@ -2,7 +2,7 @@
 
 import UIKit
 
-class {{ prefix }}{{ module_info.name }}ViewController: UITabBarController, {{ prefix }}{{module_info.name}}ViewInput {
+class {{ prefix }}{{ module_info.name }}ViewController: UITabBarController {
 
     // MARK: - VIPER Vars
 
@@ -34,15 +34,52 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITabBarController, {{ p
         }
     }
     
-    // MARK: - {{ prefix }}{{module_info.name}}ViewInput
-    
+    // MARK: - Helpers
+    // TODO: Place your code here
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{module_info.name}}ViewInput {
+
     func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
         // TODO: Place your code here
     }
 
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController {
+    
     // MARK: - UI Actions
     // TODO: Place your code here
 
-    // MARK: - Helpers
-    // TODO: Place your code here
 }
+
+#if canImport(SwiftUI) && DEBUG && false // set to true, for preview using SwiftUI
+import SwiftUI
+
+fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerFakeOutputForPreview: {{ prefix }}{{ module_info.name }}ViewOutput {
+    func viewIsReady() {}
+}
+
+@available(iOS 13.0, *)
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerRepresentable: UIViewControllerRepresentable {
+    func updateUIViewController(_ uiViewController: {{ prefix }}{{ module_info.name }}ViewController, context: Context) {}
+    func makeUIViewController(context: Context) -> {{ prefix }}{{ module_info.name }}ViewController {
+        let controller = {{ prefix }}{{ module_info.name }}ViewController()
+        controller.output = {{ prefix }}{{ module_info.name }}ViewControllerFakeOutputForPreview()
+        // TODO: Place your code here
+        return controller
+    }
+}
+
+@available(iOS 13.0, *)
+struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
+            .preferredColorScheme(.light)
+            //.previewDevice("iPhone X")
+        //{{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
+        //    .preferredColorScheme(.dark)
+        //    .previewDevice("iPhone 12")
+    }
+}
+#endif

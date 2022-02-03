@@ -1,6 +1,8 @@
 platform :ios, '10.0'
 use_frameworks!
 
+project 'Demo.xcodeproj'
+
 target 'Demo' do
   pod 'ViperMcFlurryX', '>= 3.0.1'
   pod 'ViperMcFlurryX_Swift', '>= 3.0.2'

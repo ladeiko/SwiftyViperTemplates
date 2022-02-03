@@ -4,7 +4,7 @@ import UIKit
 import CacheTracker
 import CacheTrackerConsumer
 
-class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {{ prefix }}{{module_info.name}}ViewInput {
+class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController {
 
     // MARK: - VIPER Vars
 
@@ -26,61 +26,6 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {
         setupTableView()
         setupConsumer()
         output.viewIsReady()
-    }
-
-    // MARK: - {{ prefix }}{{module_info.name}}ViewInput
-
-    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
-        // TODO: Place your code here
-    }
-
-    func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]) {
-        consumer.reset(with: state)
-        tableView?.reloadData()
-    }
-
-    func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]) {
-        consumer.willChange()
-        consumer.consume(transactions: changes)
-        consumer.didChange()
-    }
-
-    // MARK: - UI Actions
-    // TODO: Place your code here
-
-    // MARK: - UITableViewDataSource
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return consumer.numberOfItems()
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Default") as! {{ prefix }}{{ module_info.name }}ViewCell
-        let item = consumer.object(at: indexPath.row)
-        cell.configure(with: item.model, in: context)
-        return cell
-    }
-
-    // MARK: - UITableViewDelegate
-
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        let item = consumer.object(at: indexPath.row)
-        cell.willDisplay(item)
-    }
-
-    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        cell.stopDisplay()
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let item = consumer.object(at: indexPath.row)
-        // TODO: Place your code here
     }
 
     // MARK: - Helpers
@@ -107,3 +52,100 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {
     }
 
 }
+
+extension {{ prefix }}{{ module_info.name }}ViewController {
+
+    // MARK: - UI Actions
+    // TODO: Place your code here
+
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController {
+    
+    // MARK: - UITableViewDataSource
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return consumer.numberOfItems()
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Default") as! {{ prefix }}{{ module_info.name }}ViewCell
+        let item = consumer.object(at: indexPath.row)
+        cell.configure(with: item.model, in: context)
+        return cell
+    }
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController {
+
+    // MARK: - UITableViewDelegate
+
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
+        let item = consumer.object(at: indexPath.row)
+        cell.willDisplay(item)
+    }
+
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
+        cell.stopDisplay()
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //let item = consumer.object(at: indexPath.row)
+        // TODO: Place your code here
+    }
+}
+
+extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{module_info.name}}ViewInput {
+
+    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+        // TODO: Place your code here
+    }
+
+    func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]) {
+        consumer.reset(with: state)
+        tableView?.reloadData()
+    }
+
+    func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]) {
+        consumer.willChange()
+        consumer.consume(transactions: changes)
+        consumer.didChange()
+    }
+}
+
+#if canImport(SwiftUI) && DEBUG && false // set to true, for preview using SwiftUI
+import SwiftUI
+
+fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerFakeOutputForPreview: {{ prefix }}{{ module_info.name }}ViewOutput {
+    func viewIsReady() {}
+}
+
+@available(iOS 13.0, *)
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerRepresentable: UIViewControllerRepresentable {
+    func updateUIViewController(_ uiViewController: {{ prefix }}{{ module_info.name }}ViewController, context: Context) {}
+    func makeUIViewController(context: Context) -> {{ prefix }}{{ module_info.name }}ViewController {
+        let controller = {{ prefix }}{{ module_info.name }}ViewController()
+        controller.output = {{ prefix }}{{ module_info.name }}ViewControllerFakeOutputForPreview()
+        // TODO: Place your code here
+        return controller
+    }
+}
+
+@available(iOS 13.0, *)
+struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
+            .preferredColorScheme(.light)
+            //.previewDevice("iPhone X")
+        //{{ prefix }}{{ module_info.name }}ViewControllerRepresentable()
+        //    .preferredColorScheme(.dark)
+        //    .previewDevice("iPhone 12")
+    }
+}
+#endif

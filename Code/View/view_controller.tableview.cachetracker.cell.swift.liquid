@@ -66,3 +66,35 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UITableViewCell {
     // TODO: Place your code here
 
 }
+
+#if canImport(SwiftUI) && DEBUG && false // set to true, for preview using SwiftUI
+import SwiftUI
+
+@available(iOS 13.0, *)
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewCellRepresentable: UIViewControllerRepresentable {
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+    func makeUIViewController(context: Context) -> UIViewController {
+        let cell = {{ prefix }}{{ module_info.name }}ViewCell(frame: .zero)
+        let controller = UIViewController()   
+        controller.view.backgroundColor = .white
+        controller.view.addSubview(cell)
+        cell.bounds = CGRect(x: 0, y: 0, width: controller.view.bounds.size.width, height: 45)
+        cell.center = CGPoint(x: controller.view.bounds.size.width / 2, y: controller.view.bounds.size.height / 2)
+        cell.autoresizingMask = [.flexibleWidth, .flexibleTopMargin, .flexibleBottomMargin]
+        // TODO: Place your code here
+        return controller
+    }
+}
+
+@available(iOS 13.0, *)
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewCell_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewCellRepresentable()
+            .preferredColorScheme(.light)
+            //.previewDevice("iPhone X")
+        //{{ prefix }}{{ module_info.name }}ViewCellRepresentable()
+        //    .preferredColorScheme(.dark)
+        //    .previewDevice("iPhone 12")
+    }
+}
+#endif

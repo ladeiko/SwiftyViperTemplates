@@ -1,30 +1,28 @@
 {% include 'header' %}
 
 import UIKit
-import CacheTracker
-import CacheTrackerConsumer
 
-class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController {
+class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
     // MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
 
     // MARK: - Outlets
-    // TODO: Place your code here
+
+    private weak var collectionView: UICollectionView!
 
     // MARK: - Vars
 
-    private let consumer: CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel> = CacheTrackerPlainConsumer<{{ prefix }}{{ module_info.name }}ModuleEntityModel>()
     private var context: {{ prefix }}{{ module_info.name }}ViewCellContext!
+    private let models = {{ prefix }}{{ module_info.name }}ModuleEntityModel.allCases
 
     // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupContext()
-        setupTableView()
-        setupConsumer()
+        setupCollectioView()
         output.viewIsReady()
     }
 
@@ -32,7 +30,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController {
 
     private func setupContext() {
         context = {{ prefix }}{{ module_info.name }}ViewCellContext(
-             //loadModelImage: { [weak self] model, completion in
+            //loadModelImage: { [weak self] model, completion in
             //
             //    guard let sself = self else {
             //        return DispatchQueue.main.async { completion(nil) }
@@ -43,12 +41,13 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController {
         )
     }
 
-    private func setupConsumer() {
-        consumer.delegate = self
-    }
-
-    private func setupTableView() {
+    private func setupCollectioView() {
         // TODO: Place your code here
+        let collectionView = UICollectionView(frame: .init(origin: .zero, size: view.bounds.size))
+        view.addSubview(collectionView)
+        self.collectionView = collectionView
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
 
 }
@@ -58,18 +57,6 @@ extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{module
     func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
         // TODO: Place your code here
     }
-
-    func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
-        consumer.reset(with: state)
-        tableView?.reloadData()
-    }
-
-    func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]) {
-        consumer.willChange()
-        consumer.consume(transactions: changes)
-        consumer.didChange()
-    }
-
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController {
@@ -79,45 +66,38 @@ extension {{ prefix }}{{ module_info.name }}ViewController {
 
 }
 
-extension {{ prefix }}{{ module_info.name }}ViewController {
+extension {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewDataSource {
 
-    // MARK: - UITableViewDataSource
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return models.count
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return consumer.numberOfItems()
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Default") as! {{ prefix }}{{ module_info.name }}ViewCell
-        let model = consumer.object(at: indexPath.row)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Default", for: indexPath) as! {{ prefix }}{{ module_info.name }}ViewCell
+        let model = models[indexPath.row]
         cell.configure(with: model, in: context)
         return cell
     }
 
 }
 
-extension {{ prefix }}{{ module_info.name }}ViewController {
+extension {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewDelegate {
 
-    // MARK: - UITableViewDelegate
-
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
         cell.willDisplay()
     }
 
-    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
         cell.stopDisplay()
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //let model = consumer.object(at: indexPath.row)
         // TODO: Place your code here
     }
+
 }
 
 #if canImport(SwiftUI) && DEBUG && false // set to true, for preview using SwiftUI

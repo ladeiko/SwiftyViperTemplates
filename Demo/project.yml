@@ -1,3 +1,5 @@
+version: 1.1.0
+xcodeVersion: 13.0
 name: Demo
 options:
   bundleIdPrefix: com.test
@@ -5,7 +7,7 @@ targets:
   Demo:
     type: application
     platform: iOS
-    deploymentTarget: "10.0"
+    deploymentTarget: "13.0"
     sources:
       - Demo
     dependencies:
@@ -20,7 +22,7 @@ targets:
   DemoTests:
     type: bundle.unit-test
     platform: iOS
-    deploymentTarget: "10.0"
+    deploymentTarget: "13.0"
     settings:
       SWIFT_VERSION: "4.2"
     sources:
