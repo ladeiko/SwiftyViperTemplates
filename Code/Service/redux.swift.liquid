@@ -2,7 +2,7 @@
 
 {% if custom_parameters.redux_service_observable %}import RxSwift{% endif %}
 
-protocol {{ prefix }}{{ module_info.name }}Service: class {
+protocol {{ prefix }}{{ module_info.name }}Service: AnyObject {
 
     func makeDefaultAction()
 

@@ -3,7 +3,7 @@
 import Foundation
 import CacheTracker
 
-protocol {{ prefix }}{{ module_info.name }}InteractorInput: class {
+protocol {{ prefix }}{{ module_info.name }}InteractorInput: AnyObject {
 
     {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig){% else %}func configure(){% endif %}
     func deinitialize()

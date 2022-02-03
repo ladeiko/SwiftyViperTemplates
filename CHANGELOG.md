@@ -22,8 +22,8 @@ All notable changes to this project will be documented in this file.
  ```
  will produce:
  ```
- let a: ClassA
- let b: ClassB
+ let a: AnyObjectA
+ let b: AnyObjectB
  ```
 
 ## 1.5.0

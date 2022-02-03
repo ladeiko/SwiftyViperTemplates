@@ -1,6 +1,6 @@
 {% include 'header' %}
 
-protocol {{ prefix }}{{ module_info.name }}ViewOutput: class {
+protocol {{ prefix }}{{ module_info.name }}ViewOutput: AnyObject {
 
     func viewIsReady()
     // func viewNeedsImage(for model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, completion: @escaping ((_ image: UIImage?) -> Void))

@@ -3,7 +3,7 @@
 import Foundation
 import CacheTracker
 
-protocol {{ prefix }}{{ module_info.name }}InteractorOutput: class {
+protocol {{ prefix }}{{ module_info.name }}InteractorOutput: AnyObject {
 
     func modelsListDidReset(_ initialState: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>])
     func modelsListDidChange(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>])
