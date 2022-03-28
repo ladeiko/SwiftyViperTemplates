@@ -59,7 +59,7 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
 
         // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
 
-        func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, lazyAllocation: Bool) -> {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock {
+        func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, lazyAllocation: Bool) -> (embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock, updater: () -> {{ prefix }}{{ module_info.name }}EmbeddableUpdaterBlock) {
 
             weak var embeddedInput: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput?
 
@@ -105,7 +105,11 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
                 return remover
             }
 
-            return embedder
+            return (embedder: embedder, updater: {
+                return { _ in 
+                    // TODO
+                }
+            })
         }
 
     }

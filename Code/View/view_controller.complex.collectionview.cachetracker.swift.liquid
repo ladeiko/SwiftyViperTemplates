@@ -121,6 +121,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
     }
 
     private func setupConsumer() {
+        //consumer.equalityChecker = { $0 == $1 }
         consumer.delegate = collectionView
     }
 

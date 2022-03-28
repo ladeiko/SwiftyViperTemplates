@@ -54,6 +54,12 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
         setupView()
     }
 
+    {% if custom_parameters.extended_configure %}//func update(_ model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) {
+    //    guard model != self.config.model else { return }
+    //    self.config = .init(services: self.config.services, model: model)
+    //    // TODO
+    //}{% endif %}
+
     func setCurrent(_ tab: {{ prefix }}{{ module_info.name }}ModuleTab) {
         guard case .ready = state else { return }
         router.showTab(tab)

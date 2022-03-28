@@ -10,6 +10,7 @@ import CacheTrackerConsumer
 //  More info at https://github.com/ladeiko/CacheTracker
 
 typealias {{ prefix }}{{ module_info.name }}ModuleEntityModel = SomeModuleEntityModel
+typealias {{ prefix }}{{ module_info.name }}EmbeddableUpdaterBlock = (_ model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) -> Void
 
 class {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel: CacheTrackerPlainRecurrentConsumerItem, {{ prefix }}{{ module_info.name }}Embeddable {
 
@@ -20,29 +21,34 @@ class {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel: CacheTrackerPlain
     required init() {
         model = nil
         embed = nil
+        updater = nil
     }
 
     // MARK: - CacheTrackerPlainRecurrentConsumerItem
 
     func recurrentPlainConsumerItem(using oldValue: CacheTrackerPlainRecurrentConsumerItem) -> CacheTrackerPlainRecurrentConsumerItem {
         let oldValue = oldValue as! {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel
-        return {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel(model: model, embed: oldValue.embed)
+        oldValue.updater()(model)
+        return {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel(model: model, embed: oldValue.embed, updater: oldValue.updater)
     }
 
     // MARK: - {{ prefix }}{{ module_info.name }}Embeddable
 
     let embed: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock!
+    let updater: (() -> {{ prefix }}{{ module_info.name }}EmbeddableUpdaterBlock)!
 
     // MARK: - Life cycle
 
     init(model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) {
         self.model = model
         self.embed = nil
+        self.updater = nil
     }
 
-    init(model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, embed: @escaping {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock) {
+    init(model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, embed: @escaping {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock, updater: @escaping (() -> {{ prefix }}{{ module_info.name }}EmbeddableUpdaterBlock)) {
         self.model = model
         self.embed = embed
+        self.updater = updater
     }
 
 }

@@ -99,6 +99,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITabl
     }
 
     private func setupConsumer() {
+        //consumer.equalityChecker = { $0 == $1 }
         consumer.delegate = tableView
     }
 

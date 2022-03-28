@@ -3,5 +3,5 @@
 protocol {{ prefix }}{{ module_info.name }}ModuleInput: AnyObject {
 
     {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig){% else %}func configure(){% endif %}
-
+    {% if custom_parameters.extended_configure %}//func update(_ model: {{ prefix }}{{ module_info.name }}ModuleEntityModel){% endif %}
 }

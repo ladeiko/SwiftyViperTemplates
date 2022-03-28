@@ -120,6 +120,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
     }
 
     private func setupConsumer() {
+        //consumer.equalityChecker = { $0 == $1 }
         consumer.delegate = self
     }
 

@@ -1,0 +1,70 @@
+{% include 'header' %}
+
+import UIKit
+
+class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
+
+    static let cellIdentifier = "Default"
+    
+    // MARK: - Outlets
+    // @IBOutlet weak var imageView: UIImageView!
+    // TODO: Place your code here
+
+    // MARK: - Vars
+
+//    private static var imageSessionCounter: Int = 0
+//    private static func generateSession() -> Int {
+//        let value = imageSessionCounter
+//        imageSessionCounter = imageSessionCounter.addingReportingOverflow(1).partialValue
+//        return value
+//    }
+
+//    private var imageSession: Int?
+    private var context: {{ prefix }}{{ module_info.name }}ViewCellContext?
+    private var model: {{ prefix }}{{ module_info.name }}ModuleEntityModel?
+
+    // MARK: - Public
+
+    func configure(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, in context: {{ prefix }}{{ module_info.name }}ViewCellContext) {
+        self.context = context
+        self.model = model
+
+//        let imageSession: Int = Self.generateSession()
+//        self.imageSession = imageSession
+//
+//        context.loadModelImage(model) { image in
+//
+//            assert(Thread.isMainThread)
+//
+//            guard model == self.model, self.imageSession == imageSession else {
+//                return
+//            }
+//
+//            self.imageSession = nil
+//            self.imageView.image = image
+//        }
+
+        // TODO: Place your code here
+    }
+
+    func willDisplay() {
+        // TODO: Place your code here
+    }
+
+    func stopDisplay() {
+        // TODO: Place your code here
+    }
+
+    // MARK: - Life cycle
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        model = nil
+        context = nil
+//        imageSession = nil
+    }
+
+    // MARK: - Helpers
+    // TODO: Place your code here
+
+}

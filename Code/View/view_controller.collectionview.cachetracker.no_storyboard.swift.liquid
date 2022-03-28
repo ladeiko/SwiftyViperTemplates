@@ -12,7 +12,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
 
     // MARK: - Outlets
 
-    @IBOutlet weak var collectionView: UICollectionView!
+    private weak var collectionView: UICollectionView!
 
     // MARK: - Vars
 
@@ -81,7 +81,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Default", for: indexPath) as! {{ prefix }}{{ module_info.name }}ViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier, for: indexPath) as! {{ prefix }}{{ module_info.name }}ViewCell
         let model = consumer.object(at: indexPath.row)
         cell.configure(with: model, in: context)
         return cell
@@ -125,6 +125,15 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UIColl
     }
 
     private func setupCollectioView() {
+        let layout: UICollectionViewFlowLayout = {{ prefix }}{{ module_info.name }}ViewLayout()
+        let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+        self.collectionView = collectionView
+        collectionView.register({{ prefix }}{{ module_info.name }}ViewCell.self, forCellWithReuseIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier)
+        collectionView.backgroundColor = UIColor.white
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        view.addSubview(collectionView)
         // TODO: Place your code here
     }
 

@@ -98,6 +98,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {
     }
 
     private func setupConsumer() {
+        //consumer.equalityChecker = { $0 == $1 }
         consumer.delegate = self
     }
 

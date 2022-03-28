@@ -14,13 +14,13 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
 
     // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
 
-    func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, lazyAllocation: Bool) -> {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock {
+    func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, lazyAllocation: Bool) -> (embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock, updater: () -> {{ prefix }}{{ module_info.name }}EmbeddableUpdaterBlock) {
 
         weak var embeddedInput: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput?
 
         let factory = {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator()
         let configurationBlock: EmbeddedModuleConfigurationBlock = { [weak self] (moduleInput) -> {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput? in
-            let moduleInput = moduleInput as! {{ prefix }}{{ module_info.name }}EmbeddableModuleInput
+            let moduleInput = (moduleInput as! {{ prefix }}{{ module_info.name }}EmbeddableModuleInput)
             embeddedInput = moduleInput
             {% if custom_parameters.embeddable_extended_configure %}moduleInput.configure(with: {{ prefix }}{{ module_info.name }}EmbeddableModuleInputConfig({% if custom_parameters.embeddable_extended_configure_vars %}{% assign module_config_vars = custom_parameters.embeddable_extended_configure_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})){% else %}moduleInput.configure(){% endif %}
             return nil // or self?.calleeOutput
@@ -60,7 +60,13 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
             return remover
         }
 
-        return embedder
+        let updater: (() -> {{ prefix }}{{ module_info.name }}EmbeddableUpdaterBlock) = {
+            return { [weak embeddedInput] (_ model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) -> Void in
+                embeddedInput?.update(model)
+            }
+        }
+
+        return (embedder: embedder, updater: updater)
     }
 
     /*  // Example
