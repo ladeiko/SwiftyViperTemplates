@@ -4,11 +4,11 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
 
     // MARK: - VIPER Vars
 
-    weak var output: {{ prefix }}{{ module_info.name }}InteractorOutput!
+    weak var output: {{ prefix }}{{ module_info.name }}InteractorOutput?
 
     // MARK: - Vars
     
-    {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% endif %}
+    {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig?{% endif %}
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
     
