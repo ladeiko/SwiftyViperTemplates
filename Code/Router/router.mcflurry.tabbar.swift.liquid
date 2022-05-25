@@ -1,6 +1,7 @@
 {% include 'header' %}
 
 import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
+import TopViewControllerDetection
 
 class {{ prefix }}{{ module_info.name }}Router: NSObject, {{ prefix }}{{ module_info.name }}RouterInput {
 
@@ -74,23 +75,39 @@ class {{ prefix }}{{ module_info.name }}Router: NSObject, {{ prefix }}{{ module_
 
     /* // Example
     func showSomeModule() {
-        {% if custom_parameters.mcflurry_swift == 'true' %}
-        transitionHandler.openModuleUsingFactory(SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
-        {% else %}
-        transitionHandler.openModule!(usingFactory: SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
-        {% endif %}
-            let sourceViewController = sourceModuleTransitionHandler as! UIViewController
-            let destinationViewController = destinationModuleTransitionHandler as! UIViewController
+        func run() {
 
-            sourceViewController.present(destinationViewController, animated: true, completion: nil)
-        {% if custom_parameters.mcflurry_swift == 'true' %}
-        }.thenChainUsingBlock { (moduleInput) -> ViperModuleOutput? in
-        {% else %}
-        }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
-        {% endif %}
-            (moduleInput as! SomeModuleInput).configure()
-            return nil // or self.calleeOutput
+            // NOTE: This is required for 'present' method only!
+            UIApplication.shared.findTopViewController { topController in
+
+                guard let topController = topController, topController === transitionHandler else { 
+                    return DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+                        return
+                    })
+                }
+    
+                {% if custom_parameters.mcflurry_swift == 'true' %}
+                transitionHandler.openModuleUsingFactory(SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
+                {% else %}
+                transitionHandler.openModule!(usingFactory: SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
+                {% endif %}
+                    let sourceViewController = sourceModuleTransitionHandler as! UIViewController
+                    let destinationViewController = destinationModuleTransitionHandler as! UIViewController
+    
+                    sourceViewController.present(destinationViewController, animated: true, completion: nil)
+                {% if custom_parameters.mcflurry_swift == 'true' %}
+                }.thenChainUsingBlock { (moduleInput) -> ViperModuleOutput? in
+                {% else %}
+                }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
+                {% endif %}
+                    (moduleInput as! SomeModuleInput).configure()
+                    return nil // or self.calleeOutput
+                }
+
+            }            
         }
+
+        run()
     }
     */
 
