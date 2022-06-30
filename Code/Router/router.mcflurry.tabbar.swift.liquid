@@ -80,16 +80,16 @@ class {{ prefix }}{{ module_info.name }}Router: NSObject, {{ prefix }}{{ module_
             // NOTE: This is required for 'present' method only!
             UIApplication.shared.findTopViewController { topController in
 
-                guard let topController = topController, topController === transitionHandler else { 
+                guard let topController = topController, topController === self.transitionHandler else { 
                     return DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
                         return
                     })
                 }
     
                 {% if custom_parameters.mcflurry_swift == 'true' %}
-                transitionHandler.openModuleUsingFactory(SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
+                topController.openModuleUsingFactory(SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
                 {% else %}
-                transitionHandler.openModule!(usingFactory: SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
+                topController.openModule!(usingFactory: SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
                 {% endif %}
                     let sourceViewController = sourceModuleTransitionHandler as! UIViewController
                     let destinationViewController = destinationModuleTransitionHandler as! UIViewController
