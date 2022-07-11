@@ -39,9 +39,7 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
             UIApplication.shared.findTopViewController { topController in
 
                 guard let topController = topController, topController === self.transitionHandler else { 
-                    return DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
-                        return
-                    })
+                    return DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: run)
                 }
     
                 {% if custom_parameters.mcflurry_swift == 'true' %}
