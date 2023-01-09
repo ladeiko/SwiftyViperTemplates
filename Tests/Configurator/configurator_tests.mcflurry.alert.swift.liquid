@@ -19,16 +19,10 @@ class {{ prefix }}{{ module_info.name }}ModuleConfiguratorTests: XCTestCase {
         //given
         let viewController = {{ prefix }}{{ module_info.name }}ViewControllerMock()
         let configurator = {{ prefix }}{{ module_info.name }}ModuleConfigurator()
-        {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
         let config = {{ prefix }}{{ module_info.name }}ModuleInputConfig(title: "Title", message: "Message")
-        {% endif %}
 
         //when
-        {% if custom_parameters.extended_configurator_create and custom_parameters.extended_configure %}
         configurator.configureModuleForViewInput(viewInput: viewController, with: config)
-        {% else %}
-        configurator.configureModuleForViewInput(viewInput: viewController)
-        {% endif %}
 
         //then
         XCTAssertNotNil(viewController.output, "{{ prefix }}{{ module_info.name }}ViewController is nil after configuration")

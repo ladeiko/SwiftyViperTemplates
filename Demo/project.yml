@@ -27,4 +27,3 @@ targets:
       - path: Demo
         excludes:
           - "Sources/AppDelegate.swift"
-          - "Sources/*.storyboard"

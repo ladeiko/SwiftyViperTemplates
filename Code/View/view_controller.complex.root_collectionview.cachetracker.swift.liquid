@@ -3,6 +3,7 @@
 import UIKit
 import CacheTracker
 import CacheTrackerConsumer
+//import ViperMcFlurryX_Swift
 
 class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewController, {{ prefix }}{{module_info.name}}ViewInput {
 
@@ -19,6 +20,17 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
     private var context: {{ prefix }}{{ module_info.name }}ViewCellContext!
     
     // MARK: - Life cycle
+
+    override func loadView() {
+        let collectionViewLayout = {{ prefix }}{{ module_info.name }}ViewLayout()
+        let collectionView = UICollectionView(frame: .init(origin: .zero, size: .init(width: 375, height: 812)),
+                                              collectionViewLayout: collectionViewLayout)
+        collectionView.register({{ prefix }}{{ module_info.name }}ViewCell.self, forCellWithReuseIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier)
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view = collectionView
+        collectionView.dataSource = self
+        collectionView.delegate = self
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,13 +120,8 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
 
     private func setupContext() {
         context = {{ prefix }}{{ module_info.name }}ViewCellContext(
-             //loadModelImage: { [weak self] model, completion in
-            //
-            //    guard let sself = self else {
-            //        return DispatchQueue.main.async { completion(nil) }
-            //   }
-            //
-            //    return sself.output.viewNeedsImage(for: model, completion: completion)
+             //loadModelImage: { [weak self] model in
+            //    return await self?.output.viewNeedsImage(for: model)
             //}
         )
     }
@@ -128,3 +135,37 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
         // TODO: Place your code here
     }
 }
+
+//extension {{ prefix }}{{ module_info.name }}ViewController: ViperModuleViewControllerPresenter {
+//
+//   func viperModuleViewControllerShouldPresent(in viewController: UIViewController) -> Bool {
+//        return true
+//    }
+//
+//    func viperModuleViewControllerPresent(in viewController: UIViewController) {
+//        viewController.present(self, animated: true)
+//    }
+//}
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerContainerView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
+
+    func makeUIViewController(context: Context) -> UIViewControllerType {
+        return {{ prefix }}{{ module_info.name }}ViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+}
+
+struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.light)
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.dark)
+    }
+}
+#endif

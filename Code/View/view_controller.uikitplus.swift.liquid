@@ -1,6 +1,7 @@
 {% include 'header' %}
 
 import UIKitPlus
+//import ViperMcFlurryX_Swift
 
 class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
@@ -71,6 +72,17 @@ class {{ prefix }}{{ module_info.name }}ViewControllerWrapper: ViewController {
     }
 
 }
+
+//extension {{ prefix }}{{ module_info.name }}ViewController: ViperModuleViewControllerPresenter {
+//
+//   func viperModuleViewControllerShouldPresent(in viewController: UIViewController) -> Bool {
+//        return true
+//    }
+//
+//    func viperModuleViewControllerPresent(in viewController: UIViewController) {
+//        viewController.present(self, animated: true)
+//    }
+//}
 
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI

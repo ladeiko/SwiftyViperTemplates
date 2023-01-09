@@ -1,7 +1,8 @@
 {% include 'header' %}
 
 import UIKit
-import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}RamblerSegues{% endif %}
+import ViperMcFlurryX_Swift
+//import ViperMcFlurryX_Swift
 
 class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
@@ -11,9 +12,8 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
     // MARK: - Outlets
     // TODO: Place your code here
-
-    {% if custom_parameters.mcflurry_swift != "true" %}// see https://github.com/rambler-digital-solutions/RamblerSegues{% endif %}
-    @IBOutlet weak var embedSomeModuleSegueContainer: UIView!
+    
+    private weak var embedSomeModuleSegueContainer: UIView!
 
     // MARK: - Vars
     // TODO: Place your code here
@@ -22,7 +22,17 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupContainerView()
         output.viewIsReady()
+    }
+
+    // MARK: - Helpers
+
+    private func setupContainerView() {
+        let embedSomeModuleSegueContainer = UIView(frame: .init(origin: .zero, size: view.bounds.size))
+        embedSomeModuleSegueContainer.backgroundColor = .clear
+        view.addSubview(embedSomeModuleSegueContainer)
+        self.embedSomeModuleSegueContainer = embedSomeModuleSegueContainer
     }
 
 }
@@ -51,25 +61,49 @@ extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{module
 
 }
 
-extension {{ prefix }}{{ module_info.name }}ViewController: {% if custom_parameters.mcflurry_swift == "true" %}EmbedSegueContainerViewProvider{% else %}RamblerEmbedSegueViewContainer{% endif %} {
+extension {{ prefix }}{{ module_info.name }}ViewController: EmbedSegueContainerViewProvider {
 
-    // MARK: - {% if custom_parameters.mcflurry_swift == "true" %}EmbedSegueContainerViewProvider{% else %}RamblerEmbedSegueViewContainer{% endif %}
+    // MARK: -EmbedSegueContainerViewProvider
 
-    {% if custom_parameters.mcflurry_swift == 'true' %}func containerViewForSegue(_ identifier: String) -> UIView?{% else %}func view(forEmbedIdentifier identifier: String!) -> UIView!{% endif %} {
-        {% if custom_parameters.mcflurry_swift == 'true' %}
+    func containerViewForSegue(_ identifier: String) -> UIView? {
         switch {{ prefix }}{{ module_info.name }}ModuleContainerIdentifier(rawValue: identifier)! {
         case .module1:
             return self.embedSomeModuleSegueContainer
         }
-        {% else %}
-        switch identifier {
-        // see https://github.com/rambler-digital-solutions/RamblerSegues
-        case "EmbedSomeModuleSegue":
-            return self.embedSomeModuleSegueContainer
-        default:
-            return nil
-        }
-        {% endif %}
     }
 
 }
+
+//extension {{ prefix }}{{ module_info.name }}ViewController: ViperModuleViewControllerPresenter {
+//
+//   func viperModuleViewControllerShouldPresent(in viewController: UIViewController) -> Bool {
+//        return true
+//    }
+//
+//    func viperModuleViewControllerPresent(in viewController: UIViewController) {
+//        viewController.present(self, animated: true)
+//    }
+//}
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerContainerView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
+
+    func makeUIViewController(context: Context) -> UIViewControllerType {
+        return {{ prefix }}{{ module_info.name }}ViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+}
+
+struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.light)
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.dark)
+    }
+}
+#endif

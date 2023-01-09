@@ -2,6 +2,7 @@
 
 import CacheTracker
 import CoreData
+//import UIKit
 
 class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.name }}InteractorInput, CacheTrackerDelegate {
 
@@ -13,24 +14,22 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
 
     private var cacheTracker: CoreDataCacheTracker<{{ prefix }}{{ module_info.name }}ModuleDatabaseModel, {{ prefix }}{{ module_info.name }}ModuleEntityModel>?
     private var changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>] = [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]()
-    {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig?{% endif %}
+    private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig?
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
 
-    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
         assert(self.config == nil)
         self.config = config
-    }
-    {% else %}func configure() {
         // TODO
-    }{% endif %}
+    }
 
     func deinitialize() {
         if isDeliveringModelsListChanges() {
             stopDeliveringModelsListChanges()
         }
         // TODO: Place your code here
-        {% if custom_parameters.extended_configure %}self.config = nil{% endif %}
+        self.config = nil
     }
 
     func isDeliveringModelsListChanges() -> Bool {
@@ -58,25 +57,29 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
         return cacheTracker?.transactionsForCurrentState() ?? [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]()
     }
 
-    //func loadImage(for model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, completion: @escaping ((_ image: UIImage?) -> Void)) { 
+    //func loadImage(for model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) async -> UIImage? {
     //    // TODO: Place your code here
-    //    DispatchQueue.main.async { completion(nil) }
+    //    return nil
     //}
 
     // MARK: - CacheTrackerDelegate
 
+    @MainActor
     func cacheTrackerShouldMakeInitialReload() {
-        output.modelsListDidReset(cacheTracker!.transactionsForCurrentState())
+        output?.modelsListDidReset(cacheTracker!.transactionsForCurrentState())
     }
 
+    @MainActor
     func cacheTrackerBeginUpdates() {
         changes.removeAll()
     }
 
+    @MainActor
     func cacheTrackerDidGenerate<P>(transactions: [CacheTransaction<P>]) where P : CacheTrackerPlainModel {
         changes.append(contentsOf: transactions as! [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>])
     }
 
+    @MainActor
     func cacheTrackerEndUpdates() {
         defer {
             changes.removeAll()
@@ -86,7 +89,7 @@ class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.n
             return
         }
 
-        output.modelsListDidChange(changes)
+        output?.modelsListDidChange(changes)
     }
 
     // MARK: - Helpers

@@ -3,6 +3,7 @@
 import UIKit
 import CacheTracker
 import CacheTrackerConsumer
+//import ViperMcFlurryX_Swift
 
 class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {{ prefix }}{{module_info.name}}ViewInput {
 
@@ -86,13 +87,8 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {
 
     private func setupContext() {
         context = {{ prefix }}{{ module_info.name }}ViewCellContext(
-             //loadModelImage: { [weak self] model, completion in
-            //
-            //    guard let sself = self else {
-            //        return DispatchQueue.main.async { completion(nil) }
-            //   }
-            //
-            //    return sself.output.viewNeedsImage(for: model, completion: completion)
+             //loadModelImage: { [weak self] model in
+            //    return await self?.output.viewNeedsImage(for: model)
             //}
         )
     }
@@ -107,3 +103,26 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {
     }
 
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerContainerView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
+
+    func makeUIViewController(context: Context) -> UIViewControllerType {
+        return {{ prefix }}{{ module_info.name }}ViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+}
+
+struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.light)
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.dark)
+    }
+}
+#endif

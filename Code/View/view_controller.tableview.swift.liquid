@@ -1,6 +1,7 @@
 {% include 'header' %}
 
 import UIKit
+//import ViperMcFlurryX_Swift
 
 class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
@@ -11,7 +12,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
     // MARK: - Outlets
     // TODO: Place your code here
 
-    @IBOutlet weak var tableView: UITableView!
+    private weak var tableView: UITableView!
 
     // MARK: - Vars
 
@@ -29,8 +30,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 
 }
 
-extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{module_info.name}}ViewInput {
-
+extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{ module_info.name }}ViewInput {
     func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
         // TODO: Place your code here
     }
@@ -42,18 +42,13 @@ extension {{ prefix }}{{ module_info.name }}ViewController {
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController {
-
+    
     // MARK: - Helpers
 
     private func setupContext() {
         context = {{ prefix }}{{ module_info.name }}ViewCellContext(
-             //loadModelImage: { [weak self] model, completion in
-            //
-            //    guard let sself = self else {
-            //        return DispatchQueue.main.async { completion(nil) }
-            //   }
-            //
-            //    return sself.output.viewNeedsImage(for: model, completion: completion)
+            //loadModelImage: { [weak self] model in
+            //    return await self?.output.viewNeedsImage(for: model)
             //}
         )
     }
@@ -64,7 +59,7 @@ extension {{ prefix }}{{ module_info.name }}ViewController {
 
 }
 
-extension  {{ prefix }}{{ module_info.name }}ViewController: UITableViewDataSource {
+extension {{ prefix }}{{ module_info.name }}ViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -83,7 +78,7 @@ extension  {{ prefix }}{{ module_info.name }}ViewController: UITableViewDataSour
 
 }
 
-extension  {{ prefix }}{{ module_info.name }}ViewController: UITableViewDelegate {
+extension {{ prefix }}{{ module_info.name }}ViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
@@ -101,3 +96,37 @@ extension  {{ prefix }}{{ module_info.name }}ViewController: UITableViewDelegate
     }
 
 }
+
+//extension {{ prefix }}{{ module_info.name }}ViewController: ViperModuleViewControllerPresenter {
+//
+//   func viperModuleViewControllerShouldPresent(in viewController: UIViewController) -> Bool {
+//        return true
+//    }
+//
+//    func viperModuleViewControllerPresent(in viewController: UIViewController) {
+//        viewController.present(self, animated: true)
+//    }
+//}
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerContainerView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
+
+    func makeUIViewController(context: Context) -> UIViewControllerType {
+        return {{ prefix }}{{ module_info.name }}ViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+}
+
+struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.light)
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.dark)
+    }
+}
+#endif

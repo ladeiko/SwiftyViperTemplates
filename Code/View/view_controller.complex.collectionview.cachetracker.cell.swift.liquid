@@ -4,8 +4,11 @@ import UIKit
 
 class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
 
+    static let cellIdentifier = "Default"
+
     // MARK: - Outlets
-    // @IBOutlet weak var imageView: UIImageView!
+
+    // weak var imageView: UIImageView!
     // TODO: Place your code here
 
     // MARK: - Vars
@@ -17,23 +20,27 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
 //        return value
 //    }
 
+
 //    private var imageSession: Int?
     private var removeEmbeddableBlock: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock?
     private var context: {{ prefix }}{{ module_info.name }}ViewCellContext?
     private var model: {{ prefix }}{{ module_info.name }}ModuleEntityModel?
-
+    
     // MARK: - Public
 
     func configure(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, in context: {{ prefix }}{{ module_info.name }}ViewCellContext) {
+        
         self.context = context
         self.model = model
 
 //        let imageSession: Int = Self.generateSession()
 //        self.imageSession = imageSession
 //        
-//        context.loadModelImage(model) { image in
+//        Task { @MainActor in
 //
-//            assert(Thread.isMainThread)
+//              guard let image = await context.loadModelImage(model) else {
+//                  return    
+//              }            
 //
 //            guard model == self.model, self.imageSession == imageSession else {
 //                return
@@ -57,6 +64,15 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
 
     // MARK: - Life cycle
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame);
+        //setupImageView()
+    }
+
     deinit {
         removeEmbeddable()
     }
@@ -71,6 +87,13 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
 
     // MARK: - Helpers
 
+    //    private func setupImageView() {
+    //        let imageView = UIImageView(frame: .init(origin: .zero, size: contentView.bounds.size))
+    //        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    //        contentView.addSubview(imageView)
+    //        self.imageView = imageView 
+    //    }
+
     private func removeEmbeddable() {
         removeEmbeddableBlock?()
         removeEmbeddableBlock = nil
@@ -79,3 +102,36 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
     // TODO: Place your code here
 
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerCell: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let cell = {{ prefix }}{{ module_info.name }}ViewCell(frame: .init(origin: .zero, size: .init(width: view.bounds.size.width, height: 44)))
+        cell.autoresizingMask = [.flexibleWidth, .flexibleTopMargin, .flexibleBottomMargin]
+        cell.center = .init(x: view.bounds.midX, y: view.bounds.midY)
+        view.addSubview(cell)
+    }
+}
+
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerCellContainerView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewControllerCell
+
+    func makeUIViewController(context: Context) -> UIViewControllerType {
+        return {{ prefix }}{{ module_info.name }}ViewControllerCell()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+}
+
+struct {{ prefix }}{{ module_info.name }}ViewControllerCell_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerCellContainerView()
+            .colorScheme(.light)
+        {{ prefix }}{{ module_info.name }}ViewControllerCellContainerView()
+            .colorScheme(.dark)
+    }
+}
+#endif

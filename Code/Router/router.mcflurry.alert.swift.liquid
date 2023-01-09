@@ -1,26 +1,32 @@
 {% include 'header' %}
 
-import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
+import ViperMcFlurryX_Swift
 
 class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name }}RouterInput {
-
+    
     // MARK: - VIPER Vars
 
-    weak var calleeOutput: ({% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
-    weak var transitionHandler: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleTransitionHandler{% if custom_parameters.mcflurry_swift != "true" %}Protocol{% endif %}!
-
+    weak var calleeOutput: (ViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
+    weak var transitionHandler: ViperModuleTransitionHandler!
+    
     // MARK: - Vars
     // TODO: Place your code here
 
     // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
-
-    func dismiss(_ completion: @escaping (() -> Void)) {
-        transitionHandler.closeCurrentModule{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}(true) {
-            completion()
-        }
+    
+    func dismiss() {
+        transitionHandler.closeCurrentModule(true)
     }
 
+    func dismissAsync() async {
+        await withCheckedContinuation { continuation in
+            transitionHandler.closeCurrentModule(true) {
+                continuation.resume(with: .success(()))
+            }
+        }
+    }
+      
     // MARK: - Helpers
     // TODO: Place your code here
-
+      
 }

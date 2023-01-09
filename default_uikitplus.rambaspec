@@ -2,7 +2,7 @@
 name: "default_uikitplus"
 summary: "Swift UIKitPLus default viper module (https://github.com/MihaelIsaev/UIKitPlus)"
 author: "Siarhei Ladzeika"
-version: "1.10.0"
+version: "2.0.0"
 license: "MIT"
 
 # The declarations for code files
@@ -15,9 +15,7 @@ code_files:
 - {name: View/ViewController.swift, path: Code/View/view_controller.uikitplus.swift.liquid}
 
 # Presenter layer
-{% if custom_parameters.extended_configure %}
 - {name: Presenter/Helpers/ModuleConfig.swift, path: Code/Helpers/moduleinputconfig.swift.liquid}
-{% endif %}
 - {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.swift.liquid}
 - {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.swift.liquid}
 - {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.swift.liquid}
@@ -32,7 +30,7 @@ code_files:
 - {name: Router/Router.swift, path: Code/Router/router.mcflurry.swift.liquid}
 
 # Configurator
-- {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.swiftui.swift.liquid}
+- {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.swift.liquid}
 
 # The declarations for test files
 test_files:

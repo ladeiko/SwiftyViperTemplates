@@ -1,8 +1,9 @@
 {% include 'header' %}
 
 import UIKit
+//import ViperMcFlurryX_Swift
 
-class {{ prefix }}{{ module_info.name }}ViewController: UITabBarController, {{ prefix }}{{module_info.name}}ViewInput {
+class {{ prefix }}{{ module_info.name }}ViewController: UITabBarController, {{ prefix }}{{ module_info.name }}ViewInput {
 
     // MARK: - VIPER Vars
 
@@ -34,8 +35,12 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITabBarController, {{ p
         }
     }
     
-    // MARK: - {{ prefix }}{{module_info.name}}ViewInput
-    
+    func didReady() {
+        output.viewIsReady() // call it here, it's a trick :)
+    }
+
+    // MARK: - {{ prefix }}{{ module_info.name }}ViewInput
+
     func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
         // TODO: Place your code here
     }
@@ -46,3 +51,37 @@ class {{ prefix }}{{ module_info.name }}ViewController: UITabBarController, {{ p
     // MARK: - Helpers
     // TODO: Place your code here
 }
+
+//extension {{ prefix }}{{ module_info.name }}ViewController: ViperModuleViewControllerPresenter {
+//
+//   func viperModuleViewControllerShouldPresent(in viewController: UIViewController) -> Bool {
+//        return true
+//    }
+//
+//    func viperModuleViewControllerPresent(in viewController: UIViewController) {
+//        viewController.present(self, animated: true)
+//    }
+//}
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerContainerView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
+
+    func makeUIViewController(context: Context) -> UIViewControllerType {
+        return {{ prefix }}{{ module_info.name }}ViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+}
+
+struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.light)
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.dark)
+    }
+}
+#endif

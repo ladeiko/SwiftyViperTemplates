@@ -1,10 +1,32 @@
 {% include 'header' %}
 
-import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
+import ViperMcFlurryX_Swift
 
-{% if custom_parameters.mcflurry_swift != "true" %}@objc{% endif %}
-protocol {{ prefix }}{{ module_info.name }}ModuleOutput: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput {
+@MainActor
+protocol {{ prefix }}{{ module_info.name }}ModuleOutput: ViperModuleOutput {
+    func {{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss(_ module: {{ prefix }}{{ module_info.name }}ModuleInput)
+}
 
-    func {{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss()
+// Can be used in:
+//  .thenChainUsingBlock { (moduleInput) -> ViperModuleOutput? in
+//    (moduleInput as! SomeModuleInput).configure()
+//    return {{ prefix }}{{ module_info.name }}ModuleDismissCompletion {
+//          // todo
+//    }
+//}
 
+class {{ prefix }}{{ module_info.name }}ModuleDismissCompletion: {{ prefix }}{{ module_info.name }}ModuleOutput {
+
+    private let completion: (@MainActor () -> Void)
+    private var selfRef: AnyObject?
+
+    init(_ completion: @escaping (@MainActor () -> Void)) {
+        self.completion = completion
+        self.selfRef = self
+    }
+
+    func {{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss(_ module: {{ prefix }}{{ module_info.name }}ModuleInput) {
+        self.completion()
+        self.selfRef = nil
+    }
 }

@@ -1,8 +1,8 @@
 {% include 'header' %}
 
-import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
+import ViperMcFlurryX_Swift
 
-{% if custom_parameters.mcflurry_swift != "true" %}@objc{% endif %}
-protocol {{ prefix }}{{ module_info.name }}ModuleOutput: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput {
+@MainActor
+protocol {{ prefix }}{{ module_info.name }}ModuleOutput: ViperModuleOutput {
 
 }

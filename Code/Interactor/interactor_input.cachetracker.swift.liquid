@@ -2,14 +2,15 @@
 
 import Foundation
 import CacheTracker
+//import UIKit
 
+@MainActor
 protocol {{ prefix }}{{ module_info.name }}InteractorInput: AnyObject {
-
-    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig){% else %}func configure(){% endif %}
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig)
     func deinitialize()
     func isDeliveringModelsListChanges() -> Bool
     func startDeliveringModelsListChanges()
     func stopDeliveringModelsListChanges()
     func initialStateOfModelsList() -> [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEntityModel>]
-    //func loadImage(for model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, completion: @escaping ((_ image: UIImage?) -> Void))
+    //func loadImage(for model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) async -> UIImage?
 }

@@ -2,7 +2,7 @@
 name: "onewaysynchronizer_service"
 summary: "Swift VIPER Service based on ViperServices module supporting OneWaySynchronizer"
 author: "Siarhei Ladzeika"
-version: "1.7.0"
+version: "2.0.0"
 license: "MIT"
 
 # The declarations for code files

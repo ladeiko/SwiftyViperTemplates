@@ -1,7 +1,7 @@
 {% include 'header' %}
 
 import Foundation
-import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
+import ViperMcFlurryX_Swift
 
 fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState: Equatable {
     case initial
@@ -9,14 +9,14 @@ fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState: Equatable {
     case deinitialized
 }
 
-class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflurry_swift != "true" %}NSObject,{% endif %} {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput {
+class {{ prefix }}{{ module_info.name }}Presenter: ViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, ViperModuleOutput {
 
     // MARK: - VIPER Vars
 
     weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
     var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
     var router: {{ prefix }}{{ module_info.name }}RouterInput!
-    weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
+    weak var output: {{ prefix }}{{ module_info.name }}ModuleOutput?
     private var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
 
     // MARK: - Vars
@@ -34,14 +34,14 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
         state = .deinitialized
     }
 
-    // MARK: - {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleInput
+    // MARK: - ViperModuleInput
 
-    func setModuleOutput(_ moduleOutput: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}) {
-        output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
+    func setModuleOutput(_ moduleOutput: ViperModuleOutput) {
+        output = moduleOutput as? {{ prefix }}{{ module_info.name }}ModuleOutput
     }
 
-    // MARK: - {{ prefix }}{{module_info.name}}ViewOutput
-
+    // MARK: - {{ prefix }}{{ module_info.name }}ViewOutput
+    
     func viewIsReady() {
         guard case let .ready(isViewReady) = self.state, !isViewReady else { fatalError() }
         state = .ready(isViewReady: true)
@@ -55,18 +55,19 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     func userDidTapOnClose() {
         guard case .ready = state, dismissed == false else { return }
         dismissed = true
-        router.dismiss {
-            self.output?.{{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss()
+        Task { @MainActor in
+            await router.dismissAsync()
+            self.output?.{{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss(self)
         }
     }
 
-    // MARK: - {{ prefix }}{{module_info.name}}ModuleInput
-
+    // MARK: - {{ prefix }}{{ module_info.name }}ModuleInput
+    
     func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
         guard case .initial = state else { fatalError() }
         state = .ready(isViewReady: false)
         self.config = config
-        {% if custom_parameters.extended_configure %}interactor.configure(with: config){% else %}interactor.configure(){% endif %}
+        interactor.configure(with: config)
     }
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorOutput

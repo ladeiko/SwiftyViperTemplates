@@ -1,28 +1,23 @@
 {% include 'header' %}
 
 class {{ prefix }}{{ module_info.name }}Interactor: {{ prefix }}{{ module_info.name }}InteractorInput {
-
+    
     // MARK: - VIPER Vars
 
     weak var output: {{ prefix }}{{ module_info.name }}InteractorOutput?
-
     // MARK: - Vars
     
-    {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig?{% endif %}
-
+    private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig?
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
-    
-    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
         assert(self.config == nil)
         self.config = config
     }
-    {% else %}func configure() {
-        // TODO
-    }{% endif %}
 
     func deinitialize() {
         // TODO: Place your code here
-        {% if custom_parameters.extended_configure %}self.config = nil{% endif %}
+        self.config = nil
     }
 
     // MARK: - Helpers

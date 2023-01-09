@@ -1,37 +1,40 @@
 {% include 'header' %}
 
-import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
+import ViperMcFlurryX_Swift
 import TopViewControllerDetection
 
 class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name }}RouterInput {
-
+    
     // MARK: - VIPER Vars
 
-    weak var calleeOutput: ({% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
-    weak var transitionHandler: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleTransitionHandler{% if custom_parameters.mcflurry_swift != "true" %}Protocol{% endif %}!
+    weak var calleeOutput: (ViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
+    weak var transitionHandler: ViperModuleTransitionHandler!
 
     // MARK: - Vars
     // TODO: Place your code here
 
     // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
-
+    
     func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, lazyAllocation: Bool) -> (embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock, updater: () -> {{ prefix }}{{ module_info.name }}EmbeddableUpdaterBlock) {
 
-        weak var embeddedInput: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput?
-
-        let factory = {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator()
-        let configurationBlock: EmbeddedModuleConfigurationBlock = { [weak self] (moduleInput) -> {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput? in
+            weak var embeddedInput: {{ prefix }}{{ module_info.name }}EmbeddableModuleInput?
+            let factory = {{ prefix }}{{ module_info.name }}EmbeddableModuleConfigurator()
+            let configurationBlock: EmbeddedModuleConfigurationBlock = { [weak self] (moduleInput) -> ViperModuleOutput? in
             let moduleInput = (moduleInput as! {{ prefix }}{{ module_info.name }}EmbeddableModuleInput)
             embeddedInput = moduleInput
-            {% if custom_parameters.embeddable_extended_configure %}moduleInput.configure(with: {{ prefix }}{{ module_info.name }}EmbeddableModuleInputConfig({% if custom_parameters.embeddable_extended_configure_vars %}{% assign module_config_vars = custom_parameters.embeddable_extended_configure_vars  | split: "," %}{% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}{% if forloop.index0 != 0 %}, {% endif %}{{ var_components[0] }}: {% if var_components[1] contains '?' %}nil{% else %}{{var_components[1]}}(){% endif %} /*TODO*/{% endfor %}{% endif %})){% else %}moduleInput.configure(){% endif %}
+            moduleInput.configure(with: {{ prefix }}{{ module_info.name }}EmbeddableModuleInputConfig({% if custom_parameters.embeddable_extended_configure_vars %}
+        {% assign module_config_vars = custom_parameters.embeddable_extended_configure_vars | split: "," %}{% for config_var in module_config_vars %}
+        {% assign var_components = config_var | split: "=" %}{% if forloop.index0 != 0 %},
+        {% endif %}
+        {{ var_components[0] }}:
+        {% if var_components[1] contains '?' %}nil
+        {% else %}
+            {{ var_components[1] }}(){% endif %}
+        /*TODO*/{% endfor %}))
             return nil // or self?.calleeOutput
         }
 
-        {% if custom_parameters.mcflurry_swift == 'true' %}
         let nativeEmbedder = transitionHandler.createEmbeddableModuleUsingFactory(factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
-        {% else %}
-        let nativeEmbedder = transitionHandler.createEmbeddableModule!(usingFactory: factory, configurationBlock: configurationBlock, lazyAllocation: lazyAllocation)
-        {% endif %}
 
         // Sometimes embeddable mobule can be reattached to another containerView
         // therefore we should track number of add/remove operations
@@ -49,7 +52,7 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
             }
 
             let  remover: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock = { [weak embeddedInput] in
-                embedBalanceCounter -= 1
+embedBalanceCounter -= 1
                 assert(embedBalanceCounter >= 0)
                 if embedBalanceCounter == 0 {
                     let embeddedInput = embeddedInput // keep strong ref
@@ -72,48 +75,44 @@ class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name 
 
     /*  // Example
     func dismiss() {
-        transitionHandler.closeCurrentModule{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}(true)
+        transitionHandler.closeCurrentModule(true)
     }
-    */
 
+    func dismissAsync() async {
+        await withCheckedContinuation { continuation in
+            transitionHandler.closeCurrentModule(true) {
+                continuation.resume(with: .success(()))
+            }
+        }
+    }
+      */
+  
     /* // Example
     func showSomeModule() {
-
-        func run() {
-
-            // NOTE: This is required for 'present' method only!
-            UIApplication.shared.findTopViewController { topController in
-
-                guard let topController = topController, topController === self.transitionHandler else { 
-                    return DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: run)
+        Task { @MainActor in
+            while true {  
+                
+                guard let topController = UIApplication.shared.findTopViewControllerAsync(), topController === self.transitionHandler else {
+                    try? await Task.sleep(5_000_000)
+                    continue
                 }
-    
-                {% if custom_parameters.mcflurry_swift == 'true' %}
+  
                 topController.openModuleUsingFactory(SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
-                {% else %}
-                topController.openModule!(usingFactory: SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
-                {% endif %}
                     let sourceViewController = sourceModuleTransitionHandler as! UIViewController
                     let destinationViewController = destinationModuleTransitionHandler as! UIViewController
-    
                     sourceViewController.present(destinationViewController, animated: true, completion: nil)
-                {% if custom_parameters.mcflurry_swift == 'true' %}
                 }.thenChainUsingBlock { (moduleInput) -> ViperModuleOutput? in
-                {% else %}
-                }.thenChain { (moduleInput) -> RamblerViperModuleOutput? in
-                {% endif %}
                     (moduleInput as! SomeModuleInput).configure()
                     return nil // or self.calleeOutput
                 }
-
-            }            
+                break
+              }
+            }
         }
-
-        run()
     }
     */
-
-    // MARK: - Helpers
-    // TODO: Place your code here
-
-}
+  
+      // MARK: - Helpers
+      // TODO: Place your code here
+  
+  }

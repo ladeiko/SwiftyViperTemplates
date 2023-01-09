@@ -8,6 +8,7 @@
 
 import ViperMcFlurryX
 
+@MainActor
 protocol SomeModuleInput: AnyObject {
     func configure()
 }

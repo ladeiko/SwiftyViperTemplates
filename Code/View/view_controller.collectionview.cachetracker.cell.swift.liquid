@@ -4,8 +4,10 @@ import UIKit
 
 class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
 
+    static let cellIdentifier = "Default"
+
     // MARK: - Outlets
-    // @IBOutlet weak var imageView: UIImageView!
+    // private weak var imageView: UIImageView!
     // TODO: Place your code here
 
     // MARK: - Vars
@@ -29,10 +31,11 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
 
 //        let imageSession: Int = Self.generateSession()
 //        self.imageSession = imageSession
-//
-//        context.loadModelImage(model) { image in
-//
-//            assert(Thread.isMainThread)
+//      
+//        Task { @MainActor in
+//              guard let image = await context.loadModelImage(model) else {
+//                  return    
+//              }
 //
 //            guard model == self.model, self.imageSession == imageSession else {
 //                return
@@ -55,6 +58,15 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
 
     // MARK: - Life cycle
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        //setupImageView()
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
         model = nil
@@ -65,4 +77,43 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
     // MARK: - Helpers
     // TODO: Place your code here
 
+    //    private func setupImageView() {
+    //        let imageView = UIImageView(frame: .init(origin: .zero, size: contentView.bounds.size))
+    //        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    //        contentView.addSubview(imageView)
+    //        self.imageView = imageView 
+    //    }
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerCell: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let cell = {{ prefix }}{{ module_info.name }}ViewCell(frame: .init(origin: .zero, size: .init(width: view.bounds.size.width, height: 44)))
+        cell.autoresizingMask = [.flexibleWidth, .flexibleTopMargin, .flexibleBottomMargin]
+        cell.center = .init(x: view.bounds.midX, y: view.bounds.midY)
+        view.addSubview(cell)
+    }
+}
+
+fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerCellContainerView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewControllerCell
+
+    func makeUIViewController(context: Context) -> UIViewControllerType {
+        return {{ prefix }}{{ module_info.name }}ViewControllerCell()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+}
+
+struct {{ prefix }}{{ module_info.name }}ViewControllerCell_Previews: PreviewProvider {
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerCellContainerView()
+            .colorScheme(.light)
+        {{ prefix }}{{ module_info.name }}ViewControllerCellContainerView()
+            .colorScheme(.dark)
+    }
+}
+#endif

@@ -1,10 +1,8 @@
 {% include 'header' %}
 
 import XCTest
-
 class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
-
-    override func setUp() {
+override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -15,41 +13,42 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
     }
 
     class MockInteractor: {{ prefix }}{{ module_info.name }}InteractorInput {
+// MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
 
-        // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+    }
         
-        {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
-        }{% else %}func configure() {
-        }{% endif %}
-        func deinitialize() {}
-
+    func deinitialize() {}
     }
 
     class MockRouter: {{ prefix }}{{ module_info.name }}RouterInput {
-
+        
         // MARK: - Vars
         // TODO: Place your code here
 
         // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
+        
+        func dismiss() {
+        }
 
-        func dismiss(_ completion: @escaping (() -> Void)) {
-            DispatchQueue.main.async {
-                completion()
+        func dismissAsync() async {
+            await withCheckedContinuation { continuation in
+                DispatchQueue.main.async {
+                    continuation.resume(with: .success(()))
+                }
             }
         }
 
     }
 
     class MockViewController: {{ prefix }}{{ module_info.name }}ViewInput {
-
-        // MARK: - Vars
+// MARK: - Vars
 
         private var title: String?
         private var message: String?
 
         // MARK: - {{ prefix }}{{ module_info.name }}ViewInput
-
-        func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
             // TODO: Place your code here
         }
 

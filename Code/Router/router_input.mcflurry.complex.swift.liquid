@@ -2,12 +2,14 @@
 
 import Foundation
 
-protocol {{ prefix }}{{ module_info.name }}RouterInput: AnyObject {
+@MainActor
+protocol {{ prefix }}{{ module_info.name }}RouterInput: AnyObject, Router { // NOTE! Just define common Router interface
 
     func createEmbeddableModule(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, lazyAllocation: Bool) -> (embedder: {{ prefix }}{{ module_info.name }}EmbeddableEmbedBlock, updater: () -> {{ prefix }}{{ module_info.name }}EmbeddableUpdaterBlock)
 
     /*  // Example
     func dismiss()
+    func dismissAsync() async
     */
 
     /* // Example

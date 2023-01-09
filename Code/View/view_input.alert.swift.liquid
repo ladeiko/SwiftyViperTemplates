@@ -1,9 +1,8 @@
 {% include 'header' %}
 
+@MainActor
 protocol {{ prefix }}{{ module_info.name }}ViewInput: AnyObject {
-
     func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme)
     func setAlertTitle(_ title: String?)
     func setAlertMessage(_ message: String?)
-
 }

@@ -2,8 +2,8 @@
 
 import Foundation
 
-protocol {{ prefix }}{{ module_info.name }}RouterInput: AnyObject {
-
-    func dismiss(_ completion: @escaping (() -> Void))
-
+@MainActor
+protocol {{ prefix }}{{ module_info.name }}RouterInput: AnyObject, Router { // NOTE! Just define common Router interface
+    func dismiss()
+    func dismissAsync() async
 }

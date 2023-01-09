@@ -2,10 +2,9 @@
 
 import CacheTracker
 
+@MainActor
 protocol {{ prefix }}{{ module_info.name }}ViewInput: AnyObject {
-
     func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme)
     func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>])
     func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>])
-
 }

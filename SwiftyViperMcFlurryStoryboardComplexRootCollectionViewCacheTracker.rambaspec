@@ -2,7 +2,7 @@
 name: "SwiftyViperMcFlurryStoryboardComplexRootCollectionViewCacheTracker"
 summary: "Swift VIPER module template with UICollectionView playing as root View"
 author: "Siarhei Ladzeika"
-version: "1.10.0"
+version: "2.0.0"
 license: "MIT"
 
 # The declarations for code files
@@ -16,17 +16,15 @@ code_files:
 
 # View layer
 - {name: View/Helpers/ViewInputTheme.swift,  path: Code/View/view_input_theme.swift.liquid}
+- {name: View/Helpers/ViewLayout.swift, path: Code/View/Helpers/collectionview_layout.swift.liquid}
 - {name: View/ViewInput.swift,  path: Code/View/view_input.complex.cachetracker.swift.liquid}
 - {name: View/ViewOutput.swift, path: Code/View/view_output.cachetracker.swift.liquid}
 - {name: View/ViewController.swift, path: Code/View/view_controller.complex.root_collectionview.cachetracker.swift.liquid}
-- {name: View/Storyboards/.storyboard, path: Code/View/view.root_collectionview.storyboard.liquid}
 - {name: View/Helpers/ViewCell.swift, path: Code/View/view_controller.complex.collectionview.cachetracker.cell.swift.liquid}
 - {name: View/Helpers/ViewCellContext.swift, path: Code/View/view_controller.cell_context.swift.liquid}
 
 # Presenter layer
-{% if custom_parameters.extended_configure %}
 - {name: Presenter/Helpers/ModuleConfig.swift, path: Code/Helpers/moduleinputconfig.swift.liquid}
-{% endif %}
 - {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.swift.liquid}
 - {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.swift.liquid}
 - {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.complex.cachetracker.swift.liquid}
@@ -41,10 +39,8 @@ code_files:
 - {name: Router/Router.swift, path: Code/Router/router.mcflurry.complex.swift.liquid}
 
 # Configurator
-- {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.mcflurry.storyboard.swift.liquid}
-{% if custom_parameters.extended_configurator_create != 'true' %}
-- {name: Configurator/Initializer.swift, path: Code/Configurator/initializer.swift.liquid}
-{% endif %}
+- {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.swift.liquid}
+
 
 # The declarations for test files
 test_files:

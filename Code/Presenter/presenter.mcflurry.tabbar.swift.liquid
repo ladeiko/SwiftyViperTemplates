@@ -1,7 +1,7 @@
 {% include 'header' %}
 
 import Foundation
-import {% if custom_parameters.mcflurry_swift == 'true' %}ViperMcFlurryX_Swift{% else %}ViperMcFlurryX{% endif %}
+import ViperMcFlurryX_Swift
 
 fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState: Equatable {
     case initial
@@ -9,19 +9,19 @@ fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState: Equatable {
     case deinitialized
 }
 
-class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflurry_swift != "true" %}NSObject,{% endif %} {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput {
+class {{ prefix }}{{ module_info.name }}Presenter: ViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, ViperModuleOutput {
 
     // MARK: - VIPER Vars
 
     weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
     var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
     var router: {{ prefix }}{{ module_info.name }}RouterInput!
-    weak var output: {{ prefix }}{{module_info.name}}ModuleOutput?
+    weak var output: {{ prefix }}{{ module_info.name }}ModuleOutput?
     private var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
 
     // MARK: - Vars
 
-    {% if custom_parameters.extended_configure %}private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!{% else %}// TODO: Place your code here{% endif %}
+    private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!
 
     // MARK: - Life cycle
 
@@ -33,32 +33,32 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
         state = .deinitialized
     }
 
-    // MARK: - {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleInput
+    // MARK: - ViperModuleInput
 
-    func setModuleOutput(_ moduleOutput: {% if custom_parameters.mcflurry_swift != "true" %}Rambler{% endif %}ViperModuleOutput{% if custom_parameters.mcflurry_swift != "true" %}!{% endif %}) {
-        output = moduleOutput as? {{ prefix }}{{module_info.name}}ModuleOutput
+    func setModuleOutput(_ moduleOutput: ViperModuleOutput) {
+        output = moduleOutput as? {{ prefix }}{{ module_info.name }}ModuleOutput
     }
 
-    // MARK: - {{ prefix }}{{module_info.name}}ViewOutput
-    // TODO: Place your code here
+    // MARK: - {{ prefix }}{{ module_info.name }}ViewOutput
     
-    // MARK: - {{ prefix }}{{module_info.name}}ModuleInput
+    func viewIsReady() {
 
-    {% if custom_parameters.extended_configure %}func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {% else %}func configure() {% endif %}{
+    }
+    
+    // MARK: - {{ prefix }}{{ module_info.name }}ModuleInput
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
         guard case .initial = state else { fatalError() }
         state = .ready(isViewReady: false)
-        {% if custom_parameters.extended_configure %}
         self.config = config
         interactor.configure(with: config)
-        {% else %}interactor.configure(){% endif %}
         setupView()
     }
 
-    {% if custom_parameters.extended_configure %}//func update(_ model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) {
+    //func update(_ model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) {
     //    guard model != self.config.model else { return }
     //    self.config = .init(services: self.config.services, model: model)
     //    // TODO
-    //}{% endif %}
+    //}
 
     func setCurrent(_ tab: {{ prefix }}{{ module_info.name }}ModuleTab) {
         guard case .ready = state else { return }
@@ -66,7 +66,7 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
     }
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorOutput
-    // TODO: Place your code here
+// TODO: Place your code here
 
     // MARK: - Helpers
 
@@ -75,15 +75,14 @@ class {{ prefix }}{{ module_info.name }}Presenter: {% if custom_parameters.mcflu
         state = .ready(isViewReady: true)
 
         view.configure(with: .init())
-        router.embedTabs({{ prefix }}{{ module_info.name }}ModuleTab.allCases, current: interactor.currentTab, using: config.services)
-        // TODO: Place your code here
+        router.embedTabs({{ prefix }}{{ module_info.name }}ModuleTab.allCases, current: interactor.currentTab, with: config)
+    // TODO: Place your code here
     }
 
     // TODO: Place your code here
 }
 
 extension {{ prefix }}{{ module_info.name }}Presenter: {{ prefix }}{{ module_info.name }}RouterOutput {
-
     func routerDidChangeCurrentModule(_ module: {{ prefix }}{{ module_info.name }}ModuleTab) {
         // TODO: Place your code here
     }

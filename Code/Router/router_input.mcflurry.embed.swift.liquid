@@ -2,12 +2,14 @@
 
 import Foundation
 
-protocol {{ prefix }}{{ module_info.name }}RouterInput: AnyObject {
+@MainActor
+protocol {{ prefix }}{{ module_info.name }}RouterInput: AnyObject, Router { // NOTE! Just define common Router interface
 
     func embedSomeModule()
 
     /*  // Example
     func dismiss()
+    func dismissAsync() async
     */
 
     /* // Example
