@@ -104,7 +104,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITabl
         // TODO: Place your code here
         let tableView = UITableView(frame: .init(origin: .zero, size: view.bounds.size))
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        tableView.register({{ prefix }}{{ module_info.name }}ViewCell.self, forCellWithReuseIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier)
+        tableView.register({{ prefix }}{{ module_info.name }}ViewCell.self, forCellReuseIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier)
         self.tableView = tableView
         tableView.delegate = self
         tableView.dataSource = self
