@@ -27,7 +27,6 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
                                                 collectionViewLayout: collectionViewLayout)
         collectionView.register({{ prefix }}{{ module_info.name }}ViewCell.self, forCellWithReuseIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.view = collectionView
         collectionView.dataSource = self
         collectionView.delegate = self
         self.collectionView = collectionView
