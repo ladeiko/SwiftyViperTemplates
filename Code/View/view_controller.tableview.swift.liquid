@@ -70,7 +70,7 @@ extension {{ prefix }}{{ module_info.name }}ViewController: UITableViewDataSourc
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Default") as! {{ prefix }}{{ module_info.name }}ViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier) as! {{ prefix }}{{ module_info.name }}ViewCell
         let model = models[indexPath.item]
         cell.configure(with: model, in: context)
         return cell

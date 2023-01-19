@@ -1,9 +1,8 @@
 {% include 'header' %}
 
 import UIKit
-
 class {{ prefix }}{{ module_info.name }}ViewCell: UITableViewCell {
-
+    
     static let cellIdentifier = "Default"
 
     // MARK: - Outlets
@@ -24,7 +23,6 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UITableViewCell {
     private var removeEmbeddableBlock: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock?
     private var context: {{ prefix }}{{ module_info.name }}ViewCellContext?
     private var model: {{ prefix }}{{ module_info.name }}ModuleEntityModel?
-
     // MARK: - Public
 
     func configure(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, in context: {{ prefix }}{{ module_info.name }}ViewCellContext) {
@@ -97,7 +95,7 @@ import SwiftUI
 fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerCell: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        let cell = {{ prefix }}{{ module_info.name }}ViewCell(style: .default, reuseIdentifier: "Default")
+        let cell = {{ prefix }}{{ module_info.name }}ViewCell(style: .default, reuseIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier)
         cell.autoresizingMask = [.flexibleWidth, .flexibleTopMargin, .flexibleBottomMargin]
         cell.bounds = .init(origin: .zero, size: .init(width: view.bounds.size.width, height: 44))
         cell.center = .init(x: view.bounds.midX, y: view.bounds.midY)
@@ -107,7 +105,6 @@ fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerCell: UIViewCo
 
 fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerCellContainerView: UIViewControllerRepresentable {
     typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewControllerCell
-
     func makeUIViewController(context: Context) -> UIViewControllerType {
         return {{ prefix }}{{ module_info.name }}ViewControllerCell()
     }

@@ -61,7 +61,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITabl
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Default") as! {{ prefix }}{{ module_info.name }}ViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier) as! {{ prefix }}{{ module_info.name }}ViewCell
         let item = consumer.object(at: indexPath.row)
         cell.configure(with: item.model, in: context)
         return cell
