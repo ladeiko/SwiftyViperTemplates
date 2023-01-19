@@ -30,6 +30,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewControll
         self.view = collectionView
         collectionView.dataSource = self
         collectionView.delegate = self
+        self.collectionView = collectionView
     }
 
     override func viewDidLoad() {
