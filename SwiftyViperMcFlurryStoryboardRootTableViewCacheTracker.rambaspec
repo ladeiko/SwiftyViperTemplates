@@ -17,6 +17,7 @@ code_files:
 - {name: View/ViewInput.swift,  path: Code/View/view_input.cachetracker.swift.liquid}
 - {name: View/ViewOutput.swift, path: Code/View/view_output.cachetracker.swift.liquid}
 - {name: View/ViewController.swift, path: Code/View/view_controller.root_tableview.cachetracker.swift.liquid}
+- {name: View/Helpers/ViewCell.swift, path: Code/View/view_controller.tableview.cachetracker.cell.swift.liquid}
 - {name: View/Helpers/ViewCellContext.swift, path: Code/View/view_controller.cell_context.swift.liquid}
 
 # Presenter layer
