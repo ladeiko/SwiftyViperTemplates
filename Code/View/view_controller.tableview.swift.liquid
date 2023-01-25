@@ -55,6 +55,13 @@ extension {{ prefix }}{{ module_info.name }}ViewController {
 
     private func setupTableView() {
         // TODO: Place your code here
+        let tableView = UITableView(frame: .init(origin: .zero, size: view.bounds.size))
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableView.register({{ prefix }}{{ module_info.name }}ViewCell.self, forCellReuseIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier)
+        self.tableView = tableView
+        tableView.delegate = self
+        tableView.dataSource = self
+        view.addSubview(tableView)
     }
 
 }

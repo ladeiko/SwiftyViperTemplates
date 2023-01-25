@@ -108,6 +108,7 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UITabl
         self.tableView = tableView
         tableView.delegate = self
         tableView.dataSource = self
+        view.addSubview(tableView)
     }
 
 }
