@@ -5,14 +5,14 @@ import CacheTrackerConsumer
 // TODO: Replace SomeModuleEntityModel with project model implementing CacheTracker/CacheTrackerPlainModel protocol
 // Example:
 //  import CacheTracker
-//  class SomeModuleEntityModel { }
+//  final class SomeModuleEntityModel { }
 //  extension SomeModuleEntityModel: CacheTrackerPlainModel {}
 //  More info at https://github.com/ladeiko/CacheTracker
 
 typealias {{ prefix }}{{ module_info.name }}ModuleEntityModel = SomeModuleEntityModel
 typealias {{ prefix }}{{ module_info.name }}EmbeddableUpdaterBlock = (_ model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) -> Void
 
-class {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel: CacheTrackerPlainRecurrentConsumerItem, {{ prefix }}{{ module_info.name }}Embeddable {
+final class {{ prefix }}{{ module_info.name }}ModuleEmbeddableModel: CacheTrackerPlainRecurrentConsumerItem, {{ prefix }}{{ module_info.name }}Embeddable {
 
     let model: {{ prefix }}{{ module_info.name }}ModuleEntityModel!
 

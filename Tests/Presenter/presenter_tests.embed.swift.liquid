@@ -1,10 +1,8 @@
 {% include 'header' %}
 
 import XCTest
-
-class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
-
-    override func setUp() {
+final class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
+override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -15,32 +13,27 @@ class {{ prefix }}{{ module_info.name }}PresenterTest: XCTestCase {
     }
 
     class MockInteractor: {{ prefix }}{{ module_info.name }}InteractorInput {
-
-        // MARK: - Vars
+// MARK: - Vars
         // TODO: Place your code here
 
         // MARK: - {{ prefix }}{{ module_info.name }}InteractorInput
-        
-        func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
-        }
+func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+}
 
         func deinitialize() {}
     }
 
     class MockRouter: {{ prefix }}{{ module_info.name }}RouterInput {
-
-        // MARK: - Vars
+// MARK: - Vars
         // TODO: Place your code here
 
         // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
-
-        func embedSomeModule() { }
+func embedSomeModule() { }
 
     }
 
     class MockViewController: {{ prefix }}{{ module_info.name }}ViewInput {
-
-        // MARK: - Vars
+// MARK: - Vars
         // TODO: Place your code here
 
         // MARK: - {{ prefix }}{{ module_info.name }}ViewInput

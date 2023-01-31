@@ -5,7 +5,7 @@ import ViperServices
 {% if custom_parameters.redux_service_observable %}import RxSwift{% endif %}
 {% if custom_parameters.redux_service_state_persistent %}import DefaultsKit{% endif %}
 
-class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{{ module_info.name }}Service{% if custom_parameters.redux_service_state_persistent %}, StoreSubscriber{% endif %} {
+final class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{{ module_info.name }}Service{% if custom_parameters.redux_service_state_persistent %}, StoreSubscriber{% endif %} {
 
     // MARK: - Vars
 

@@ -3,13 +3,11 @@
 import UIKit
 //import ViperMcFlurryX_Swift
 
-class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {{ prefix }}{{module_info.name}}ViewInput {
-
-    // MARK: - VIPER Vars
+final class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {{ prefix }}{{ module_info.name }}ViewInput {
+// MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
-
-    // MARK: - Outlets
+// MARK: - Outlets
     // TODO: Place your code here
 
     // MARK: - Vars
@@ -22,10 +20,9 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {{ pre
         output.viewIsReady()
     }
 
-    // MARK: - {{ prefix }}{{module_info.name}}ViewInput
-    
-    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
-        // TODO: Place your code here
+    // MARK: - {{ prefix }}{{ module_info.name }}ViewInput
+func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+// TODO: Place your code here
     }
 
     // MARK: - UI Actions
@@ -50,20 +47,19 @@ class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, {{ pre
 import SwiftUI
 
 fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerContainerView: UIViewControllerRepresentable {
-    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
-
-    func makeUIViewController(context: Context) -> UIViewControllerType {
+typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
+func makeUIViewController(context: Context) -> UIViewControllerType {
         return {{ prefix }}{{ module_info.name }}ViewController()
-    }
+}
 
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
 }
 
 struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
-            .colorScheme(.light)
-        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+static var previews: some View {
+{{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+.colorScheme(.light)
+{{ prefix }}{{ module_info.name }}ViewControllerContainerView()
             .colorScheme(.dark)
     }
 }

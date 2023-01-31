@@ -4,9 +4,8 @@ import XCTest
 import ViperServices
 {% if custom_parameters.redux_service_observable %}import RxSwift{% endif %}
 
-class {{ prefix }}{{ module_info.name }}ServiceTests: XCTestCase {
-
-    override func setUp() {
+final class {{ prefix }}{{ module_info.name }}ServiceTests: XCTestCase {
+override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -22,21 +21,17 @@ class {{ prefix }}{{ module_info.name }}ServiceTests: XCTestCase {
         let launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
         let container = DefaultViperServicesContainer()
         var failed: [ViperServiceBootFailureResult]?
-        let bootExpect = expectation(description: "Boot expectation")
+        let bootExpect = expectation(description: "Boot expectation"){% if custom_parameters.redux_service_observable %}
+  let subscribeExpect = expectation(description: "Subscribe expectation")
+  let disposeBag = DisposeBag()
+{% endif %}
 
-        {% if custom_parameters.redux_service_observable %}
-        let subscribeExpect = expectation(description: "Subscribe expectation")
-        let disposeBag = DisposeBag()
-        {% endif %}
-
-        //when
-        XCTAssertNoThrow(try container.register({{ prefix }}{{ module_info.name }}ServiceImpl() as {{ prefix }}{{ module_info.name }}Service))
-        XCTAssertThrowsError(try container.register({{ prefix }}{{ module_info.name }}ServiceImpl() as {{ prefix }}{{ module_info.name }}Service))
-
-        //then
+//when
+XCTAssertNoThrow(try container.register({{ prefix }}{{ module_info.name }}ServiceImpl() as {{ prefix }}{{ module_info.name }}Service))
+XCTAssertThrowsError(try container.register({{ prefix }}{{ module_info.name }}ServiceImpl() as {{ prefix }}{{ module_info.name }}Service))
+//then
         XCTAssertNotNil(container.resolve() as {{ prefix }}{{ module_info.name }}Service)
-
-        container.boot(launchOptions: launchOptions) { (result) in
+container.boot(launchOptions: launchOptions) { (result) in
 
             switch result {
             case .succeeded: break
@@ -52,32 +47,38 @@ class {{ prefix }}{{ module_info.name }}ServiceTests: XCTestCase {
         XCTAssertNil(failed)
         XCTAssertNotNil(container.resolve() as {{ prefix }}{{ module_info.name }}Service)
 
-        {% if custom_parameters.redux_service_observable %}
+{% if custom_parameters.redux_service_observable %}
 
-        let service = container.resolve() as {{ prefix }}{{ module_info.name }}Service
+  let service = container.resolve() as {{ prefix }}{{ module_info.name }}Service
 
-        {% if custom_parameters.redux_service_generate_state_vars_getters %}
-        {% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}
-        {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}
+  {% if custom_parameters.redux_service_generate_state_vars_getters %}
+    {% if custom_parameters.redux_service_state_vars %}
+      {% assign module_config_vars = custom_parameters.redux_service_state_vars | split: "," %}
+      {% for config_var in module_config_vars %}
+        {% assign var_components = config_var | split: "=" %}
         let _var_{{ var_components[0] }} = service.{{ var_components[0] }}
-        {% endfor %}{% endif %}{% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endif %}
 
-        service.observable()
-            .subscribe(onNext: { service in
+  service.observable()
+  .subscribe(onNext: { service in
 
-                {% if custom_parameters.redux_service_generate_state_vars_getters %}
-                {% if custom_parameters.redux_service_state_vars %}{% assign module_config_vars = custom_parameters.redux_service_state_vars  | split: "," %}
-                {% for config_var in module_config_vars %}{% assign var_components = config_var  | split: "=" %}
-                guard _var_{{ var_components[0] }} == service.{{ var_components[0] }} else { return }
-                {% endfor %}{% endif %}{% endif %}
+  {% if custom_parameters.redux_service_generate_state_vars_getters %}
+    {% if custom_parameters.redux_service_state_vars %}
+      {% assign module_config_vars = custom_parameters.redux_service_state_vars | split: "," %}
+      {% for config_var in module_config_vars %}
+        {% assign var_components = config_var | split: "=" %}
+        guard _var_{{ var_components[0] }} == service.{{ var_components[0] }} else { return }
+      {% endfor %}
+    {% endif %}
+  {% endif %}
 
-                subscribeExpect.fulfill()
-            })
-            .disposed(by: disposeBag)
-
-        wait(for: [subscribeExpect], timeout: 1.0)
-
-        {% endif %}
-    }
+  subscribeExpect.fulfill()
+  })
+              .disposed(by: disposeBag)
+  
+          wait(for: [subscribeExpect], timeout: 1.0){% endif %}
+}
 
 }

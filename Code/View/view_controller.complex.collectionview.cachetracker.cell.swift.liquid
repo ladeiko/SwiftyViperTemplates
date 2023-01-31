@@ -1,10 +1,8 @@
 {% include 'header' %}
 
 import UIKit
-
-class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
-
-    static let cellIdentifier = "Default"
+final class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
+static let cellIdentifier = "Default"
 
     // MARK: - Outlets
 
@@ -23,14 +21,12 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
 
 //    private var imageSession: Int?
     private var removeEmbeddableBlock: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock?
-    private var context: {{ prefix }}{{ module_info.name }}ViewCellContext?
-    private var model: {{ prefix }}{{ module_info.name }}ModuleEntityModel?
-    
-    // MARK: - Public
+private var context: {{ prefix }}{{ module_info.name }}ViewCellContext?
+private var model: {{ prefix }}{{ module_info.name }}ModuleEntityModel?
+// MARK: - Public
 
     func configure(with model: {{ prefix }}{{ module_info.name }}ModuleEntityModel, in context: {{ prefix }}{{ module_info.name }}ViewCellContext) {
-        
-        self.context = context
+self.context = context
         self.model = model
 
 //        let imageSession: Int = Self.generateSession()
@@ -54,7 +50,7 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
     }
 
     func willDisplay(_ embeddable: {{ prefix }}{{ module_info.name }}Embeddable) {
-        removeEmbeddable() // remove previous if for some reason it was not removed
+removeEmbeddable() // remove previous if for some reason it was not removed
         removeEmbeddableBlock = embeddable.embed(contentView) // TODO use view you prefer
     }
 
@@ -107,30 +103,29 @@ class {{ prefix }}{{ module_info.name }}ViewCell: UICollectionViewCell {
 import SwiftUI
 
 fileprivate class {{ prefix }}{{ module_info.name }}ViewControllerCell: UIViewController {
-    override func viewDidLoad() {
+override func viewDidLoad() {
         super.viewDidLoad()
         let cell = {{ prefix }}{{ module_info.name }}ViewCell(frame: .init(origin: .zero, size: .init(width: view.bounds.size.width, height: 44)))
-        cell.autoresizingMask = [.flexibleWidth, .flexibleTopMargin, .flexibleBottomMargin]
+cell.autoresizingMask = [.flexibleWidth, .flexibleTopMargin, .flexibleBottomMargin]
         cell.center = .init(x: view.bounds.midX, y: view.bounds.midY)
         view.addSubview(cell)
     }
 }
 
 fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerCellContainerView: UIViewControllerRepresentable {
-    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewControllerCell
-
-    func makeUIViewController(context: Context) -> UIViewControllerType {
+typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewControllerCell
+func makeUIViewController(context: Context) -> UIViewControllerType {
         return {{ prefix }}{{ module_info.name }}ViewControllerCell()
-    }
+}
 
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
 }
 
 struct {{ prefix }}{{ module_info.name }}ViewControllerCell_Previews: PreviewProvider {
-    static var previews: some View {
-        {{ prefix }}{{ module_info.name }}ViewControllerCellContainerView()
-            .colorScheme(.light)
-        {{ prefix }}{{ module_info.name }}ViewControllerCellContainerView()
+static var previews: some View {
+{{ prefix }}{{ module_info.name }}ViewControllerCellContainerView()
+.colorScheme(.light)
+{{ prefix }}{{ module_info.name }}ViewControllerCellContainerView()
             .colorScheme(.dark)
     }
 }

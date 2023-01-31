@@ -14,7 +14,7 @@ fileprivate struct Remote{{ prefix }}{{ module_info.name }}ServiceItemDescriptio
 }
 
 
-class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{{ module_info.name }}Service, OneWaySynchronizerProcessor {
+final class {{ prefix }}{{ module_info.name }}ServiceImpl: ViperService, {{ prefix }}{{ module_info.name }}Service, OneWaySynchronizerProcessor {
 
     // MARK: - Vars
 

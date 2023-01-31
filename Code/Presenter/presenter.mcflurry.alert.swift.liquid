@@ -4,25 +4,23 @@ import Foundation
 import ViperMcFlurryX_Swift
 
 fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState: Equatable {
-    case initial
+case initial
     case ready(isViewReady: Bool)
     case deinitialized
 }
 
-class {{ prefix }}{{ module_info.name }}Presenter: ViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, ViperModuleOutput {
-
-    // MARK: - VIPER Vars
+final class {{ prefix }}{{ module_info.name }}Presenter: ViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, ViperModuleOutput {
+// MARK: - VIPER Vars
 
     weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
-    var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
-    var router: {{ prefix }}{{ module_info.name }}RouterInput!
-    weak var output: {{ prefix }}{{ module_info.name }}ModuleOutput?
-    private var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
-
-    // MARK: - Vars
+var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
+var router: {{ prefix }}{{ module_info.name }}RouterInput!
+weak var output: {{ prefix }}{{ module_info.name }}ModuleOutput?
+private var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
+// MARK: - Vars
 
     private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!
-    private var dismissed = false
+private var dismissed = false
 
     // MARK: - Life cycle
 
@@ -38,11 +36,10 @@ class {{ prefix }}{{ module_info.name }}Presenter: ViperModuleInput, {{ prefix }
 
     func setModuleOutput(_ moduleOutput: ViperModuleOutput) {
         output = moduleOutput as? {{ prefix }}{{ module_info.name }}ModuleOutput
-    }
+}
 
     // MARK: - {{ prefix }}{{ module_info.name }}ViewOutput
-    
-    func viewIsReady() {
+func viewIsReady() {
         guard case let .ready(isViewReady) = self.state, !isViewReady else { fatalError() }
         state = .ready(isViewReady: true)
         
@@ -58,13 +55,12 @@ class {{ prefix }}{{ module_info.name }}Presenter: ViperModuleInput, {{ prefix }
         Task { @MainActor in
             await router.dismissAsync()
             self.output?.{{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss(self)
-        }
+}
     }
 
     // MARK: - {{ prefix }}{{ module_info.name }}ModuleInput
-    
-    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
-        guard case .initial = state else { fatalError() }
+func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+guard case .initial = state else { fatalError() }
         state = .ready(isViewReady: false)
         self.config = config
         interactor.configure(with: config)

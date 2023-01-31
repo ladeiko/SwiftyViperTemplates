@@ -11,7 +11,7 @@ fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState: Equatable {
     case deinitialized
 }
 
-class {{ prefix }}{{ module_info.name }}Presenter: ViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, ViperModuleOutput {
+final class {{ prefix }}{{ module_info.name }}Presenter: ViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, ViperModuleOutput {
 
     // MARK: - VIPER Vars
 

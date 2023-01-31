@@ -3,9 +3,8 @@
 import XCTest
 import ViperServices
 
-class {{ prefix }}{{ module_info.name }}ServiceTests: XCTestCase {
-
-    override func setUp() {
+final class {{ prefix }}{{ module_info.name }}ServiceTests: XCTestCase {
+override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -25,12 +24,10 @@ class {{ prefix }}{{ module_info.name }}ServiceTests: XCTestCase {
 
         //when
         XCTAssertNoThrow(try container.register({{ prefix }}{{ module_info.name }}ServiceImpl() as {{ prefix }}{{ module_info.name }}Service))
-        XCTAssertThrowsError(try container.register({{ prefix }}{{ module_info.name }}ServiceImpl() as {{ prefix }}{{ module_info.name }}Service))
-
-        //then
+XCTAssertThrowsError(try container.register({{ prefix }}{{ module_info.name }}ServiceImpl() as {{ prefix }}{{ module_info.name }}Service))
+//then
         XCTAssertNotNil(container.resolve() as {{ prefix }}{{ module_info.name }}Service)
-
-        container.boot(launchOptions: launchOptions) { (result) in
+container.boot(launchOptions: launchOptions) { (result) in
 
             switch result {
             case .succeeded: break

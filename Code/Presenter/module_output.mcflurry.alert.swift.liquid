@@ -1,9 +1,10 @@
 {% include 'header' %}
 
 import ViperMcFlurryX_Swift
+
 @MainActor
 protocol {{ prefix }}{{ module_info.name }}ModuleOutput: ViperModuleOutput {
-func {{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss(_ module: {{ prefix }}{{ module_info.name }}ModuleInput)
+    func {{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss(_ module: {{ prefix }}{{ module_info.name }}ModuleInput)
 }
 
 // Can be used in:
@@ -14,8 +15,9 @@ func {{ prefix | downcase }}{{ module_info.name | downcase }}ModuleDidDismiss(_ 
 //    }
 //}
 
-class {{ prefix }}{{ module_info.name }}ModuleDismissCompletion: {{ prefix }}{{ module_info.name }}ModuleOutput {
-private let completion: (@MainActor () -> Void)
+final class {{ prefix }}{{ module_info.name }}ModuleDismissCompletion: {{ prefix }}{{ module_info.name }}ModuleOutput {
+    
+    private let completion: (@MainActor () -> Void)
     private var selfRef: AnyObject?
 
     init(_ completion: @escaping (@MainActor () -> Void)) {
