@@ -4,24 +4,28 @@ import ViperMcFlurryX_Swift
 import TopViewControllerDetection
 
 final class {{ prefix }}{{ module_info.name }}Router: NSObject, {{ prefix }}{{ module_info.name }}RouterInput {
-// MARK: - VIPER Vars
+
+    // MARK: - VIPER Vars
 
     weak var calleeOutput: (ViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
     weak var transitionHandler: ViperModuleTransitionHandler!
     weak var output: {{ prefix }}{{ module_info.name }}RouterOutput!
-// MARK: - Vars
+
+    // MARK: - Vars
 
     private struct Tab {
         let id: {{ prefix }}{{ module_info.name }}ModuleTab
-weak var controller: UIViewController?
+        weak var controller: UIViewController?
     }
-    
+
     private var tabs: [Tab] = []
 
     // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
-func embedTabs(_ module: [{{ prefix }}{{ module_info.name }}ModuleTab], current: {{ prefix }}{{ module_info.name }}ModuleTab?, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
-let existing: [{{ prefix }}{{ module_info.name }}ModuleTab: UIViewController] = tabs.reduce(into: [:], { $0[$1.id] = $1.controller })
-tabs = []
+
+    func embedTabs(_ module: [{{ prefix }}{{ module_info.name }}ModuleTab], current: {{ prefix }}{{ module_info.name }}ModuleTab?, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+
+        let existing: [{{ prefix }}{{ module_info.name }}ModuleTab: UIViewController] = tabs.reduce(into: [:], { $0[$1.id] = $1.controller })
+        tabs = []
 
         let viewControllers: [UIViewController] = module.reduce(into: []) { (controllers, module) in
             var controller: UIViewController! = existing[module]
@@ -52,8 +56,9 @@ tabs = []
     }
 
     func showTab(_ tab: {{ prefix }}{{ module_info.name }}ModuleTab) {
-let index = {{ prefix }}{{ module_info.name }}ModuleTab.allCases.firstIndex(of: tab)!
-let tabbarController = transitionHandler as! UITabBarController
+
+        let index = {{ prefix }}{{ module_info.name }}ModuleTab.allCases.firstIndex(of: tab)!
+        let tabbarController = transitionHandler as! UITabBarController
 
         guard tabbarController.selectedIndex != index else {
             return
@@ -80,12 +85,12 @@ let tabbarController = transitionHandler as! UITabBarController
     /* // Example
     func showSomeModule() {
         Task { @MainActor in
-            while true {  
+            while true {
                 guard let topController = UIApplication.shared.findTopViewControllerAsync(), topController === self.transitionHandler else {
                     try? await Task.sleep(5_000_000)
                     continue
                 }
-  
+
                 topController.openModuleUsingFactory(SomeModuleConfigurator()) { (sourceModuleTransitionHandler, destinationModuleTransitionHandler) in
                     let sourceViewController = sourceModuleTransitionHandler as! UIViewController
                     let destinationViewController = destinationModuleTransitionHandler as! UIViewController
