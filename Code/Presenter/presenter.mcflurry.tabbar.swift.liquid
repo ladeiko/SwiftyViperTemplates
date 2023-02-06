@@ -4,23 +4,26 @@ import Foundation
 import ViperMcFlurryX_Swift
 
 fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState: Equatable {
-case initial
+    case initial
     case ready(isViewReady: Bool)
     case deinitialized
 }
 
 final class {{ prefix }}{{ module_info.name }}Presenter: ViperModuleInput, {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput, ViperModuleOutput {
-// MARK: - VIPER Vars
+
+    // MARK: - VIPER Vars
 
     weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
-var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
-var router: {{ prefix }}{{ module_info.name }}RouterInput!
-weak var output: {{ prefix }}{{ module_info.name }}ModuleOutput?
-private var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
-// MARK: - Vars
+    var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
+    var router: {{ prefix }}{{ module_info.name }}RouterInput!
+    weak var output: {{ prefix }}{{ module_info.name }}ModuleOutput?
+    private var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
+
+    // MARK: - Vars
 
     private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!
-// MARK: - Life cycle
+
+    // MARK: - Life cycle
 
     func willDeinit() {
         if case .ready = state {
@@ -34,16 +37,18 @@ private var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
 
     func setModuleOutput(_ moduleOutput: ViperModuleOutput) {
         output = moduleOutput as? {{ prefix }}{{ module_info.name }}ModuleOutput
-}
+    }
 
     // MARK: - {{ prefix }}{{ module_info.name }}ViewOutput
-func viewIsReady() {
+
+    func viewIsReady() {
 
     }
-    
+
     // MARK: - {{ prefix }}{{ module_info.name }}ModuleInput
-func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
-guard case .initial = state else { fatalError() }
+
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+        guard case .initial = state else { fatalError() }
         state = .ready(isViewReady: false)
         self.config = config
         interactor.configure(with: config)
@@ -51,18 +56,18 @@ guard case .initial = state else { fatalError() }
     }
 
     //func update(_ model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) {
-//    guard model != self.config.model else { return }
+    //    guard model != self.config.model else { return }
     //    self.config = .init(services: self.config.services, model: model)
     //    // TODO
     //}
 
     func setCurrent(_ tab: {{ prefix }}{{ module_info.name }}ModuleTab) {
-guard case .ready = state else { return }
+        guard case .ready = state else { return }
         router.showTab(tab)
     }
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorOutput
-// TODO: Place your code here
+    // TODO: Place your code here
 
     // MARK: - Helpers
 
@@ -72,14 +77,15 @@ guard case .ready = state else { return }
 
         view.configure(with: .init())
         router.embedTabs({{ prefix }}{{ module_info.name }}ModuleTab.allCases, current: interactor.currentTab, with: config)
-// TODO: Place your code here
+        // TODO: Place your code here
     }
 
     // TODO: Place your code here
 }
 
 extension {{ prefix }}{{ module_info.name }}Presenter: {{ prefix }}{{ module_info.name }}RouterOutput {
-func routerDidChangeCurrentModule(_ module: {{ prefix }}{{ module_info.name }}ModuleTab) {
+
+    func routerDidChangeCurrentModule(_ module: {{ prefix }}{{ module_info.name }}ModuleTab) {
         // TODO: Place your code here
     }
 
