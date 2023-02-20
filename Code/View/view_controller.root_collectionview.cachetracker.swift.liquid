@@ -101,13 +101,15 @@ final class {{ prefix }}{{ module_info.name }}ViewController: UICollectionViewCo
     // MARK: - UICollectionViewDelegate
 
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        cell.willDisplay()
+        if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
+            cell.willDisplay()
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        cell.stopDisplay()
+        if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
+            cell.stopDisplay()
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -1,22 +1,21 @@
 {% include 'header' %}
 
 import UIKit
-import CacheTracker
-import CacheTrackerConsumer
 //import ViperMcFlurryX_Swift
 
-final class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {{ prefix }}{{module_info.name}}ViewInput {
+final class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, {{ prefix }}{{module_info.name}}ViewInput {
 
     // MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
 
     // MARK: - Outlets
-    // TODO: Place your code here
+
+    private weak var collectionView: UICollectionView!
 
     // MARK: - Vars
 
-    private let consumer: CacheTrackerPlainRecurrentConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel> = CacheTrackerPlainRecurrentConsumer<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>()
+    private let models = {{ prefix }}{{ module_info.name }}ModuleEntityModel.allCases
     private var context: {{ prefix }}{{ module_info.name }}ViewCellContext!
 
     // MARK: - Life cycle
@@ -24,7 +23,7 @@ final class {{ prefix }}{{ module_info.name }}ViewController: UITableViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
         setupContext()
-        setupTableView()
+        setupCollectioView()
         setupConsumer()
         output.viewIsReady()
     }
@@ -35,54 +34,38 @@ final class {{ prefix }}{{ module_info.name }}ViewController: UITableViewControl
         // TODO: Place your code here
     }
 
-    func loadInitialModelsList(_ state: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]) {
-        consumer.reset(with: state)
-        tableView?.reloadData()
-    }
-
-    func applyModelsListChanges(_ changes: [CacheTransaction<{{ prefix }}{{ module_info.name }}ModuleEmbeddableModel>]) {
-        consumer.willChange()
-        consumer.consume(transactions: changes)
-        consumer.didChange()
-    }
-
     // MARK: - UI Actions
     // TODO: Place your code here
 
-    // MARK: - UITableViewDataSource
+    // MARK: - UICollectionViewDataSource
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return consumer.numberOfItems()
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier) as! {{ prefix }}{{ module_info.name }}ViewCell
-        let item = consumer.object(at: indexPath.row)
-        cell.configure(with: item.model, in: context)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier, for: indexPath) as! {{ prefix }}{{ module_info.name }}ViewCell
+        let model = models[indexPath.item]
+        cell.configure(with: model, in: context)
         return cell
     }
 
-    // MARK: - UITableViewDelegate
+    // MARK: - UICollectionViewDelegate
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
-            let item = consumer.object(at: indexPath.row)
-            cell.willDisplay(item)
+            cell.willDisplay()
         }
     }
 
-    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
             cell.stopDisplay()
         }
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let item = consumer.object(at: indexPath.row)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //let model = models[indexPath.item]
         // TODO: Place your code here
     }
 
@@ -90,19 +73,22 @@ final class {{ prefix }}{{ module_info.name }}ViewController: UITableViewControl
 
     private func setupContext() {
         context = {{ prefix }}{{ module_info.name }}ViewCellContext(
-             //loadModelImage: { [weak self] model in
+            //loadModelImage: { [weak self] model in
             //    return await self?.output.viewNeedsImage(for: model)
             //}
         )
     }
 
-    private func setupConsumer() {
-        //consumer.equalityChecker = { $0 == $1 }
-        consumer.delegate = self
-    }
-
-    private func setupTableView() {
-        // TODO: Place your code here
+    private func setupCollectioView() {
+        let collectionViewLayout = {{ prefix }}{{ module_info.name }}ViewLayout()
+        let collectionView = UICollectionView(frame: .init(origin: .zero, size: .init(width: 375, height: 812)),
+                                              collectionViewLayout: collectionViewLayout)
+        collectionView.register({{ prefix }}{{ module_info.name }}ViewCell.self, forCellWithReuseIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier)
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(collectionView)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        self.collectionView = collectionView
     }
 
 }

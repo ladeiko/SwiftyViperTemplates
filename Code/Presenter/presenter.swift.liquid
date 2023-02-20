@@ -1,24 +1,28 @@
 {% include 'header' %}
 
 import Foundation
+
 fileprivate enum {{ prefix }}{{ module_info.name }}PresenterState: Equatable {
-case initial
+    case initial
     case ready(isViewReady: Bool)
     case deinitialized
 }
 
 final class {{ prefix }}{{ module_info.name }}Presenter: {{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ module_info.name }}ViewOutput, {{ prefix }}{{ module_info.name }}InteractorOutput {
-// MARK: - VIPER Vars
+
+    // MARK: - VIPER Vars
 
     weak var view: {{ prefix }}{{ module_info.name }}ViewInput!
-var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
-var router: {{ prefix }}{{ module_info.name }}RouterInput!
-weak var output: {{ prefix }}{{ module_info.name }}ModuleOutput?
-private var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
-// MARK: - Vars
+    var interactor: {{ prefix }}{{ module_info.name }}InteractorInput!
+    var router: {{ prefix }}{{ module_info.name }}RouterInput!
+    weak var output: {{ prefix }}{{ module_info.name }}ModuleOutput?
+    private var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
+
+    // MARK: - Vars
 
     private var config: {{ prefix }}{{ module_info.name }}ModuleInputConfig!
-// MARK: - Life cycle
+
+    // MARK: - Life cycle
     
     func willDeinit() {
         if case .ready = state {
@@ -29,7 +33,8 @@ private var state: {{ prefix }}{{ module_info.name }}PresenterState = .initial
     }
 
     // MARK: - {{ prefix }}{{ module_info.name }}ViewOutput
-func viewIsReady() {
+    
+    func viewIsReady() {
         guard case let .ready(isViewReady) = self.state, !isViewReady else { fatalError() }
         state = .ready(isViewReady: true)
 
@@ -38,21 +43,22 @@ func viewIsReady() {
     }
 
     // MARK: - {{ prefix }}{{ module_info.name }}ModuleInput
-func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
-guard case .initial = state else { fatalError() }
+
+    func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
+        guard case .initial = state else { fatalError() }
         state = .ready(isViewReady: false)
         self.config = config
         interactor.configure(with: config)
     }
 
     //func update(_ model: {{ prefix }}{{ module_info.name }}ModuleEntityModel) {
-//    guard model != self.config.model else { return }
+    //    guard model != self.config.model else { return }
     //    self.config = .init(services: self.config.services, model: model)
     //    // TODO
     //}
 
     func setOutput(_ output: {{ prefix }}{{ module_info.name }}ModuleOutput) {
-self.output = output
+        self.output = output
     }
 
     // MARK: - {{ prefix }}{{ module_info.name }}InteractorOutput

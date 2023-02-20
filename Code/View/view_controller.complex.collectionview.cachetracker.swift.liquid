@@ -91,14 +91,16 @@ final class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, 
     // MARK: - UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        let item = consumer.object(at: indexPath.row)
-        cell.willDisplay(item)
+        if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
+            let item = consumer.object(at: indexPath.row)
+            cell.willDisplay(item)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        cell.stopDisplay()
+        if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
+            cell.stopDisplay()
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

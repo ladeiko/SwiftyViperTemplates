@@ -4,17 +4,20 @@ import UIKit
 //import ViperMcFlurryX_Swift
 
 final class {{ prefix }}{{ module_info.name }}ViewController: UITableViewController, {{ prefix }}{{ module_info.name }}ViewInput {
-// MARK: - VIPER Vars
+    
+    // MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
-// MARK: - Outlets
+    
+    // MARK: - Outlets
     // TODO: Place your code here
 
     // MARK: - Vars
 
     private var context: {{ prefix }}{{ module_info.name }}ViewCellContext!
-private let models = {{ prefix }}{{ module_info.name }}ModuleEntityModel.allCases
-// MARK: - Life cycle
+    private let models = {{ prefix }}{{ module_info.name }}ModuleEntityModel.allCases
+    
+    // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +27,9 @@ private let models = {{ prefix }}{{ module_info.name }}ModuleEntityModel.allCase
     }
 
     // MARK: - {{ prefix }}{{ module_info.name }}ViewInput
-func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
-// TODO: Place your code here
+    
+    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+        // TODO: Place your code here
     }
 
     // MARK: - UI Actions
@@ -43,7 +47,7 @@ func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier) as! {{ prefix }}{{ module_info.name }}ViewCell
-let model = models[indexPath.item]
+        let model = models[indexPath.item]
         cell.configure(with: model, in: context)
         return cell
     }
@@ -51,13 +55,15 @@ let model = models[indexPath.item]
     // MARK: - UITableViewDelegate
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-cell.willDisplay()
+        if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
+            cell.willDisplay()
+        }
     }
 
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-cell.stopDisplay()
+        if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
+            cell.stopDisplay()
+        }
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -69,7 +75,7 @@ cell.stopDisplay()
 
     private func setupContext() {
         context = {{ prefix }}{{ module_info.name }}ViewCellContext(
-//loadModelImage: { [weak self] model in
+            //loadModelImage: { [weak self] model in
             //    return await self?.output.viewNeedsImage(for: model)
             //}
         )
@@ -96,19 +102,20 @@ cell.stopDisplay()
 import SwiftUI
 
 fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerContainerView: UIViewControllerRepresentable {
-typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
-func makeUIViewController(context: Context) -> UIViewControllerType {
+    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
+    
+    func makeUIViewController(context: Context) -> UIViewControllerType {
         return {{ prefix }}{{ module_info.name }}ViewController()
-}
+    }
 
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
 }
 
 struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
-static var previews: some View {
-{{ prefix }}{{ module_info.name }}ViewControllerContainerView()
-.colorScheme(.light)
-{{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.light)
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
             .colorScheme(.dark)
     }
 }

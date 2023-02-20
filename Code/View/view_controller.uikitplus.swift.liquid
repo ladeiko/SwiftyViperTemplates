@@ -4,22 +4,25 @@ import UIKitPlus
 //import ViperMcFlurryX_Swift
 
 final class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
-// MARK: - VIPER Vars
+
+    // MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
-// MARK: - Outlets
+
+    // MARK: - Outlets
     // TODO: Place your code here
 
     // MARK: - Vars
     
     private var wrapperController: {{ prefix }}{{ module_info.name }}ViewControllerWrapper?
-// MARK: - Life cycle
+
+    // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
         wrapperController = {{ prefix }}{{ module_info.name }}ViewControllerWrapper()
-wrapperController!.owner = self
+        wrapperController!.owner = self
         addChild(wrapperController!)
         wrapperController!.view.frame = view.bounds
         view.addSubview(wrapperController!.view)
@@ -34,26 +37,25 @@ wrapperController!.owner = self
 }
 
 fileprivate extension {{ prefix }}{{ module_info.name }}ViewController {
-// MARK: - UI Actions
+    // MARK: - UI Actions
     // TODO: Place your code here
-
 }
 
 fileprivate extension {{ prefix }}{{ module_info.name }}ViewController {
-// MARK: - Helpers
-
+    // MARK: - Helpers
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{ module_info.name }}ViewInput {
-func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
-// TODO: Place your code here
+    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+        // TODO: Place your code here
     }
-
 }
 
 final class {{ prefix }}{{ module_info.name }}ViewControllerWrapper: ViewController {
-weak var owner: {{ prefix }}{{ module_info.name }}ViewController?
-// MARK: - Life cycle
+    
+    weak var owner: {{ prefix }}{{ module_info.name }}ViewController?
+    
+    // MARK: - Life cycle
 
     override func buildUI() {
         super.buildUI()

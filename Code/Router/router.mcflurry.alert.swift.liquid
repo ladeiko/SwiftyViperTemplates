@@ -1,8 +1,10 @@
 {% include 'header' %}
 
 import ViperMcFlurryX_Swift
+
 final class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name }}RouterInput {
-// MARK: - VIPER Vars
+    
+    // MARK: - VIPER Vars
 
     weak var calleeOutput: (ViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
     weak var transitionHandler: ViperModuleTransitionHandler!

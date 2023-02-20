@@ -52,7 +52,7 @@ final class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info
             }
 
             let  remover: {{ prefix }}{{ module_info.name }}EmbeddableRemoveBlock = { [weak embeddedInput] in
-embedBalanceCounter -= 1
+                embedBalanceCounter -= 1
                 assert(embedBalanceCounter >= 0)
                 if embedBalanceCounter == 0 {
                     let embeddedInput = embeddedInput // keep strong ref

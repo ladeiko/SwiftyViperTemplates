@@ -5,10 +5,12 @@ import ViperMcFlurryX_Swift
 //import ViperMcFlurryX_Swift
 
 final class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
-// MARK: - VIPER Vars
+    
+    // MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
-// MARK: - Outlets
+    
+    // MARK: - Outlets
     // TODO: Place your code here
     
     private weak var embedSomeModuleSegueContainer: UIView!
@@ -36,31 +38,32 @@ final class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController {
-// MARK: - UI Actions
+    // MARK: - UI Actions
     // TODO: Place your code here
-
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController {
-// MARK: - Helpers
+    // MARK: - Helpers
     // TODO: Place your code here
-
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{ module_info.name }}ViewInput {
-// MARK: - {{ prefix }}{{ module_info.name }}ViewInput
-func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
-// TODO: Place your code here
+
+    // MARK: - {{ prefix }}{{ module_info.name }}ViewInput
+    
+    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+        // TODO: Place your code here
     }
 
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController: EmbedSegueContainerViewProvider {
-// MARK: -EmbedSegueContainerViewProvider
+
+    // MARK: -EmbedSegueContainerViewProvider
 
     func containerViewForSegue(_ identifier: String) -> UIView? {
         switch {{ prefix }}{{ module_info.name }}ModuleContainerIdentifier(rawValue: identifier)! {
-case .module1:
+        case .module1:
             return self.embedSomeModuleSegueContainer
         }
     }
@@ -82,19 +85,20 @@ case .module1:
 import SwiftUI
 
 fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerContainerView: UIViewControllerRepresentable {
-typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
-func makeUIViewController(context: Context) -> UIViewControllerType {
+    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
+    
+    func makeUIViewController(context: Context) -> UIViewControllerType {
         return {{ prefix }}{{ module_info.name }}ViewController()
-}
+    }
 
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
 }
 
 struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
-static var previews: some View {
-{{ prefix }}{{ module_info.name }}ViewControllerContainerView()
-.colorScheme(.light)
-{{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.light)
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
             .colorScheme(.dark)
     }
 }

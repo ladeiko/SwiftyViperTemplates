@@ -70,14 +70,16 @@ final class {{ prefix }}{{ module_info.name }}ViewController: UIViewController, 
     // MARK: - UITableViewDelegate
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        let item = consumer.object(at: indexPath.row)
-        cell.willDisplay(item)
+        if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
+            let item = consumer.object(at: indexPath.row)
+            cell.willDisplay(item)
+        }
     }
 
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-        cell.stopDisplay()
+        if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
+            cell.stopDisplay()
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

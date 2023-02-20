@@ -4,13 +4,15 @@ import ViperMcFlurryX_Swift
 import TopViewControllerDetection
 
 final class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info.name }}RouterInput {
-// MARK: - VIPER Vars
+
+    // MARK: - VIPER Vars
 
     weak var calleeOutput: (ViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
     weak var transitionHandler: ViperModuleTransitionHandler!
 
     // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
-func embedSomeModule() {
+    
+    func embedSomeModule() {
         transitionHandler.embedModuleUsing(SomeModuleConfigurator(), into: {{ prefix }}{{ module_info.name }}ModuleContainerIdentifier.module1.rawValue).thenChainUsingBlock { (module) -> ViperModuleOutput? in
             let module = module as! SomeModuleInput
             module.configure()

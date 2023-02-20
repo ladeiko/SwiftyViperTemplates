@@ -4,10 +4,12 @@ import UIKit
 //import ViperMcFlurryX_Swift
 
 final class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
-// MARK: - VIPER Vars
+
+    // MARK: - VIPER Vars
 
     var output: {{ prefix }}{{ module_info.name }}ViewOutput!
-// MARK: - Outlets
+
+    // MARK: - Outlets
     // TODO: Place your code here
 
     private weak var tableView: UITableView!
@@ -15,8 +17,9 @@ final class {{ prefix }}{{ module_info.name }}ViewController: UIViewController {
     // MARK: - Vars
 
     private var context: {{ prefix }}{{ module_info.name }}ViewCellContext!
-private let models = {{ prefix }}{{ module_info.name }}ModuleEntityModel.allCases
-// MARK: - Life cycle
+    private let models = {{ prefix }}{{ module_info.name }}ModuleEntityModel.allCases
+    
+    // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,22 +31,24 @@ private let models = {{ prefix }}{{ module_info.name }}ModuleEntityModel.allCase
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController: {{ prefix }}{{ module_info.name }}ViewInput {
-func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
-// TODO: Place your code here
+
+    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+        // TODO: Place your code here
     }
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController {
-// MARK: - UI Actions
+    // MARK: - UI Actions
     // TODO: Place your code here
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController {
-// MARK: - Helpers
+    
+    // MARK: - Helpers
 
     private func setupContext() {
         context = {{ prefix }}{{ module_info.name }}ViewCellContext(
-//loadModelImage: { [weak self] model in
+            //loadModelImage: { [weak self] model in
             //    return await self?.output.viewNeedsImage(for: model)
             //}
         )
@@ -54,7 +59,7 @@ extension {{ prefix }}{{ module_info.name }}ViewController {
         let tableView = UITableView(frame: .init(origin: .zero, size: view.bounds.size))
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.register({{ prefix }}{{ module_info.name }}ViewCell.self, forCellReuseIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier)
-self.tableView = tableView
+        self.tableView = tableView
         tableView.delegate = self
         tableView.dataSource = self
         view.addSubview(tableView)
@@ -63,7 +68,8 @@ self.tableView = tableView
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController: UITableViewDataSource {
-func numberOfSections(in tableView: UITableView) -> Int {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
@@ -73,7 +79,7 @@ func numberOfSections(in tableView: UITableView) -> Int {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: {{ prefix }}{{ module_info.name }}ViewCell.cellIdentifier) as! {{ prefix }}{{ module_info.name }}ViewCell
-let model = models[indexPath.item]
+        let model = models[indexPath.item]
         cell.configure(with: model, in: context)
         return cell
     }
@@ -81,14 +87,17 @@ let model = models[indexPath.item]
 }
 
 extension {{ prefix }}{{ module_info.name }}ViewController: UITableViewDelegate {
-func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-cell.willDisplay()
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
+            cell.willDisplay()
+        }
     }
 
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cell = cell as! {{ prefix }}{{ module_info.name }}ViewCell
-cell.stopDisplay()
+        if let cell = cell as? {{ prefix }}{{ module_info.name }}ViewCell {
+            cell.stopDisplay()
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -113,19 +122,21 @@ cell.stopDisplay()
 import SwiftUI
 
 fileprivate struct {{ prefix }}{{ module_info.name }}ViewControllerContainerView: UIViewControllerRepresentable {
-typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
-func makeUIViewController(context: Context) -> UIViewControllerType {
+    
+    typealias UIViewControllerType = {{ prefix }}{{ module_info.name }}ViewController
+    
+    func makeUIViewController(context: Context) -> UIViewControllerType {
         return {{ prefix }}{{ module_info.name }}ViewController()
-}
+    }
 
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
 }
 
 struct {{ prefix }}{{ module_info.name }}ViewController_Previews: PreviewProvider {
-static var previews: some View {
-{{ prefix }}{{ module_info.name }}ViewControllerContainerView()
-.colorScheme(.light)
-{{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
+            .colorScheme(.light)
+        {{ prefix }}{{ module_info.name }}ViewControllerContainerView()
             .colorScheme(.dark)
     }
 }
