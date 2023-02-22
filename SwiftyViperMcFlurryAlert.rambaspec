@@ -15,7 +15,7 @@ code_files:
 - {name: View/ViewController.swift, path: Code/View/view_controller.alert.swift.liquid}
 
 # Presenter layer
-- {name: Presenter/Helpers/ModuleConfig.swift, path: Code/Helpers/moduleinputconfig.alert.swift.liquid}
+- {name: Presenter/Helpers/ModuleInputConfig.swift, path: Code/Helpers/moduleinputconfig.alert.swift.liquid}
 - {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.alert.swift.liquid}
 - {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.alert.swift.liquid}
 - {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.alert.swift.liquid}

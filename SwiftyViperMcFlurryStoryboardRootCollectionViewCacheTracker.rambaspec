@@ -22,7 +22,7 @@ code_files:
 - {name: View/Helpers/ViewCellContext.swift, path: Code/View/view_controller.cell_context.swift.liquid}
 
 # Presenter layer
-- {name: Presenter/Helpers/ModuleConfig.swift, path: Code/Helpers/moduleinputconfig.swift.liquid}
+- {name: Presenter/Helpers/ModuleInputConfig.swift, path: Code/Helpers/moduleinputconfig.swift.liquid}
 - {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.mcflurry.swift.liquid}
 - {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.mcflurry.swift.liquid}
 - {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.mcflurry.cachetracker.swift.liquid}
