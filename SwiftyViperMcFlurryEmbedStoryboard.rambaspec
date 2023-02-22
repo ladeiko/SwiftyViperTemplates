@@ -34,7 +34,7 @@ code_files:
 - {name: Router/Router.swift, path: Code/Router/router.mcflurry.embed.swift.liquid}
 
 # Configurator
-- {name: Configurator/Configurator.swift, path: Code/Configurator/configurator.swift.liquid}
+- {name: Configurator/ModuleConfigurator.swift, path: Code/Configurator/configurator.swift.liquid}
 
 
 # The declarations for test files
