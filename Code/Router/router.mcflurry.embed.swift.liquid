@@ -7,7 +7,7 @@ final class {{ prefix }}{{ module_info.name }}Router: {{ prefix }}{{ module_info
 
     // MARK: - VIPER Vars
 
-    weak var calleeOutput: (ViperModuleOutput /* Add supported protocols here, e.g: & AnotherModuleOutput */)!
+    weak var calleeOutput: ViperModuleOutput!
     weak var transitionHandler: ViperModuleTransitionHandler?
 
     // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
