@@ -24,34 +24,37 @@ final class {{ prefix }}{{ module_info.name }}Router: NSObject, {{ prefix }}{{ m
 
     func embedTabs(_ module: [{{ prefix }}{{ module_info.name }}ModuleTab], current: {{ prefix }}{{ module_info.name }}ModuleTab?, with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) {
 
-        let existing: [{{ prefix }}{{ module_info.name }}ModuleTab: UIViewController] = tabs.reduce(into: [:], { $0[$1.id] = $1.controller })
-        tabs = []
+        UIView.performWithoutAnimation {
 
-        let viewControllers: [UIViewController] = module.reduce(into: []) { (controllers, module) in
-            var controller: UIViewController! = existing[module]
+            let existing: [{{ prefix }}{{ module_info.name }}ModuleTab: UIViewController] = tabs.reduce(into: [:], { $0[$1.id] = $1.controller })
+            tabs = []
 
-            if controller == nil {
-                switch module {
-                case .exampleTab:
-                    self.transitionHandler.openModuleUsingFactory(SomeModuleConfigurator()) { (src, dst) in
-                        controller = UINavigationController(rootViewController: dst as! UIViewController)
-                    }.thenChainUsingBlock { (moduleInput) -> ViperModuleOutput? in
-                        (moduleInput as! SomeModuleInput).configure(with: .init())
-                        return nil // or self.calleeOutput
+            let viewControllers: [UIViewController] = module.reduce(into: []) { (controllers, module) in
+                var controller: UIViewController! = existing[module]
+
+                if controller == nil {
+                    switch module {
+                    case .exampleTab:
+                        self.transitionHandler.openModuleUsingFactory(SomeModuleConfigurator()) { (src, dst) in
+                            controller = UINavigationController(rootViewController: dst as! UIViewController)
+                        }.thenChainUsingBlock { (moduleInput) -> ViperModuleOutput? in
+                            (moduleInput as! SomeModuleInput).configure(with: .init())
+                            return nil // or self.calleeOutput
+                        }
                     }
                 }
+
+                tabs.append(.init(id: module, controller: controller))
+                controllers.append(controller)
             }
 
-            tabs.append(.init(id: module, controller: controller))
-            controllers.append(controller)
-        }
+            let tabbarController = transitionHandler as! UITabBarController
+            tabbarController.delegate = self
+            tabbarController.viewControllers = viewControllers
 
-        let tabbarController = transitionHandler as! UITabBarController
-        tabbarController.delegate = self
-        tabbarController.viewControllers = viewControllers
-
-        if let current = current, let index = tabs.firstIndex(where: { $0.id == current }) {
-            tabbarController.selectedIndex = index
+            if let current = current, let index = tabs.firstIndex(where: { $0.id == current }) {
+                tabbarController.selectedIndex = index
+            }
         }
     }
 
