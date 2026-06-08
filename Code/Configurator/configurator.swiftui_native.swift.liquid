@@ -1,0 +1,37 @@
+{% include 'header' %}
+
+import SwiftUI
+import ViperSwiftUI
+
+// Assembles the VIPER graph and returns `some View` (no UIViewController).
+// The opaque return type keeps every type below internal to the module.
+struct {{ prefix }}{{ module_info.name }}ModuleConfigurator {
+
+    @MainActor
+    func build(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig? = nil,
+               moduleOutput: {{ prefix }}{{ module_info.name }}ModuleOutput? = nil) -> some View {
+
+        let state = {{ prefix }}{{ module_info.name }}ViewState()
+        let router = {{ prefix }}{{ module_info.name }}Router()
+        let interactor = {{ prefix }}{{ module_info.name }}Interactor()
+        let presenter = {{ prefix }}{{ module_info.name }}Presenter()
+
+        presenter.view = state
+        presenter.interactor = interactor
+        presenter.router = router
+        presenter.output = moduleOutput
+        interactor.output = presenter
+
+        if let config {
+            presenter.configure(with: config)
+        }
+
+        // ViperModuleView anchors lifetime (-> willDeinit on teardown);
+        // ViperNavigationHost owns NavigationStack; the router resolves routes.
+        return ViperModuleView(onTeardown: { presenter.willDeinit() }) {
+            ViperNavigationHost(router: router) {
+                {{ prefix }}{{ module_info.name }}RootView(state: state, output: presenter)
+            }
+        }
+    }
+}

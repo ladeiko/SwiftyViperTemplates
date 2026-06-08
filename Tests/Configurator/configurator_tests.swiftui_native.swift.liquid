@@ -1,0 +1,16 @@
+{% include 'header' %}
+
+import XCTest
+import SwiftUI
+@testable import {{ module_info.project_name }}
+
+@MainActor
+final class {{ prefix }}{{ module_info.name }}ModuleConfiguratorTests: XCTestCase {
+
+    // The configurator returns an opaque `some View`, so the assembled VIPER
+    // graph is private by design. This smoke test verifies the graph wires up
+    // and builds without crashing; assert module behaviour in PresenterTests.
+    func testBuildDoesNotCrash() {
+        _ = {{ prefix }}{{ module_info.name }}ModuleConfigurator().build(with: .init())
+    }
+}

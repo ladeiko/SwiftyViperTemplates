@@ -1,0 +1,10 @@
+{% include 'header' %}
+
+import XCTest
+@testable import {{ module_info.project_name }}
+
+@MainActor
+final class {{ prefix }}{{ module_info.name }}RouterTests: XCTestCase {
+    // TODO: Place your router navigation tests here, e.g. assert that
+    // showDetail(id:) appends the expected route to `path`.
+}

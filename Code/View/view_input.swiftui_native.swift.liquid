@@ -1,0 +1,24 @@
+{% include 'header' %}
+
+import Combine
+
+// P -> V. Adopted by a reference-typed ObservableObject so a value-type SwiftUI
+// View can observe it — this is the binding point the Presenter writes to.
+@MainActor
+protocol {{ prefix }}{{ module_info.name }}ViewInput: AnyObject {
+    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme)
+}
+
+final class {{ prefix }}{{ module_info.name }}ViewState: ObservableObject, {{ prefix }}{{ module_info.name }}ViewInput {
+
+    // MARK: - Published state
+
+    @Published private(set) var theme = {{ prefix }}{{ module_info.name }}ViewInputTheme()
+    // TODO: Place your @Published properties here
+
+    // MARK: - {{ prefix }}{{ module_info.name }}ViewInput
+
+    func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+        self.theme = theme
+    }
+}

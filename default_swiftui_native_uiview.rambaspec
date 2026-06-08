@@ -1,0 +1,53 @@
+# Template information section
+name: "default_swiftui_native_uiview"
+summary: "Native SwiftUI VIPER module whose View embeds a UIKit UIView via UIViewRepresentable (iOS). Requires the ViperSwiftUI library."
+author: "Siarhei Ladzeika"
+version: "1.0.0"
+license: "MIT"
+
+# The declarations for code files
+
+code_files:
+# View layer
+- {name: View/Helpers/ViewInputTheme.swift, path: Code/View/view_input_theme.swift.liquid}
+- {name: View/ViewInput.swift, path: Code/View/view_input.swiftui_native.swift.liquid}
+- {name: View/ViewOutput.swift, path: Code/View/view_output.swiftui_native.swift.liquid}
+- {name: View/ContentView.swift, path: Code/View/view_content.swiftui_uiview.swift.liquid}
+- {name: View/View.swift, path: Code/View/view.swiftui_uiview.swift.liquid}
+
+# Presenter layer
+- {name: Presenter/Helpers/ModuleInputConfig.swift, path: Code/Helpers/moduleinputconfig.swift.liquid}
+- {name: Presenter/ModuleInput.swift, path: Code/Presenter/module_input.swiftui_native.swift.liquid}
+- {name: Presenter/ModuleOutput.swift, path: Code/Presenter/module_output.swiftui_native.swift.liquid}
+- {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.swiftui_native.swift.liquid}
+
+# Interactor layer
+- {name: Interactor/InteractorInput.swift, path: Code/Interactor/interactor_input.swift.liquid}
+- {name: Interactor/InteractorOutput.swift, path: Code/Interactor/interactor_output.swift.liquid}
+- {name: Interactor/Interactor.swift, path: Code/Interactor/interactor.swift.liquid}
+
+# Router layer
+- {name: Router/Route.swift, path: Code/Router/route.swiftui_native.swift.liquid}
+- {name: Router/RouterInput.swift, path: Code/Router/router_input.swiftui_native.swift.liquid}
+- {name: Router/Router.swift, path: Code/Router/router.swiftui_native.swift.liquid}
+
+# Configurator
+- {name: Configurator/ModuleConfigurator.swift, path: Code/Configurator/configurator.swiftui_native.swift.liquid}
+
+# The declarations for test files
+test_files:
+
+# Presenter tests
+- {name: Presenter/PresenterTests.swift, path: Tests/Presenter/presenter_tests.swiftui_native.swift.liquid}
+
+# Interactor tests
+- {name: Interactor/InteractorTests.swift, path: Tests/Interactor/interactor_tests.swiftui_native.swift.liquid}
+
+# Router tests
+- {name: Router/RouterTests.swift, path: Tests/Router/router_tests.swiftui_native.swift.liquid}
+
+# View tests
+- {name: View/ViewTests.swift, path: Tests/View/view_tests.swiftui_native.swift.liquid}
+
+# Configurator tests
+- {name: Configurator/ConfiguratorTests.swift, path: Tests/Configurator/configurator_tests.swiftui_native.swift.liquid}

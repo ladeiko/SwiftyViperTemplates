@@ -1,0 +1,59 @@
+{% include 'header' %}
+
+import XCTest
+@testable import {{ module_info.project_name }}
+
+@MainActor
+final class {{ prefix }}{{ module_info.name }}PresenterTests: XCTestCase {
+
+    func testViewIsReadyConfiguresView() {
+        // given
+        let view = MockView()
+        let interactor = MockInteractor()
+        let router = MockRouter()
+        let presenter = {{ prefix }}{{ module_info.name }}Presenter()
+        presenter.view = view
+        presenter.interactor = interactor
+        presenter.router = router
+
+        // when
+        presenter.configure(with: .init())
+        presenter.viewIsReady()
+
+        // then
+        XCTAssertTrue(interactor.didConfigure, "interactor was not configured")
+        XCTAssertTrue(view.didConfigure, "view was not configured on viewIsReady")
+    }
+
+    func testWillDeinitDeinitializesInteractor() {
+        let view = MockView()
+        let interactor = MockInteractor()
+        let presenter = {{ prefix }}{{ module_info.name }}Presenter()
+        presenter.view = view
+        presenter.interactor = interactor
+        presenter.router = MockRouter()
+
+        presenter.configure(with: .init())
+        presenter.willDeinit()
+
+        XCTAssertTrue(interactor.didDeinitialize, "interactor was not deinitialized")
+    }
+
+    // MARK: - Mocks
+
+    final class MockView: {{ prefix }}{{ module_info.name }}ViewInput {
+        var didConfigure = false
+        func configure(with theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) { didConfigure = true }
+    }
+
+    final class MockInteractor: {{ prefix }}{{ module_info.name }}InteractorInput {
+        var didConfigure = false
+        var didDeinitialize = false
+        func configure(with config: {{ prefix }}{{ module_info.name }}ModuleInputConfig) { didConfigure = true }
+        func deinitialize() { didDeinitialize = true }
+    }
+
+    final class MockRouter: {{ prefix }}{{ module_info.name }}RouterInput {
+        // TODO: implement navigation-intent mocks
+    }
+}

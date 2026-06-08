@@ -1,0 +1,15 @@
+{
+  "originHash" : "8dabb3142d253d402e5a391af8be298d984666f2f692c64857dc4096094c6fc1",
+  "pins" : [
+    {
+      "identity" : "swiftui-viper",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:ladeiko/swiftui-viper.git",
+      "state" : {
+        "revision" : "9b51faef78db73dea10820deebd19f44bc450d6f",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

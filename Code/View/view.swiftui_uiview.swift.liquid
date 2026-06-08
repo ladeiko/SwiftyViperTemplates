@@ -1,0 +1,54 @@
+{% include 'header' %}
+
+import SwiftUI
+import UIKit
+
+// SwiftUI entry point for the module: a thin wrapper that drives the lifecycle
+// (onAppear -> viewIsReady) and embeds the UIKit {{ prefix }}{{ module_info.name }}ContentView.
+// Contains NO navigation code — the Router resolves routes.
+struct {{ prefix }}{{ module_info.name }}RootView: View {
+
+    let state: {{ prefix }}{{ module_info.name }}ViewState
+    let output: {{ prefix }}{{ module_info.name }}ViewOutput
+
+    var body: some View {
+        {{ prefix }}{{ module_info.name }}ContentViewRepresentable(state: state, output: output)
+            .onAppear { output.viewIsReady() }   // replaces viewDidLoad
+    }
+}
+
+// Bridges the UIKit view into SwiftUI. `updateUIView` pushes the observed
+// ViewState into the view; the Coordinator forwards UIKit actions to ViewOutput.
+private struct {{ prefix }}{{ module_info.name }}ContentViewRepresentable: UIViewRepresentable {
+
+    @ObservedObject var state: {{ prefix }}{{ module_info.name }}ViewState
+    let output: {{ prefix }}{{ module_info.name }}ViewOutput
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(output: output)
+    }
+
+    func makeUIView(context: Context) -> {{ prefix }}{{ module_info.name }}ContentView {
+        let view = {{ prefix }}{{ module_info.name }}ContentView()
+        view.delegate = context.coordinator
+        return view
+    }
+
+    func updateUIView(_ uiView: {{ prefix }}{{ module_info.name }}ContentView, context: Context) {
+        uiView.render(theme: state.theme)
+        // TODO: push additional @Published state into uiView here
+    }
+
+    @MainActor
+    final class Coordinator: {{ prefix }}{{ module_info.name }}ContentViewDelegate {
+
+        private let output: {{ prefix }}{{ module_info.name }}ViewOutput
+
+        init(output: {{ prefix }}{{ module_info.name }}ViewOutput) {
+            self.output = output
+        }
+
+        // MARK: - {{ prefix }}{{ module_info.name }}ContentViewDelegate
+        // TODO: forward UIKit actions to `output`
+    }
+}

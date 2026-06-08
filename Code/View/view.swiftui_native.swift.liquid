@@ -1,0 +1,30 @@
+{% include 'header' %}
+
+import SwiftUI
+
+// Leaf view: observes the state object, talks to the ViewOutput. Contains NO
+// navigation code — the Router resolves routes (see {{ prefix }}{{ module_info.name }}Router).
+struct {{ prefix }}{{ module_info.name }}RootView: View {
+
+    @ObservedObject var state: {{ prefix }}{{ module_info.name }}ViewState
+    let output: {{ prefix }}{{ module_info.name }}ViewOutput
+
+    var body: some View {
+        VStack {
+            Text("{{ prefix }}{{ module_info.name }}")
+            // TODO: Place your UI here, driven by `state`
+        }
+        .onAppear { output.viewIsReady() }   // replaces viewDidLoad
+    }
+}
+
+#if DEBUG
+struct {{ prefix }}{{ module_info.name }}RootView_Previews: PreviewProvider {
+    private final class PreviewOutput: {{ prefix }}{{ module_info.name }}ViewOutput {
+        func viewIsReady() {}
+    }
+    static var previews: some View {
+        {{ prefix }}{{ module_info.name }}RootView(state: .init(), output: PreviewOutput())
+    }
+}
+#endif

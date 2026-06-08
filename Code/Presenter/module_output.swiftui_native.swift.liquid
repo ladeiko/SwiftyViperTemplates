@@ -1,0 +1,8 @@
+{% include 'header' %}
+
+// Callbacks to the PARENT module. Plain protocol — no ViperMcFlurry dependency.
+// The parent passes itself as `moduleOutput` to the configurator's build(...).
+@MainActor
+protocol {{ prefix }}{{ module_info.name }}ModuleOutput: AnyObject {
+    // TODO: Place your callbacks to the parent module here
+}

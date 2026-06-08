@@ -1,0 +1,51 @@
+{% include 'header' %}
+
+import UIKit
+
+// V -> P UI actions raised by the UIKit view. Implemented by the
+// UIViewRepresentable's Coordinator, which forwards them to the ViewOutput.
+@MainActor
+protocol {{ prefix }}{{ module_info.name }}ContentViewDelegate: AnyObject {
+    // TODO: Place your UI action callbacks here, e.g. func didTapButton()
+}
+
+// The UIKit view rendered inside SwiftUI by {{ prefix }}{{ module_info.name }}RootView.
+final class {{ prefix }}{{ module_info.name }}ContentView: UIView {
+
+    weak var delegate: {{ prefix }}{{ module_info.name }}ContentViewDelegate?
+
+    // MARK: - Subviews
+
+    private let titleLabel = UILabel()
+
+    // MARK: - Init
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Rendering (driven by the ViewState via updateUIView)
+
+    func render(theme: {{ prefix }}{{ module_info.name }}ViewInputTheme) {
+        // TODO: Apply state / theme to your subviews
+    }
+
+    // MARK: - Setup
+
+    private func setup() {
+        titleLabel.text = "{{ prefix }}{{ module_info.name }}"
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(titleLabel)
+        NSLayoutConstraint.activate([
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+        ])
+        // TODO: Build your UIKit hierarchy; forward actions via `delegate`
+    }
+}

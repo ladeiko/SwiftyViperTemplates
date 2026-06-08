@@ -1,0 +1,8 @@
+{% include 'header' %}
+
+// V -> P. The SwiftUI View calls these directly from .onAppear / UI actions.
+@MainActor
+protocol {{ prefix }}{{ module_info.name }}ViewOutput: AnyObject {
+    func viewIsReady()
+    // TODO: Place your view event methods here
+}

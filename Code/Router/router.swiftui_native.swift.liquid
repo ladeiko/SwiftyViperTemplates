@@ -1,0 +1,36 @@
+{% include 'header' %}
+
+import SwiftUI
+import ViperSwiftUI
+
+// The only VIPER layer that knows about other modules. Navigation INTENT
+// (RouterInput, called by the Presenter) mutates the published `path`;
+// navigation RESOLUTION (NavigationRouting, used by ViperNavigationHost) maps
+// each route to a child module via its Configurator.
+@MainActor
+final class {{ prefix }}{{ module_info.name }}Router: ObservableObject, {{ prefix }}{{ module_info.name }}RouterInput, NavigationRouting {
+
+    // MARK: - NavigationRouting
+
+    @Published var path: [{{ prefix }}{{ module_info.name }}Route] = []
+
+    func destination(for route: {{ prefix }}{{ module_info.name }}Route) -> AnyView {
+        switch route {
+        case .placeholder:
+            // TODO: map each route to a child module, e.g.
+            // case let .detail(id): return AnyView(SomeModuleConfigurator().build(with: .init(id: id)))
+            return AnyView(EmptyView())
+        }
+    }
+
+    // MARK: - {{ prefix }}{{ module_info.name }}RouterInput
+    // TODO: Place your navigation methods here, e.g.
+    // func showDetail(id: String) { path.append(.detail(id: id)) }
+
+    // MARK: - Helpers
+
+    func pop() {
+        guard !path.isEmpty else { return }
+        path.removeLast()
+    }
+}

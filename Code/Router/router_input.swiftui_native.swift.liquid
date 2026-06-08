@@ -1,0 +1,8 @@
+{% include 'header' %}
+
+// Navigation INTENT — called by the Presenter. The Presenter never sees Views
+// or routes; it only expresses intent ("show detail"), the Router does the rest.
+@MainActor
+protocol {{ prefix }}{{ module_info.name }}RouterInput: AnyObject {
+    // TODO: Place your navigation methods here, e.g. func showDetail(id: String)
+}

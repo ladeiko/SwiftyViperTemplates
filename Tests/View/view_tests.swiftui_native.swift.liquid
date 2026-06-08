@@ -1,0 +1,10 @@
+{% include 'header' %}
+
+import XCTest
+@testable import {{ module_info.project_name }}
+
+@MainActor
+final class {{ prefix }}{{ module_info.name }}ViewTests: XCTestCase {
+    // TODO: Place your view-state tests here, e.g. assert that the ViewState's
+    // @Published properties update as expected when configure(...) is called.
+}

@@ -1,0 +1,15 @@
+{% include 'header' %}
+
+import XCTest
+@testable import {{ module_info.project_name }}
+
+@MainActor
+final class {{ prefix }}{{ module_info.name }}InteractorTests: XCTestCase {
+
+    // MARK: - Mocks
+
+    final class MockPresenter: {{ prefix }}{{ module_info.name }}InteractorOutput {
+        // MARK: - {{ prefix }}{{ module_info.name }}InteractorOutput
+        // TODO: Place your code here
+    }
+}
